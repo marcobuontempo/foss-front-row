@@ -1,0 +1,40 @@
+# Global .gitignore
+
+# Node.js
+node_modules/
+
+# TypeScript
+*.tsbuildinfo
+*.tsbuildinfo.*
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Environment files
+.env
+
+# Editor files
+.vscode/
+.idea/
+
+# Build output
+dist/
+out/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# Package files
+*.gz
+*.zip
+*.tar
+*.tar.gz
+
+# Testing files
+coverage/
