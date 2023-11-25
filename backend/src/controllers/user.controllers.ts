@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
-import UserModel from "../models/User";
+import UserModel from "../models/user";
 
 const getAllUsers = async (req: Request, res: Response): Promise<void> => {
-  const users = UserModel.find();
-  res.json(users);
+  res.send("/users")
+  // const users = UserModel.find();
+  // res.json(users);
 };
 
 const getUserById = async (req: Request, res: Response): Promise<void> => {
