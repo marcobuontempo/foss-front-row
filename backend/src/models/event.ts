@@ -6,11 +6,15 @@ interface IEvent extends Document {
   venue: string;
 }
 
-const eventSchema = new Schema({
-  title: { type: String, required: true, unique: true },
-  date: { type: Date, required: true },
-  venue: { type: String, required: true },
-});
+const eventSchema = new Schema(
+  {
+    title: { type: String, required: true, unique: true },
+    date: { type: Date, required: true },
+    venue: { type: String, required: true },
+  },
+  {
+    timestamps: true,
+  });
 
 const Event = mongoose.model<IEvent>('Event', eventSchema);
 

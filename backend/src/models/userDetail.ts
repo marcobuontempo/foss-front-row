@@ -5,17 +5,25 @@ interface IUserDetail extends Document {
   firstname: string;
   lastname: string;
   email: string;
-  phone: string;
-
+  phone?: string;
+  address?: string;
+  dob: Date;
+  accountCreationDate: Date;
 }
 
-const userDetailSchema = new Schema({
-  userID: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  firstname: { type: String, required: true },
-  lastname: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  phone: { type: String, required: true },
-});
+const userDetailSchema = new Schema(
+  {
+    userID: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    firstname: { type: String, required: true },
+    lastname: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    phone: { type: String, default: null },
+    address: { type: String, default: null },
+    dob: { type: Date, required: true },
+  },
+  {
+    timestamps: true,
+  });
 
 const UserDetail = mongoose.model<IUserDetail>('UserDetail', userDetailSchema);
 

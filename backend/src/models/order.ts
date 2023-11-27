@@ -8,13 +8,17 @@ interface IOrder extends Document {
   orderDate: Date;
 }
 
-const orderSchema = new Schema({
-  userID: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  eventID: { type: mongoose.Schema.Types.ObjectId, ref: 'Event', required: true },
-  quantity: { type: Number, required: true },
-  totalPrice: { type: Number, required: true },
-  orderDate: { type: Date, required: true },
-});
+const orderSchema = new Schema(
+  {
+    userID: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    eventID: { type: mongoose.Schema.Types.ObjectId, ref: 'Event', required: true },
+    quantity: { type: Number, required: true },
+    totalPrice: { type: Number, required: true },
+    orderDate: { type: Date, required: true },
+  },
+  {
+    timestamps: true,
+  });
 
 const Order = mongoose.model<IOrder>('Order', orderSchema);
 

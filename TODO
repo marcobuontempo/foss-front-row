@@ -2,23 +2,34 @@
 
 1. User Table:
 UserID (Primary Key)
-Username
+Username (Unique)
 Password (Hashed and Salted)
 
-2. Event Table:
+2. User Details Table:
+UserID (Foreign Key referencing User Table)
+FirstName
+LastName
+Email (Unique)
+Phone
+DOB
+AccountCreationDate
+Address
+ProfilePicture (?)
+
+3. Event Table:
 EventID (Primary Key)
 Title
 Date
 Venue
 
-3. Ticket Table:
+4. Ticket Table:
 TicketID (Primary Key)
 EventID (Foreign Key referencing Event Table)
 Price
 AvailableQuantity
 TotalQuantity
 
-4. Order Table:
+5. Order Table:
 OrderID (Primary Key)
 UserID (Foreign Key referencing User Table)
 EventID (Foreign Key referencing Event Table)
@@ -33,21 +44,26 @@ OrderDate
 POST /auth/login - User login.
 POST /auth/register - User registration.
 
-2. Event Operations:
+2. User Details Operations:
+GET /userdetails - Retrieve a list of users (requires authentication).
+GET /usersdetails/{userID} - Retrieve details of a specific user (requires authentication).
+PUT /userdetails/{userID} - Update the details of a specific user (requires authentication).
+
+3. Event Operations:
 GET /events - Retrieve a list of events.
 GET /events/{eventID} - Retrieve details of a specific event.
 POST /events - Create a new event (requires authentication).
 PUT /events/{eventID} - Update details of a specific event (requires authentication).
 DELETE /events/{eventID} - Delete a specific event (requires authentication).
 
-3. Ticket Operations:
+4. Ticket Operations:
 GET /events/{eventID}/tickets - Retrieve available tickets for a specific event.
 GET /tickets/{ticketID} - Retrieve details of a specific ticket.
 POST /events/{eventID}/tickets/order - Order tickets for a specific event (requires authentication).
 PUT /tickets/{ticketID} - Update details of a specific ticket (requires authentication).
 DELETE /tickets/{ticketID} - Delete a specific ticket (requires authentication).
 
-4. Order Operations:
+5. Order Operations:
 GET /orders - Retrieve a list of user orders (requires authentication).
 GET /orders/{orderID} - Retrieve details of a specific order (requires authentication).
 DELETE /orders/{orderID} - Cancel a specific order (requires authentication).
