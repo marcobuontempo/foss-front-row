@@ -12,8 +12,8 @@ LastName
 Email (Unique)
 Phone
 DOB
-AccountCreationDate
 Address
+AccountCreationDate
 ProfilePicture (?)
 
 3. Event Table:
@@ -44,26 +44,29 @@ OrderDate
 POST /auth/login - User login.
 POST /auth/register - User registration.
 
-2. User Details Operations:
-GET /userdetails - Retrieve a list of users (requires authentication).
+2. User Operations:
+PUT /user/{userID}/password - Update the password of a specific user (requires authentication).
+
+3. User Details Operations:
+GET /userdetails - Retrieve a list of users (requires admin).
 GET /usersdetails/{userID} - Retrieve details of a specific user (requires authentication).
 PUT /userdetails/{userID} - Update the details of a specific user (requires authentication).
 
-3. Event Operations:
+4. Event Operations:
 GET /events - Retrieve a list of events.
 GET /events/{eventID} - Retrieve details of a specific event.
 POST /events - Create a new event (requires authentication).
 PUT /events/{eventID} - Update details of a specific event (requires authentication).
 DELETE /events/{eventID} - Delete a specific event (requires authentication).
 
-4. Ticket Operations:
+5. Ticket Operations:
 GET /events/{eventID}/tickets - Retrieve available tickets for a specific event.
 GET /tickets/{ticketID} - Retrieve details of a specific ticket.
 POST /events/{eventID}/tickets/order - Order tickets for a specific event (requires authentication).
 PUT /tickets/{ticketID} - Update details of a specific ticket (requires authentication).
 DELETE /tickets/{ticketID} - Delete a specific ticket (requires authentication).
 
-5. Order Operations:
+6. Order Operations:
 GET /orders - Retrieve a list of user orders (requires authentication).
 GET /orders/{orderID} - Retrieve details of a specific order (requires authentication).
 DELETE /orders/{orderID} - Cancel a specific order (requires authentication).
