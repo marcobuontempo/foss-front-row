@@ -20,6 +20,9 @@ async function startServer() {
     // Routes
     app.use(routes);
 
+    // Error Handler
+    app.use()
+
     // Start server
     const server = app.listen(port, () => {
         console.log(`Server running on port ${port}`);

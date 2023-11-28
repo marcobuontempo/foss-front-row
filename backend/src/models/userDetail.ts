@@ -8,7 +8,6 @@ interface IUserDetail extends Document {
   phone?: string;
   address?: string;
   dob: Date;
-  accountCreationDate: Date;
 }
 
 const userDetailSchema = new Schema(

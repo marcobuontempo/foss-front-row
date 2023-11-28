@@ -18,5 +18,4 @@ router.put('/:eventid', updateEvent);
 // Delete a specific event (requires authentication)
 router.delete('/:eventid', deleteEvent);
 
-
 export default router;
