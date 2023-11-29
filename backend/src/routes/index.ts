@@ -9,16 +9,18 @@ import ErrorResponse from '@utils/responses/ErrorResponse';
 
 const router = express.Router();
 
-// Endpoints
+// Root Endpoint
+router.get('/', (req, res) => res.send("/ Endpoint"));
+
+// Public Endpoints
 router.use('/auth', authRoutes);
+
+// Authenticated Routes
 router.use('/users', userRoutes);
 router.use('/userdetails', userDetailsRoutes);
 router.use('/events/:eventid/tickets', ticketRoutes);
 router.use('/events', eventRoutes);
 router.use('/orders', orderRoutes);
-
-// Root Endpoint
-router.get('/', (req, res) => res.send("/ Endpoint"));
 
 // All Invalid Endpoints
 router.use('*', (req,res,next) => next(new ErrorResponse(404,"invalid endpoint")));

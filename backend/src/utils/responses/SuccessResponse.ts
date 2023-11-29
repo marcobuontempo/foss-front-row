@@ -1,9 +1,9 @@
 class SuccessResponse {
-    public status: string;
+    public success: boolean;
     public message: string;
 
     constructor(message: string) {
-        this.status = "success";
+        this.success = false;
         this.message = message;
     }
 }

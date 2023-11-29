@@ -41,11 +41,11 @@ OrderDate
 # RESTful Endpoints:
 
 1. User Authentication:
-POST /auth/login - User login.
-POST /auth/register - User registration.
+DONE - POST /auth/login - User login.
+DONE - POST /auth/register - User registration.
 
 2. User Operations:
-PUT /user/{userID}/password - Update the password of a specific user (requires authentication).
+DONE - PUT /users/{userID}/password - Update the password of a specific user (requires authentication).
 
 3. User Details Operations:
 GET /userdetails - Retrieve a list of users (requires admin).
@@ -70,3 +70,8 @@ DELETE /tickets/{ticketID} - Delete a specific ticket (requires authentication).
 GET /orders - Retrieve a list of user orders (requires authentication).
 GET /orders/{orderID} - Retrieve details of a specific order (requires authentication).
 DELETE /orders/{orderID} - Cancel a specific order (requires authentication).
+
+
+# Other
+1. Update models with restrictions (password length, etc.)
+2. Add "role" to User model (i.e. user | admin)

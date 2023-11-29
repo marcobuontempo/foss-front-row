@@ -1,6 +1,6 @@
 import User from "@models/User.model";
 import UserDetail from "@models/UserDetail.model";
-import { generateJWT } from "@utils/auth/jwtGenerator";
+import { generateToken } from "@utils/auth/jwtUtils";
 import ErrorResponse from "@utils/responses/ErrorResponse";
 import LoginResponse from "@utils/responses/LoginResponse";
 import RegisterResponse from "@utils/responses/RegisterResponse";
@@ -43,8 +43,6 @@ const register = async (req: Request, res: Response, next: NextFunction): Promis
   }
 };
 
-// TODO: update models with restrictions (password length, etc.)
-// TODO: convert req.body destructure into a LoginRequest class
 const login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { username, password } = req.body;
@@ -64,8 +62,8 @@ const login = async (req: Request, res: Response, next: NextFunction): Promise<v
     // Check if the passwords match
     if (!passwordMatch) throw new ErrorResponse(401, 'invalid password');
 
-    // Passwords match, user is authenticated
-    const token = generateJWT(user);
+    // Passwords match, user is authenticated. Generate JWT
+    const token = generateToken(user);
 
     // Send successful response
     const response = new LoginResponse(token);

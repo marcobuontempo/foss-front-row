@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import mongodb from './utils/mongodb';
 import routes from "./routes";
 import errorResponseHandler from '@middlewares/errorResponseHandler.middleware';
+import { authenticateMiddleware } from '@middlewares/authentication.middleware';
 
 //for .env File 
 dotenv.config();
@@ -15,14 +16,15 @@ async function startServer() {
     // Connect to the database
     await mongodb.connect();
 
-    // Middleware to parse JSON in request body
-    app.use(express.json());
+    // Pre-Route Middlewares
+    app.use(express.json());                  // parse JSON in request body
+    app.use(authenticateMiddleware);          // authenticates users
 
     // Routes
     app.use(routes);
 
-    // Error Handler
-    app.use(errorResponseHandler);
+    // Post-Route Middlewares
+    app.use(errorResponseHandler);            // handles errors and sends appropriate response
 
     // Start server
     const server = app.listen(port, () => {
