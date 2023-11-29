@@ -2,6 +2,7 @@ import express, { Application } from 'express';
 import dotenv from 'dotenv';
 import mongodb from './utils/mongodb';
 import routes from "./routes";
+import errorResponseHandler from '@middlewares/error.middlewares';
 
 //for .env File 
 dotenv.config();
@@ -21,7 +22,7 @@ async function startServer() {
     app.use(routes);
 
     // Error Handler
-    app.use()
+    app.use(errorResponseHandler);
 
     // Start server
     const server = app.listen(port, () => {

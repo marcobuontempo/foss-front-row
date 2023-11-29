@@ -12,7 +12,7 @@ interface IUserDetail extends Document {
 
 const userDetailSchema = new Schema(
   {
-    userID: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    _id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     firstname: { type: String, required: true },
     lastname: { type: String, required: true },
     email: { type: String, required: true, unique: true },

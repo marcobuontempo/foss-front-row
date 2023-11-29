@@ -1,46 +1,42 @@
-import User from "@models/user";
-import UserDetail from "@models/userdetail";
-import { Request, Response } from "express";
-import { startSession } from "mongoose";
+import User from "@models/User";
+import UserDetail from "@models/UserDetail";
+import ErrorResponse from "@utils/ErrorResponse";
+import SuccessResponse from "@utils/SuccessResponse";
+import { NextFunction, Request, Response } from "express";
 
-const register = async (req: Request, res: Response): Promise<void> => {
-  const session = await startSession();
-  session.startTransaction();
+const register = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
 
   try {
     const { username, password, firstname, lastname, email, phone, address, dob } = req.body;
 
-    // TODO: Validate the request body
-    // TODO: Check if the username already exists. 
-    // TODO: Check is email already exists.
-
-    // Create a new user
+    // Create a new User and UserDetail
     const newUser = new User({ username, password });
+    const newUserDetail = new UserDetail({ firstname, lastname, email, phone, address, dob });
+
+    // Validate both models
+    await newUser.validate();
+    await newUserDetail.validate({ pathsToSkip: ["_id"] });
+
+    // Ensure username and emails are unique
+    const existingUser = await User.findOne({ username });
+    if (existingUser) throw new ErrorResponse("username already exists", 409);
+    const existingUserDetail = await UserDetail.findOne({ email });
+    if (existingUserDetail) throw new ErrorResponse("email already exists", 409);
 
     // Save the user to the database
-    await newUser.save({ session });
+    await newUser.save();
 
-    // Get the generated user id
-    const userID = newUser._id;
-
-    // Create the user details
-    const newUserDetail = new UserDetail({ userID, firstname, lastname, email, phone, address, dob });
+    // Set UserDetail's userID to the generated userID value
+    newUserDetail._id = newUser._id;
 
     // Save the user details to the database
-    await newUserDetail.save({ session });
+    await newUserDetail.save();
 
-    // If everything is successful, commit the transaction
-    await session.commitTransaction();
-    session.endSession();
-
-    res.status(201).json({ message: 'user registered successfully' });
+    // Send success response
+    const response = new SuccessResponse('user registered successfully');
+    res.status(201).json(response);
   } catch (error) {
-    // If any error occurs, abort the transaction
-    await session.abortTransaction();
-    session.endSession();
-    
-    console.error('Error in register controller:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    next(error);
   }
 };
 
