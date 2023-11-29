@@ -1,12 +1,13 @@
 import mongoose, { Document, Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
 
-interface IUser extends Document {
+export interface IUser extends Document {
   username: string;
   password: string;
+  comparePassword(password: string): boolean;
 }
 
-const userSchema = new Schema({
+const userSchema = new Schema<IUser>({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
 });
@@ -38,8 +39,9 @@ userSchema.pre<IUser>('save', async function (next) {
 userSchema.methods.comparePassword = async function (enteredPassword: string): Promise<boolean> {
   try {
     // Use bcrypt.compare to compare the entered password with the stored hashed password
-    const match = await bcrypt.compare(enteredPassword, this.password);
-    return match;
+    return bcrypt.compare(enteredPassword, this.password)
+      .then(match => match)
+      .catch(() => false);
   } catch (error: unknown) {
     // Handle errors, such as invalid hashed password format
     return false;
@@ -47,6 +49,6 @@ userSchema.methods.comparePassword = async function (enteredPassword: string): P
 };
 
 
-const User = mongoose.model<IUser>('User', userSchema);
+export const User = mongoose.model<IUser>('User', userSchema);
 
 export default User;

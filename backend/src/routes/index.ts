@@ -5,7 +5,7 @@ import eventRoutes from "./event.routes";
 import ticketRoutes from "./ticket.routes";
 import authRoutes from "./auth.routes";
 import orderRoutes from "./order.routes";
-import ErrorResponse from '@utils/ErrorResponse';
+import ErrorResponse from '@utils/responses/ErrorResponse';
 
 const router = express.Router();
 
@@ -21,7 +21,7 @@ router.use('/orders', orderRoutes);
 router.get('/', (req, res) => res.send("/ Endpoint"));
 
 // All Invalid Endpoints
-router.use('*', (req,res,next) => next(new ErrorResponse("invalid endpoint",404)));
+router.use('*', (req,res,next) => next(new ErrorResponse(404,"invalid endpoint")));
 
 
 export default router;

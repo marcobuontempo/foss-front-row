@@ -13,4 +13,8 @@ const updateUserDetails = async (req: Request, res: Response): Promise<void> => 
 };
 
 
-export { getAllUserDetails, getOneUserDetails, updateUserDetails }
+export {
+    getAllUserDetails,
+    getOneUserDetails,
+    updateUserDetails
+}

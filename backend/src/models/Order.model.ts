@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
-interface IOrder extends Document {
+export interface IOrder extends Document {
   userID: mongoose.Schema.Types.ObjectId;
   eventID: mongoose.Schema.Types.ObjectId;
   quantity: number;
@@ -8,7 +8,7 @@ interface IOrder extends Document {
   orderDate: Date;
 }
 
-const orderSchema = new Schema(
+const orderSchema = new Schema<IOrder>(
   {
     userID: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     eventID: { type: mongoose.Schema.Types.ObjectId, ref: 'Event', required: true },

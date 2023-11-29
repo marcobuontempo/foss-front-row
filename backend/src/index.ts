@@ -2,7 +2,7 @@ import express, { Application } from 'express';
 import dotenv from 'dotenv';
 import mongodb from './utils/mongodb';
 import routes from "./routes";
-import errorResponseHandler from '@middlewares/error.middlewares';
+import errorResponseHandler from '@middlewares/errorResponseHandler.middleware';
 
 //for .env File 
 dotenv.config();
