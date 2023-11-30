@@ -1,8 +1,8 @@
 import UserDetail from "@models/UserDetail.model";
-import AllUserDetailsResponse from "@utils/responses/AllUserDetailsResponse";
+import AllUserDetailsResponse from "@utils/responses/userdetail/AllUserDetailsResponse";
 import ErrorResponse from "@utils/responses/ErrorResponse";
-import OneUserDetailsResponse from "@utils/responses/OneUserDetailsResponse";
-import UpdateUserDetailsResponse from "@utils/responses/UpdateUserDetailsResponse";
+import GetOneUserDetailsResponse from "@utils/responses/userdetail/GetOneUserDetailsResponse";
+import UpdateUserDetailsResponse from "@utils/responses/userdetail/UpdateUserDetailsResponse";
 import { NextFunction, Request, Response } from "express";
 
 const getAllUserDetails = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -27,7 +27,7 @@ const getOneUserDetails = async (req: Request, res: Response, next: NextFunction
         if (!user) throw new ErrorResponse(404, 'user not found');
 
         // Send success response
-        const response = new OneUserDetailsResponse(user);
+        const response = new GetOneUserDetailsResponse(user);
         res.status(200).json(response);
 
     } catch (error) {

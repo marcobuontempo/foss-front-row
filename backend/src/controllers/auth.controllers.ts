@@ -2,15 +2,15 @@ import User from "@models/User.model";
 import UserDetail from "@models/UserDetail.model";
 import { generateToken } from "@utils/auth/jwtUtils";
 import ErrorResponse from "@utils/responses/ErrorResponse";
-import LoginResponse from "@utils/responses/LoginResponse";
-import RegisterResponse from "@utils/responses/RegisterResponse";
+import LoginResponse from "@utils/responses/auth/LoginResponse";
+import RegisterResponse from "@utils/responses/auth/RegisterResponse";
 import { NextFunction, Request, Response } from "express";
 
 const register = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { username, password, firstname, lastname, email, phone, address, dob } = req.body;
 
-    // Create a new User and UserDetail
+    // Create a new User and UserDetail document
     const newUser = new User({ username, password });
     const newUserDetail = new UserDetail({ firstname, lastname, email, phone, address, dob });
 

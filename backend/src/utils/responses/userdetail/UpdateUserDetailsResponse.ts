@@ -1,4 +1,4 @@
-import SuccessReponse from "./SuccessResponse";
+import SuccessReponse from "../SuccessResponse";
 
 class UpdateUserDetailsResponse extends SuccessReponse {
     constructor() {

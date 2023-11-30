@@ -1,4 +1,4 @@
-import SuccessResponse from "./SuccessResponse";
+import SuccessResponse from "../SuccessResponse";
 
 class PasswordResponse extends SuccessResponse {
     constructor() {

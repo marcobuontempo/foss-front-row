@@ -1,7 +1,7 @@
-import SuccessReponse from "./SuccessResponse";
+import SuccessReponse from "../SuccessResponse";
 import { IUserDetail } from "@models/UserDetail.model";
 
-class OneUserDetailsResponse extends SuccessReponse {
+class GetOneUserDetailsResponse extends SuccessReponse {
     public data: IUserDetail;
 
     constructor(user: IUserDetail) {
@@ -10,4 +10,4 @@ class OneUserDetailsResponse extends SuccessReponse {
     }
 }
 
-export default OneUserDetailsResponse;
+export default GetOneUserDetailsResponse;

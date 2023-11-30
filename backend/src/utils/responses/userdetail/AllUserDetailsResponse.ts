@@ -1,4 +1,4 @@
-import SuccessReponse from "./SuccessResponse";
+import SuccessReponse from "../SuccessResponse";
 import { IUserDetail } from "@models/UserDetail.model";
 
 class AllUserDetailsResponse extends SuccessReponse {

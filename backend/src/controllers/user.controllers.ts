@@ -1,8 +1,8 @@
 import User from "@models/User.model";
 import UserDetail from "@models/UserDetail.model";
-import DeleteUserResponse from "@utils/responses/DeleteUserResponse";
+import DeleteUserResponse from "@utils/responses/user/DeleteUserResponse";
 import ErrorResponse from "@utils/responses/ErrorResponse";
-import PasswordResponse from "@utils/responses/PasswordResponse";
+import PasswordResponse from "@utils/responses/user/PasswordResponse";
 import { NextFunction, Request, Response } from "express";
 
 const updatePassword = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -30,7 +30,7 @@ const updatePassword = async (req: Request, res: Response, next: NextFunction): 
     // Save the updated user document
     await user.save();
 
-    // Respond with a success message
+    // Send success response
     const response = new PasswordResponse();
     res.status(200).json(response);
 
@@ -46,7 +46,7 @@ const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
     await User.findByIdAndDelete(userid);
     await UserDetail.findByIdAndDelete(userid);
 
-    // Return success response
+    // Send success response
     const response = new DeleteUserResponse();
     res.status(200).json(response);
     
