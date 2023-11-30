@@ -46,12 +46,12 @@ DONE - POST /auth/register - User registration.
 
 2. User Operations:
 DONE - PUT /users/{userID}/password - Update the password of a specific user (requires authentication).
-DELETE /users/{userid} - Delete the details of a specific user (requires admin).
+DONE - DELETE /users/{userid} - Delete the details of a specific user (requires admin).
 
 3. User Details Operations:
-GET /userdetails - Retrieve a list of users (requires admin).
-GET /usersdetails/{userID} - Retrieve details of a specific user (requires authentication).
-PUT /userdetails/{userID} - Update the details of a specific user (requires authentication).
+DONE - GET /userdetails - Retrieve a list of users (requires admin).
+DONE - GET /usersdetails/{userID} - Retrieve details of a specific user (requires authentication).
+DONE - PUT /userdetails/{userID} - Update the details of a specific user (requires authentication).
 
 4. Event Operations:
 GET /events - Retrieve a list of events.

@@ -1,4 +1,6 @@
 import User from "@models/User.model";
+import UserDetail from "@models/UserDetail.model";
+import DeleteUserResponse from "@utils/responses/DeleteUserResponse";
 import ErrorResponse from "@utils/responses/ErrorResponse";
 import PasswordResponse from "@utils/responses/PasswordResponse";
 import { NextFunction, Request, Response } from "express";
@@ -37,6 +39,23 @@ const updatePassword = async (req: Request, res: Response, next: NextFunction): 
   }
 };
 
+const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    // Find user and delete from both User and UserDetail collections
+    const { userid } = req.params;
+    await User.findByIdAndDelete(userid);
+    await UserDetail.findByIdAndDelete(userid);
+
+    // Return success response
+    const response = new DeleteUserResponse();
+    res.status(200).json(response);
+    
+  } catch (error) {
+    next(error);
+  }
+};
+
 export {
-  updatePassword
+  updatePassword,
+  deleteUser
 }
