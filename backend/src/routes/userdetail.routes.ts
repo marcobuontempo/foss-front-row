@@ -3,7 +3,7 @@ import { getAllUserDetails, getOneUserDetails, updateUserDetails } from '@contro
 import { isAdmin } from '@utils/auth/isAdmin';
 import { isCurrentAuthUser } from '@utils/auth/isCurrentAuthUser';
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
 // Retrieve a list of users (requires admin)
 router.get('/', isAdmin, getAllUserDetails);

@@ -1,7 +1,7 @@
 import { deleteTicket, getAllTickets, getOneTicket, orderTickets, updateTicket } from '@controllers/ticket.controllers';
 import express from 'express';
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
 // Retrieve available tickets for a specific event
 router.get('/', getAllTickets);

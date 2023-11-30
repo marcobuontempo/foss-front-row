@@ -1,12 +1,12 @@
 import mongoose, { Document, Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
 
-export enum UserRole {
+enum UserRole {
   User = 'user',
   Admin = 'admin'
 }
 
-export interface IUser extends Document {
+interface IUser extends Document {
   username: string;
   password: string;
   role: UserRole;
@@ -81,4 +81,5 @@ userSchema.methods.comparePassword = async function (enteredPassword: string): P
 
 export const User = mongoose.model<IUser>('User', userSchema);
 
+export { UserRole, IUser, userSchema };
 export default User;

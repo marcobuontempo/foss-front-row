@@ -8,7 +8,7 @@ import orderRoutes from "./order.routes";
 import ErrorResponse from '@utils/responses/ErrorResponse';
 import { authenticate } from '@middlewares/authentication.middleware';
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
 // Root Endpoint
 router.get('/', (req, res) => res.send("/ Endpoint"));

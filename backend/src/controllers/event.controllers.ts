@@ -5,6 +5,7 @@ import CreateNewEventResponse from "@utils/responses/event/CreateNewEventRespons
 import DeleteEventResponse from "@utils/responses/event/DeleteEventResponse";
 import GetOneEventResponse from "@utils/responses/event/GetOneEventResponse";
 import UpdateEventResponse from "@utils/responses/event/UpdateEventResponse";
+import { createTicketsForEvent } from "@utils/services/ticketService";
 import { NextFunction, Request, Response } from "express";
 
 const getAllEvents = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -39,15 +40,25 @@ const getOneEvent = async (req: Request, res: Response, next: NextFunction): Pro
 
 const createNewEvent = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
+    const { title, date, venue, ticketQty } = req.body;
+
+    // Validate number of tickets
+    if (ticketQty <= 0) throw new ErrorResponse(400, "ticketQty must be greater than 0")
+    if (!ticketQty) throw new ErrorResponse(400, "ticketQty is required")
+
     // Create a new Event document
-    const newEvent = new Event(req.body);
+    const newEvent = new Event({ title, date, venue });
 
     // Save the event to the database (will self validate in this step)
     await newEvent.save();
 
+    // Create tickets and add to the Event document
+    await createTicketsForEvent(newEvent, ticketQty);
+
     // Send successful response
     const response = new CreateNewEventResponse();
     res.status(200).json(response);
+
   } catch (error) {
     next(error);
   }

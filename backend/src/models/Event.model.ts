@@ -1,6 +1,7 @@
 import mongoose, { Document, Schema } from 'mongoose';
+import Ticket, { ITicket, ticketSchema } from './Ticket.model';
 
-export interface IEvent extends Document {
+interface IEvent extends Document {
   title: string;
   date: Date;
   venue: string;
@@ -28,4 +29,5 @@ const eventSchema = new Schema<IEvent>(
 
 const Event = mongoose.model<IEvent>('Event', eventSchema);
 
+export { IEvent, eventSchema };
 export default Event;

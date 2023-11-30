@@ -1,7 +1,7 @@
 import { deleteOrder, getAllOrders, getOneOrder } from '@controllers/order.controllers';
 import express from 'express';
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
 // Retrieve a list of user orders (requires authentication)
 router.get('/', getAllOrders);

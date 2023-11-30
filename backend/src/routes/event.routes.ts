@@ -1,7 +1,7 @@
 import { createNewEvent, deleteEvent, getAllEvents, getOneEvent, updateEvent } from '@controllers/event.controllers';
 import express from 'express';
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
 // Retrieve a list of events
 router.get('/', getAllEvents);

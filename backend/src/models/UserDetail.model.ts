@@ -1,7 +1,6 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
-export interface IUserDetail extends Document {
-  userID: mongoose.Schema.Types.ObjectId;
+interface IUserDetail extends Document {
   firstname: string;
   lastname: string;
   email: string;
@@ -51,4 +50,5 @@ const userDetailSchema = new Schema<IUserDetail>(
 
 const UserDetail = mongoose.model<IUserDetail>('UserDetail', userDetailSchema);
 
+export { IUserDetail, userDetailSchema };
 export default UserDetail;

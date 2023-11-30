@@ -1,7 +1,7 @@
 import express from 'express';
 import { login, register } from '@controllers/auth.controllers';
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
 // User registration
 router.post('/register', register);

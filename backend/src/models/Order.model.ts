@@ -1,23 +1,28 @@
 import mongoose, { Document, Schema } from 'mongoose';
+import { ITicket, ticketSchema } from './Ticket.model';
 
-export interface IOrder extends Document {
-  userID: mongoose.Schema.Types.ObjectId;
-  eventID: mongoose.Schema.Types.ObjectId;
+interface IOrder extends Document {
+  userid: mongoose.Schema.Types.ObjectId;
+  eventid: mongoose.Schema.Types.ObjectId;
+  tickets: [ITicket]
   quantity: number;
   totalPrice: number;
-  orderDate: Date;
 }
 
 const orderSchema = new Schema<IOrder>(
   {
-    userID: {
+    userid: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true
     },
-    eventID: {
+    eventid: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Event',
+      required: true
+    },
+    tickets: {
+      type: [ticketSchema],
       required: true
     },
     quantity: {
@@ -28,10 +33,6 @@ const orderSchema = new Schema<IOrder>(
       type: Number,
       required: true
     },
-    orderDate: {
-      type: Date,
-      required: true
-    },
   },
   {
     timestamps: true,
@@ -39,4 +40,5 @@ const orderSchema = new Schema<IOrder>(
 
 const Order = mongoose.model<IOrder>('Order', orderSchema);
 
+export { IOrder, orderSchema };
 export default Order;

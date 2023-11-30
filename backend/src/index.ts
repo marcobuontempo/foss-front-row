@@ -1,6 +1,6 @@
 import express, { Application } from 'express';
 import dotenv from 'dotenv';
-import mongodb from './utils/mongodb';
+import mongodb from './utils/database/mongodb';
 import routes from "./routes";
 import errorResponseHandler from '@middlewares/errorResponseHandler.middleware';
 import { authenticate } from '@middlewares/authentication.middleware';

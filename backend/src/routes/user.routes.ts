@@ -3,7 +3,7 @@ import { deleteUser, updatePassword } from '@controllers/user.controllers';
 import { isCurrentAuthUser } from '@utils/auth/isCurrentAuthUser';
 import { isAdmin } from '@utils/auth/isAdmin';
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
 // Update the password of a specific user (requires authentication)
 router.put('/:userid/password', isCurrentAuthUser, updatePassword);

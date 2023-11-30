@@ -1,32 +1,36 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
-export interface ITicket extends Document {
-  eventID: mongoose.Schema.Types.ObjectId;
+interface ITicket extends Document {
+  eventid: mongoose.Schema.Types.ObjectId;
   price: number;
-  availableQuantity: number;
-  totalQuantity: number;
+  seat: string;
+  available: boolean;
 }
 
 const ticketSchema = new Schema<ITicket>({
-  eventID: {
+  eventid: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Event',
     required: true
   },
   price: {
     type: Number,
-    required: true
+    required: true,
+    default: 0
   },
-  availableQuantity: {
-    type: Number,
-    required: true
+  seat: {
+    type: String,
+    required: true,
+    default: "General Admission [GA]"
   },
-  totalQuantity: {
-    type: Number,
-    required: true
-  },
+  available: {
+    type: Boolean,
+    required: true,
+    default: true
+  }
 });
 
 const Ticket = mongoose.model<ITicket>('Ticket', ticketSchema);
 
+export { ITicket, ticketSchema };
 export default Ticket;
