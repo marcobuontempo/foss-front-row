@@ -1,15 +1,22 @@
 import mongoose, { Document, Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
 
+enum UserRole {
+  User = 'user',
+  Admin = 'admin'
+}
+
 export interface IUser extends Document {
   username: string;
   password: string;
+  role: UserRole;
   comparePassword(password: string): boolean;
 }
 
 const userSchema = new Schema<IUser>({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  role: { type: String, required: true, enum: Object.values(UserRole), default: UserRole.User },
 });
 
 // Hash and salt the password before saving

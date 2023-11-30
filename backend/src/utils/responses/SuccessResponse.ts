@@ -3,7 +3,7 @@ class SuccessResponse {
     public message: string;
 
     constructor(message: string) {
-        this.success = false;
+        this.success = true;
         this.message = message;
     }
 }
