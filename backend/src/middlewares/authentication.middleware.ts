@@ -12,16 +12,6 @@ export interface AuthenticatedRequest extends Request {
 }
 
 const authenticate = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
-    const UNAUTHENTICATED_ROUTES = [
-        '/',
-        '/auth/login',
-        '/auth/register'
-    ];
-    // Skip authentication for specific routes
-    if (UNAUTHENTICATED_ROUTES.includes(req.path)) {
-        return next();
-    }
-
     // Access the "Authorization" header
     const authHeader = req.headers?.['authorization'];
     if (authHeader) {

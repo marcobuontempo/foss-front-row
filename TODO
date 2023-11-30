@@ -46,6 +46,7 @@ DONE - POST /auth/register - User registration.
 
 2. User Operations:
 DONE - PUT /users/{userID}/password - Update the password of a specific user (requires authentication).
+DELETE /users/{userid} - Delete the details of a specific user (requires admin).
 
 3. User Details Operations:
 GET /userdetails - Retrieve a list of users (requires admin).
@@ -73,3 +74,4 @@ DELETE /orders/{orderID} - Cancel a specific order (requires authentication).
 
 
 # Other
+1. Date saved to mongo is in datetime format. Only accepts mm/dd/yyyy format. And due to timezone difference, the DOB will be adjusted to the wrong day (as it may go back 10 hours to adjust for difference, which is obviously unintended)

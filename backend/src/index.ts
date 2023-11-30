@@ -20,7 +20,7 @@ async function startServer() {
     app.use(express.json());                  // Parse JSON in request body
 
     // Routes
-    app.use(routes);
+    app.use(routes);                          // Global routes handler
 
     // Post-Route Middlewares
     app.use(errorResponseHandler);            // Handles errors and sends appropriate response
