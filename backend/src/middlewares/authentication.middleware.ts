@@ -7,16 +7,16 @@ export interface AuthenticatedRequest extends Request {
     user?: {
         userid: string,
         username: string,
+        role: string,
     }
 }
 
-const authenticateMiddleware = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+const authenticate = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     const UNAUTHENTICATED_ROUTES = [
         '/',
         '/auth/login',
         '/auth/register'
     ];
-
     // Skip authentication for specific routes
     if (UNAUTHENTICATED_ROUTES.includes(req.path)) {
         return next();
@@ -30,8 +30,9 @@ const authenticateMiddleware = (req: AuthenticatedRequest, res: Response, next: 
         if (tokenType !== "Bearer") throw new ErrorResponse(401, "invalid token type: missing Bearer");
         const decoded = verifyToken(token) as JwtPayload;
         req.user = {
-            userid: decoded.id,
+            userid: decoded.userid,
             username: decoded.username,
+            role: decoded.role,
         };
         return next();
     } else {
@@ -39,4 +40,4 @@ const authenticateMiddleware = (req: AuthenticatedRequest, res: Response, next: 
     }
 };
 
-export { authenticateMiddleware };
+export { authenticate };

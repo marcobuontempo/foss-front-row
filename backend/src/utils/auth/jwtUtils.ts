@@ -7,7 +7,8 @@ const generateToken = (user: IUser) => {
     const SECRET_KEY: Secret = process.env.JWT_SECRET_KEY!;
     const data = {
         userid: user._id,
-        username: user.username
+        username: user.username,
+        role: user.role,
     }
     return jwt.sign(data, SECRET_KEY, { expiresIn: '7d', algorithm: 'HS256' });
 };

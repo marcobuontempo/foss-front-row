@@ -48,7 +48,7 @@ const login = async (req: Request, res: Response, next: NextFunction): Promise<v
     const { username, password } = req.body;
 
     // Validate Request Body
-    await new User({ username, password }).validate();
+    if (!username || !password) throw new ErrorResponse(400, 'username and password are required');
 
     // Find the user by username
     const user = await User.findOne({ username });
