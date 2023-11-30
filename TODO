@@ -73,5 +73,3 @@ DELETE /orders/{orderID} - Cancel a specific order (requires authentication).
 
 
 # Other
-1. Update models with restrictions (password length, etc.)
-2. Add "role" to User model (i.e. user | admin)

@@ -10,7 +10,7 @@ const errorResponseHandler = (err: Error, req: Request, res: Response, next: Nex
   } else if (err instanceof mongoose.Error.ValidationError) {
     res
       .status(400)
-      .json({ success: false, errors: Object.keys(err.errors).map(k => err.errors[k]["message"]) });
+      .json({ success: false, errors: Object.keys(err.errors).map(k => err.errors[k]["message"].replace("Path ", "")) });
   } else {
     res
       .status(500)

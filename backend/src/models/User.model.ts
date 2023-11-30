@@ -14,9 +14,32 @@ export interface IUser extends Document {
 }
 
 const userSchema = new Schema<IUser>({
-  username: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  role: { type: String, required: true, enum: Object.values(UserRole), default: UserRole.User },
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+    minlength: 3,    // Minimum length for the username
+    maxlength: 20,   // Maximum length for the username
+  },
+  password: {
+    type: String,
+    required: true,
+    minlength: 8,     // Minimum length for the password
+    validate: [
+      {
+        validator: (password: string) =>
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])/.test(password),
+        message:
+          'password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
+      },
+    ],
+  },
+  role: {
+    type: String,
+    required: true,
+    enum: Object.values(UserRole),  // Allow only specified UserRole enum values
+    default: UserRole.User,
+  },
 });
 
 // Hash and salt the password before saving

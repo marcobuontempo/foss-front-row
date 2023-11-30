@@ -26,7 +26,7 @@ const updatePassword = async (req: AuthenticatedRequest, res: Response, next: Ne
     }
 
     // Check if the current password provided in the request matches the stored password
-    const isPasswordValid = await user.comparePassword(currentpassword);
+    const isPasswordValid = user.comparePassword(currentpassword);
 
     if (!isPasswordValid) {
       throw new ErrorResponse(401, 'current password is incorrect');
