@@ -1,8 +1,6 @@
 import UserDetail from "@models/UserDetail.model";
-import AllUserDetailsResponse from "@utils/responses/userdetail/AllUserDetailsResponse";
 import ErrorResponse from "@utils/responses/ErrorResponse";
-import GetOneUserDetailsResponse from "@utils/responses/userdetail/GetOneUserDetailsResponse";
-import UpdateUserDetailsResponse from "@utils/responses/userdetail/UpdateUserDetailsResponse";
+import SuccessResponse from "@utils/responses/SuccessResponse";
 import { NextFunction, Request, Response } from "express";
 
 const getAllUserDetails = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -11,7 +9,10 @@ const getAllUserDetails = async (req: Request, res: Response, next: NextFunction
         const users = await UserDetail.find({}).select({ __v: false });
 
         // Send success response
-        const response = new AllUserDetailsResponse(users);
+        const response = new SuccessResponse({
+            message: "user details retrieved successfully",
+            data: users
+        });
         res.status(200).json(response);
 
     } catch (error) {
@@ -27,7 +28,10 @@ const getOneUserDetails = async (req: Request, res: Response, next: NextFunction
         if (!user) throw new ErrorResponse(404, 'user not found');
 
         // Send success response
-        const response = new GetOneUserDetailsResponse(user);
+        const response = new SuccessResponse({
+            message: "user details retrieved successfully",
+            data: user
+        });
         res.status(200).json(response);
 
     } catch (error) {
@@ -42,7 +46,9 @@ const updateUserDetails = async (req: Request, res: Response, next: NextFunction
         await UserDetail.findByIdAndUpdate(userid, req.body, { runValidators: true });
 
         // Send success response
-        const response = new UpdateUserDetailsResponse();
+        const response = new SuccessResponse({
+            message: "user details updated successfully"
+        });
         res.status(200).json(response);
 
     } catch (error) {

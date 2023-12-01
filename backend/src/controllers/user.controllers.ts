@@ -1,9 +1,8 @@
 import User from "@models/User.model";
 import UserDetail from "@models/UserDetail.model";
-import DeleteUserResponse from "@utils/responses/user/DeleteUserResponse";
 import ErrorResponse from "@utils/responses/ErrorResponse";
-import PasswordResponse from "@utils/responses/user/PasswordResponse";
 import { NextFunction, Request, Response } from "express";
+import SuccessResponse from "@utils/responses/SuccessResponse";
 
 const updatePassword = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -31,7 +30,9 @@ const updatePassword = async (req: Request, res: Response, next: NextFunction): 
     await user.save();
 
     // Send success response
-    const response = new PasswordResponse();
+    const response = new SuccessResponse({
+      message: "password updated successfully"
+    });
     res.status(200).json(response);
 
   } catch (error) {
@@ -47,9 +48,11 @@ const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
     await UserDetail.findByIdAndDelete(userid);
 
     // Send success response
-    const response = new DeleteUserResponse();
+    const response = new SuccessResponse({
+      message: "user deleted successfully"
+    });
     res.status(200).json(response);
-    
+
   } catch (error) {
     next(error);
   }

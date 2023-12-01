@@ -2,11 +2,7 @@ import { AuthenticatedRequest } from "@middlewares/authentication.middleware";
 import Event from "@models/Event.model";
 import Ticket from "@models/Ticket.model";
 import ErrorResponse from "@utils/responses/ErrorResponse";
-import AllEventsResponse from "@utils/responses/event/AllEventsResponse";
-import CreateNewEventResponse from "@utils/responses/event/CreateNewEventResponse";
-import DeleteEventResponse from "@utils/responses/event/DeleteEventResponse";
-import GetOneEventResponse from "@utils/responses/event/GetOneEventResponse";
-import UpdateEventResponse from "@utils/responses/event/UpdateEventResponse";
+import SuccessResponse from "@utils/responses/SuccessResponse";
 import { createTicketsForEvent } from "@utils/services/ticketService";
 import { NextFunction, Request, Response } from "express";
 
@@ -16,7 +12,10 @@ const getAllEvents = async (req: Request, res: Response, next: NextFunction): Pr
     const events = await Event.find({}).select({ __v: false });
 
     // Send success response
-    const response = new AllEventsResponse(events);
+    const response = new SuccessResponse({
+      message: "events retrieved successfully",
+      data: events
+    });
     res.status(200).json(response);
 
   } catch (error) {
@@ -32,7 +31,10 @@ const getOneEvent = async (req: Request, res: Response, next: NextFunction): Pro
     if (!event) throw new ErrorResponse(404, 'event not found');
 
     // Send success response
-    const response = new GetOneEventResponse(event);
+    const response = new SuccessResponse({
+      message: "event retrieved successfully",
+      data: event
+    });
     res.status(200).json(response);
 
   } catch (error) {
@@ -58,7 +60,9 @@ const createNewEvent = async (req: AuthenticatedRequest, res: Response, next: Ne
     await createTicketsForEvent(newEvent, ticketQty);
 
     // Send successful response
-    const response = new CreateNewEventResponse();
+    const response = new SuccessResponse({
+      message: "event has been created successfully"
+    });
     res.status(200).json(response);
 
   } catch (error) {
@@ -73,7 +77,9 @@ const updateEvent = async (req: Request, res: Response, next: NextFunction): Pro
     await Event.findByIdAndUpdate(eventid, req.body, { runValidators: true });
 
     // Send success response
-    const response = new UpdateEventResponse();
+    const response = new SuccessResponse({
+      message: "event has been updated successfully"
+    });
     res.status(200).json(response);
 
   } catch (error) {
@@ -91,7 +97,9 @@ const deleteEvent = async (req: Request, res: Response, next: NextFunction): Pro
     await Ticket.deleteMany({ eventid });
 
     // Send success response
-    const response = new DeleteEventResponse();
+    const response = new SuccessResponse({
+      message: "event has been deleted successfully"
+    });
     res.status(200).json(response);
 
   } catch (error) {

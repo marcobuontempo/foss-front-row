@@ -33,7 +33,8 @@ TotalQuantity
 OrderID (Primary Key)
 UserID (Foreign Key referencing User Table)
 EventID (Foreign Key referencing Event Table)
-Quantity
+Tickets
+TotalQuantity
 TotalPrice
 OrderDate
 
@@ -54,26 +55,26 @@ DONE - GET /usersdetails/{userID} - Retrieve details of a specific user (require
 DONE - PUT /userdetails/{userID} - Update the details of a specific user (requires authentication).
 
 4. Event Operations:
-GET /events - Retrieve a list of events.
-GET /events/{eventID} - Retrieve details of a specific event.
-POST /events - Create a new event (requires authentication).
-PUT /events/{eventID} - Update details of a specific event (requires authentication).
-DELETE /events/{eventID} - Delete a specific event (requires authentication).
+DONE - GET /events - Retrieve a list of events.
+DONE - GET /events/{eventID} - Retrieve details of a specific event.
+DONE - POST /events - Create a new event (requires authentication).
+DONE - PUT /events/{eventID} - Update details of a specific event (requires authentication).
+DONE - DELETE /events/{eventID} - Delete a specific event (requires authentication).
 
 5. Ticket Operations:
-GET /events/{eventID}/tickets - Retrieve available tickets for a specific event.
-GET /tickets/{ticketID} - Retrieve details of a specific ticket.
-POST /events/{eventID}/tickets/order - Order tickets for a specific event (requires authentication).
-PUT /tickets/{ticketID} - Update details of a specific ticket (requires authentication).
-DELETE /tickets/{ticketID} - Delete a specific ticket (requires authentication).
+DONE - GET /events/{eventID}/tickets - Retrieve available tickets for a specific event.
+DONE - GET /tickets/{ticketID} - Retrieve details of a specific ticket.
+DONE - POST /events/{eventID}/tickets/order - Order tickets for a specific event (requires authentication).
+DONE - PUT /tickets/{ticketID} - Update details of a specific ticket (requires authentication).
+DONE - DELETE /tickets/{ticketID} - Delete a specific ticket (requires authentication).
 
 6. Order Operations:
-GET /orders - Retrieve a list of user orders (requires authentication).
-GET /orders/{orderID} - Retrieve details of a specific order (requires authentication).
-DELETE /orders/{orderID} - Cancel a specific order (requires authentication).
+DONE - GET /orders - Retrieve a list of user orders (requires authentication).
+DONE - GET /orders/{orderID} - Retrieve details of a specific order (requires authentication).
+DONE - DELETE /orders/{orderID} - Cancel a specific order (requires authentication).
 
 
 # Other
 1. Date saved to mongo is in datetime format. Only accepts mm/dd/yyyy format. And due to timezone difference, the DOB will be adjusted to the wrong day (as it may go back 10 hours to adjust for difference, which is obviously unintended)
-2. Implement mongo transactions to avoid race conditions and database issues. *Requires a replica or cluster mongo setup
+2. Implement mongo transactions to avoid race conditions and database issues. *Requires a replica or cluster mongo setup => use a suitable docker-compose
 3. Move all responses to either ErrorResponse or SuccessResponse. SuccessResponse should take ({ message: "", data: undefined, success: true })

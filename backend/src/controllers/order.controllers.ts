@@ -1,8 +1,6 @@
 import Order from "@models/Order.model";
 import ErrorResponse from "@utils/responses/ErrorResponse";
-import AllOrdersResponse from "@utils/responses/order/AllOrdersResponse";
-import DeleteOrderResponse from "@utils/responses/order/DeleteOrderResponse";
-import OneOrderResponse from "@utils/responses/order/OneOrderResponse";
+import SuccessResponse from "@utils/responses/SuccessResponse";
 import { NextFunction, Request, Response } from "express";
 
 const getAllOrders = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -11,7 +9,10 @@ const getAllOrders = async (req: Request, res: Response, next: NextFunction): Pr
     const orders = await Order.find({}).select({ __v: false });
 
     // Send success response
-    const response = new AllOrdersResponse(orders);
+    const response = new SuccessResponse({
+      message: "orders retrieved successfully",
+      data: orders
+    });
     res.status(200).json(response);
 
   } catch (error) {
@@ -27,7 +28,10 @@ const getOneOrder = async (req: Request, res: Response, next: NextFunction): Pro
     if (!order) throw new ErrorResponse(400, "order not found");
 
     // Send success response
-    const response = new OneOrderResponse(order);
+    const response = new SuccessResponse({
+      message: "order retrieved successfully",
+      data: order
+    });
     res.status(200).json(response);
 
   } catch (error) {
@@ -42,7 +46,9 @@ const deleteOrder = async (req: Request, res: Response, next: NextFunction): Pro
     await Order.findByIdAndDelete(orderid);
 
     // Send success response
-    const response = new DeleteOrderResponse();
+    const response = new SuccessResponse({
+      message: "order deleted successfully",
+    });
     res.status(200).json(response);
 
   } catch (error) {

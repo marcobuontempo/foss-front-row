@@ -2,11 +2,7 @@ import { AuthenticatedRequest } from "@middlewares/authentication.middleware";
 import Order from "@models/Order.model";
 import Ticket from "@models/Ticket.model";
 import ErrorResponse from "@utils/responses/ErrorResponse";
-import AllTicketsResponse from "@utils/responses/ticket/AllTicketsResponse";
-import DeleteTicketResponse from "@utils/responses/ticket/DeleteTicketResponse";
-import OneTicketResponse from "@utils/responses/ticket/OneTicketResponse";
-import OrderTicketsResponse from "@utils/responses/ticket/OrderTicketsResponse";
-import UpdateTicketResponse from "@utils/responses/ticket/UpdateTicketResponse";
+import SuccessResponse from "@utils/responses/SuccessResponse";
 import { NextFunction, Request, Response } from "express";
 
 const getAllTickets = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -15,8 +11,11 @@ const getAllTickets = async (req: Request, res: Response, next: NextFunction): P
     const { eventid } = req.params;
     const tickets = await Ticket.find({ eventid }).select({ __v: false });
 
-    // Send succecss response
-    const response = new AllTicketsResponse(tickets);
+    // Send success response
+    const response = new SuccessResponse({
+      message: "tickets retrieved successfully",
+      data: tickets
+    });
     res.status(200).json(response);
 
   } catch (error) {
@@ -32,7 +31,10 @@ const getOneTicket = async (req: Request, res: Response, next: NextFunction): Pr
     if (!ticket) throw new ErrorResponse(400, "ticket not found");
 
     // Send success response
-    const response = new OneTicketResponse(ticket);
+    const response = new SuccessResponse({
+      message: "ticket retrieved successfully",
+      data: ticket
+    });
     res.status(200).json(response);
 
   } catch (error) {
@@ -77,7 +79,9 @@ const orderTickets = async (req: AuthenticatedRequest, res: Response, next: Next
     );
 
     // Send success response
-    const response = new OrderTicketsResponse();
+    const response = new SuccessResponse({
+      message: "tickets ordered successfully",
+    });
     res.status(200).json(response);
 
   } catch (error) {
@@ -92,7 +96,9 @@ const updateTicket = async (req: Request, res: Response, next: NextFunction): Pr
     await Ticket.findOneAndUpdate({ _id: ticketid, eventid }, req.body, { runValidators: true });
 
     // Send success response
-    const response = new UpdateTicketResponse();
+    const response = new SuccessResponse({
+      message: "ticket updated successfully",
+    });
     res.status(200).json(response);
 
   } catch (error) {
@@ -107,7 +113,9 @@ const deleteTicket = async (req: Request, res: Response, next: NextFunction): Pr
     await Ticket.findOneAndDelete({ _id: ticketid, eventid });
 
     // Send success response
-    const response = new DeleteTicketResponse();
+    const response = new SuccessResponse({
+      message: "ticket deleted successfully",
+    });
     res.status(200).json(response);
 
   } catch (error) {

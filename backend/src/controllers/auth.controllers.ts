@@ -1,10 +1,9 @@
 import User from "@models/User.model";
 import UserDetail from "@models/UserDetail.model";
-import { generateToken } from "@utils/auth/jwtUtils";
 import ErrorResponse from "@utils/responses/ErrorResponse";
-import LoginResponse from "@utils/responses/auth/LoginResponse";
-import RegisterResponse from "@utils/responses/auth/RegisterResponse";
+import { generateToken } from "@utils/auth/jwtUtils";
 import { NextFunction, Request, Response } from "express";
+import SuccessResponse from "@utils/responses/SuccessResponse";
 
 const register = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -34,7 +33,9 @@ const register = async (req: Request, res: Response, next: NextFunction): Promis
     await newUserDetail.save();
 
     // Send successful response
-    const response = new RegisterResponse();
+    const response = new SuccessResponse({
+      message: "user registered successfully"
+    });
     res.status(201).json(response);
 
   } catch (error) {
@@ -66,7 +67,10 @@ const login = async (req: Request, res: Response, next: NextFunction): Promise<v
     const token = generateToken(user);
 
     // Send successful response
-    const response = new LoginResponse(token);
+    const response = new SuccessResponse({
+      message: "user logged in successfully",
+      token: token
+    })
     res.status(200).json(response);
 
   } catch (error) {
