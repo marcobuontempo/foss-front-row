@@ -1,4 +1,5 @@
 import { deleteTicket, getAllTickets, getOneTicket, orderTickets, updateTicket } from '@controllers/ticket.controllers';
+import { isEventOwner } from '@utils/auth/isEventOwner';
 import express from 'express';
 
 const router = express.Router({ mergeParams: true });
@@ -13,9 +14,9 @@ router.get('/:ticketid', getOneTicket);
 router.post('/order', orderTickets);
 
 // Update details of a specific ticket (requires authentication)
-router.put('/:ticketid', updateTicket);
+router.put('/:ticketid', isEventOwner, updateTicket);
 
 // Delete a specific ticket (requires authentication).
-router.delete('/:ticketid', deleteTicket);
+router.delete('/:ticketid', isEventOwner, deleteTicket);
 
 export default router;

@@ -12,21 +12,26 @@ export interface AuthenticatedRequest extends Request {
 }
 
 const authenticate = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
-    // Access the "Authorization" header
-    const authHeader = req.headers?.['authorization'];
-    if (authHeader) {
-        // Verify
-        const [tokenType, token] = authHeader.split(" ");
-        if (tokenType !== "Bearer") throw new ErrorResponse(401, "invalid token type: missing Bearer");
-        const decoded = verifyToken(token) as JwtPayload;
-        req.user = {
-            userid: decoded.userid,
-            username: decoded.username,
-            role: decoded.role,
-        };
-        return next();
-    } else {
-        throw new ErrorResponse(401, "authorization header is missing");
+    try {
+        // Access the "Authorization" header
+        const authHeader = req.headers?.['authorization'];
+        if (authHeader) {
+            // Verify
+            const [tokenType, token] = authHeader.split(" ");
+            if (tokenType !== "Bearer") throw new ErrorResponse(401, "invalid token type: missing Bearer");
+            const decoded = verifyToken(token) as JwtPayload;
+            req.user = {
+                userid: decoded.userid,
+                username: decoded.username,
+                role: decoded.role,
+            };
+            return next();
+        } else {
+            throw new ErrorResponse(401, "authorization header is missing");
+        }
+
+    } catch (error) {
+        next(error);
     }
 };
 

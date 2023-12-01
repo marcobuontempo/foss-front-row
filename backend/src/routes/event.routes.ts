@@ -1,4 +1,5 @@
 import { createNewEvent, deleteEvent, getAllEvents, getOneEvent, updateEvent } from '@controllers/event.controllers';
+import { isEventOwner } from '@utils/auth/isEventOwner';
 import express from 'express';
 
 const router = express.Router({ mergeParams: true });
@@ -13,9 +14,9 @@ router.get('/:eventid', getOneEvent);
 router.post('/', createNewEvent);
 
 // Update details of a specific event (requires authentication)
-router.put('/:eventid', updateEvent);
+router.put('/:eventid', isEventOwner, updateEvent);
 
 // Delete a specific event (requires authentication)
-router.delete('/:eventid', deleteEvent);
+router.delete('/:eventid', isEventOwner, deleteEvent);
 
 export default router;

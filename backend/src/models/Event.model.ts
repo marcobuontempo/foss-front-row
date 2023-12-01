@@ -1,10 +1,10 @@
 import mongoose, { Document, Schema } from 'mongoose';
-import Ticket, { ITicket, ticketSchema } from './Ticket.model';
 
 interface IEvent extends Document {
   title: string;
   date: Date;
   venue: string;
+  owner: Schema.Types.ObjectId;
 }
 
 const eventSchema = new Schema<IEvent>(
@@ -20,6 +20,11 @@ const eventSchema = new Schema<IEvent>(
     },
     venue: {
       type: String,
+      required: true
+    },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
       required: true
     },
   },

@@ -1,4 +1,6 @@
+import { AuthenticatedRequest } from "@middlewares/authentication.middleware";
 import Event from "@models/Event.model";
+import Ticket from "@models/Ticket.model";
 import ErrorResponse from "@utils/responses/ErrorResponse";
 import AllEventsResponse from "@utils/responses/event/AllEventsResponse";
 import CreateNewEventResponse from "@utils/responses/event/CreateNewEventResponse";
@@ -38,7 +40,7 @@ const getOneEvent = async (req: Request, res: Response, next: NextFunction): Pro
   }
 };
 
-const createNewEvent = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const createNewEvent = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { title, date, venue, ticketQty } = req.body;
 
@@ -47,7 +49,7 @@ const createNewEvent = async (req: Request, res: Response, next: NextFunction): 
     if (!ticketQty) throw new ErrorResponse(400, "ticketQty is required")
 
     // Create a new Event document
-    const newEvent = new Event({ title, date, venue });
+    const newEvent = new Event({ title, date, venue, owner: req.user?.userid });
 
     // Save the event to the database (will self validate in this step)
     await newEvent.save();
@@ -84,7 +86,10 @@ const deleteEvent = async (req: Request, res: Response, next: NextFunction): Pro
     // Find event and delete
     const { eventid } = req.params;
     await Event.findByIdAndDelete(eventid);
-    
+
+    // Update all associated tickets to unavailable
+    await Ticket.deleteMany({ eventid });
+
     // Send success response
     const response = new DeleteEventResponse();
     res.status(200).json(response);

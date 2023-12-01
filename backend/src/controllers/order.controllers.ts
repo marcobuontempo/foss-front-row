@@ -39,7 +39,7 @@ const deleteOrder = async (req: Request, res: Response, next: NextFunction): Pro
   try {
     // Find order and delete
     const { orderid } = req.params;
-    const order = await Order.findByIdAndDelete(orderid);
+    await Order.findByIdAndDelete(orderid);
 
     // Send success response
     const response = new DeleteOrderResponse();

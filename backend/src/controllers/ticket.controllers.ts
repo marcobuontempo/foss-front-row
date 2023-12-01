@@ -1,6 +1,6 @@
 import { AuthenticatedRequest } from "@middlewares/authentication.middleware";
 import Order from "@models/Order.model";
-import Ticket, { ITicket } from "@models/Ticket.model";
+import Ticket from "@models/Ticket.model";
 import ErrorResponse from "@utils/responses/ErrorResponse";
 import AllTicketsResponse from "@utils/responses/ticket/AllTicketsResponse";
 import DeleteTicketResponse from "@utils/responses/ticket/DeleteTicketResponse";
@@ -47,6 +47,8 @@ const orderTickets = async (req: AuthenticatedRequest, res: Response, next: Next
     const { tickets } = req.body;
     const userid = req.user?.userid;
 
+    if (!tickets || tickets.length === 0) throw new ErrorResponse(400, '`tickets` field is required');
+
     // Check ticket availability
     const availableTickets = await Ticket.find({
       _id: { $in: tickets },
@@ -61,7 +63,7 @@ const orderTickets = async (req: AuthenticatedRequest, res: Response, next: Next
       userid,
       eventid,
       tickets,
-      quantity: tickets.length,
+      totalQuantity: tickets.length,
       totalPrice: availableTickets.reduce((acc, ticket) => acc + ticket.price, 0),
     });
 

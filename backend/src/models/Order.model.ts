@@ -1,31 +1,38 @@
 import mongoose, { Document, Schema } from 'mongoose';
-import { ITicket, ticketSchema } from './Ticket.model';
 
 interface IOrder extends Document {
-  userid: mongoose.Schema.Types.ObjectId;
-  eventid: mongoose.Schema.Types.ObjectId;
-  tickets: [ITicket]
-  quantity: number;
+  userid: Schema.Types.ObjectId;
+  eventid: Schema.Types.ObjectId;
+  tickets: Array<Schema.Types.ObjectId>;
+  totalQuantity: number;
   totalPrice: number;
 }
 
 const orderSchema = new Schema<IOrder>(
   {
     userid: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'User',
       required: true
     },
     eventid: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'Event',
       required: true
     },
     tickets: {
-      type: [ticketSchema],
-      required: true
+      type: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Ticket',
+        required: true
+      }],
+      required: true,
+      validate: {
+        validator: (tickets: Array<Schema.Types.ObjectId>) => tickets.length > 0,
+        message: 'at least one ticket is required',
+      }
     },
-    quantity: {
+    totalQuantity: {
       type: Number,
       required: true
     },
