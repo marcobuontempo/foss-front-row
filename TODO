@@ -1,4 +1,6 @@
-# Database Structure (Assuming a Relational Database):
+# BACKEND
+
+## Database Structure:
 
 1. User Table:
 UserID (Primary Key)
@@ -39,7 +41,7 @@ TotalPrice
 OrderDate
 
 
-# RESTful Endpoints:
+## RESTful Endpoints:
 
 1. User Authentication:
 DONE - POST /auth/login - User login.
@@ -74,7 +76,14 @@ DONE - GET /orders/{orderID} - Retrieve details of a specific order (requires au
 DONE - DELETE /orders/{orderID} - Cancel a specific order (requires authentication).
 
 
-# Other
+## Other
 1. Date saved to mongo is in datetime format. Only accepts mm/dd/yyyy format. And due to timezone difference, the DOB will be adjusted to the wrong day (as it may go back 10 hours to adjust for difference, which is obviously unintended)
 2. Implement mongo transactions to avoid race conditions and database issues. *Requires a replica or cluster mongo setup => use a suitable docker-compose
-3. Move all responses to either ErrorResponse or SuccessResponse. SuccessResponse should take ({ message: "", data: undefined, success: true })
+
+
+
+
+
+# FRONTEND
+
+## ...
