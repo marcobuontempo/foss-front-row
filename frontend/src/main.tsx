@@ -15,6 +15,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import App from './App.tsx'
 import LoginPage from '@pages/LoginPage'
 import ErrorPage from '@pages/ErrorPage'
+import RegisterPage from '@pages/RegisterPage'
 
 const router = createBrowserRouter([
   {
@@ -28,7 +29,7 @@ const router = createBrowserRouter([
       },
       {
         path: "register",
-        element: null
+        element: <RegisterPage />
       }
     ],
   },
