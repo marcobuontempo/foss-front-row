@@ -1,10 +1,11 @@
 import React from 'react'
+import './Header.css'
 
 type Props = {}
 
-export default function Navbar({ }: Props) {
+export default function Header({ }: Props) {
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav className="Header navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
         <a className="navbar-brand" href="#">
           <img src="/vite.svg" alt="" width="30" height="24" className="d-inline-block align-text-top" />
