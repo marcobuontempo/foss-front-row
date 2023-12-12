@@ -68,8 +68,9 @@ const login = async (req: Request, res: Response, next: NextFunction): Promise<v
 
     // Set the JWT token as an HTTP cookie
     res.cookie('token', token, {
-      httpOnly: true, // Make the cookie accessible only through the HTTP request
-      secure: true,   // Ensure the cookie is only sent over HTTPS
+      httpOnly: true,  // Make the cookie accessible only through the HTTP request
+      secure: true,  // Ensure the cookie is only sent over HTTPS
+      sameSite: 'none',  // Allow cookie to be set on frontend
     });
 
     // Send successful response
