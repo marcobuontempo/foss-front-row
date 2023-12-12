@@ -13,12 +13,11 @@ export interface AuthenticatedRequest extends Request {
 
 const authenticate = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     try {
-        // Access the "Authorization" header
-        const authHeader = req.headers?.['authorization'];
-        if (authHeader) {
+        // Access the token from the http-cookie
+        const token = req.cookies?.token;
+        
+        if (token) {
             // Verify
-            const [tokenType, token] = authHeader.split(" ");
-            if (tokenType !== "Bearer") throw new ErrorResponse(401, "invalid token type: missing Bearer");
             const decoded = verifyToken(token) as JwtPayload;
             req.user = {
                 userid: decoded.userid,
@@ -27,7 +26,7 @@ const authenticate = (req: AuthenticatedRequest, res: Response, next: NextFuncti
             };
             return next();
         } else {
-            throw new ErrorResponse(401, "authorization header is missing");
+            throw new ErrorResponse(401, "unauthorised");
         }
 
     } catch (error) {

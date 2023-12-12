@@ -1,6 +1,7 @@
 import express, { Application } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import mongodb from './utils/database/mongodb';
 import routes from "./routes";
 import errorResponseHandler from '@middlewares/errorResponseHandler.middleware';
@@ -26,6 +27,7 @@ async function startServer() {
 
   // Pre-Route Middlewares
   app.use(cors(corsOptions));               // Enable CORS for all routes
+  app.use(cookieParser());                  // Parse cookies in requests
   app.use(express.json());                  // Parse JSON in request body
 
   // Routes
