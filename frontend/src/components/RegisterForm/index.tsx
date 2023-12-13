@@ -53,7 +53,7 @@ export default function RegisterForm({ }: Props) {
     axios
       .request({
         method: 'post',
-        url: `${import.meta.env.VITE_BACKEND_URL}/auth/register`,
+        url: '/auth/register',
         data: {
           username,
           password,
@@ -62,7 +62,7 @@ export default function RegisterForm({ }: Props) {
           email,
           phone,
           address,
-          dob
+          dob,
         }
       })
       .then(response => {
@@ -185,7 +185,7 @@ export default function RegisterForm({ }: Props) {
           />
           <label htmlFor="inputPassword" className="form-label">Password</label>
           <div id="passwordHelpBlock" className="form-text">
-            Your password must be 8-20 characters long... TODO
+            TODO: Your password must be 8-20 characters long...
           </div>
         </div>
       </fieldset>

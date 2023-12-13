@@ -87,3 +87,6 @@ DONE - DELETE /orders/{orderID} - Cancel a specific order (requires authenticati
 # FRONTEND
 
 ## ...
+1. Axios default configs (base url, content-type, ..., more?) - set in main.tsx (use axiosConfigs.ts and import)
+2. Change login 'id' from localstorage to cookie? can you access http-cookie from browser?
+3. Add user type (admin/user) to cookie (or login response for localstorage, if http-cookie not accessible, as above)

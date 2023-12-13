@@ -1,5 +1,6 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react'
 import './LoginForm.css'
+import axios from 'axios';
 
 type Props = {}
 
@@ -17,8 +18,26 @@ export default function LoginForm({ }: Props) {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    // TODO: handle form submission logic here
-    // onLogin(username, password);
+
+    // form submission logic
+    axios
+      .request({
+        method: 'post',
+        url: '/auth/login',
+        data: {
+          username,
+          password,
+        },
+        withCredentials: true
+      })
+      .then(response => {
+        // const { id } = response.data.data;
+        // localStorage.setItem('id', id);
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      })
   };
 
   return (
@@ -49,10 +68,10 @@ export default function LoginForm({ }: Props) {
         />
         <label htmlFor="inputPassword" className="form-label">Password</label>
         <div id="passwordHelpBlock" className="form-text">
-          Your password must be 8-20 characters long... TODO
+          TODO: Your password must be 8-20 characters long...
         </div>
       </div>
-      
+
       <button type="submit" className="btn btn-primary">Login</button>
     </form>
   )

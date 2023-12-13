@@ -11,6 +11,9 @@ import './reset.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
+/* Configs */
+import './service/axios-config.ts'
+
 /* Pages */
 import App from './App.tsx'
 import LoginPage from '@pages/LoginPage'
