@@ -17,7 +17,7 @@ export const authSlice = createSlice({
       state.isAuthorised = true;
     },
     setUnauthorised: (state) => {
-      state.isAuthorised = false;
+      return initialState;
     },
   }
 })

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './LoginForm.css'
 import { loginUser } from '@services/api.ts';
 import { handleLoginSuccess } from '@services/authService';
+import { useAppDispatch } from '@utils/useAppDispatch';
 
 type Props = {}
 
@@ -11,6 +12,7 @@ export default function LoginForm({ }: Props) {
   const [password, setPassword] = useState('');
 
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target?.value);
@@ -29,7 +31,7 @@ export default function LoginForm({ }: Props) {
         // console.log(response);
 
         // Store user info in local storage
-        handleLoginSuccess(response.data);
+        handleLoginSuccess(response.data, dispatch);
 
         // Redirect to homepage after 3 seconds
         setTimeout(() => {

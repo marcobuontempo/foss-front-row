@@ -1,10 +1,14 @@
 import React from 'react'
 import './Header.css'
+import { useAppSelector } from '@utils/useAppSelector'
+import { selectIsAuthorised } from '@features/auth/authSlice'
 import { Link } from 'react-router-dom'
 
 type Props = {}
 
 export default function Header({ }: Props) {
+  const isAuthorised = useAppSelector(selectIsAuthorised)
+  
   return (
     <nav className="Header navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">

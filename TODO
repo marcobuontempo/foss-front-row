@@ -87,3 +87,8 @@ DONE - DELETE /orders/{orderID} - Cancel a specific order (requires authenticati
 # FRONTEND
 
 ## ...
+- Setup redux auth role and userid
+- Fetch localstorage role and userid on page load, and store in redux
+- Implement Logout nav button
+- Header (navbar) conditional rendering for auth role (!isauth -> login, register ... isauth -> menu-items, logout)
+- Implement protected routes (main.tsx, ProtectedRouteObject type, Roles type... fix/clean up or remove)
