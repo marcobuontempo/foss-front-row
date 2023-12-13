@@ -20,6 +20,7 @@ import LoginPage from '@pages/LoginPage'
 import ErrorPage from '@pages/ErrorPage'
 import RegisterPage from '@pages/RegisterPage'
 
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -37,6 +38,7 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

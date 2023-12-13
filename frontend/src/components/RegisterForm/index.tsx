@@ -113,7 +113,7 @@ export default function RegisterForm({ }: Props) {
             placeholder='Email'
             required={true}
           />
-          <label htmlFor="inputEmailname" className="form-label">Email</label>
+          <label htmlFor="inputEmail" className="form-label">Email</label>
         </div>
 
         <div className='form-floating mb-3'>
@@ -126,7 +126,7 @@ export default function RegisterForm({ }: Props) {
             placeholder='Phone (optional)'
             required={false}
           />
-          <label htmlFor="inputPhonename" className="form-label">Phone (optional)</label>
+          <label htmlFor="inputPhone" className="form-label">Phone (optional)</label>
         </div>
 
         <div className='form-floating mb-3'>
@@ -139,7 +139,7 @@ export default function RegisterForm({ }: Props) {
             placeholder='Address (optional)'
             required={false}
           />
-          <label htmlFor="inputAddressname" className="form-label">Address (optional)</label>
+          <label htmlFor="inputAddress" className="form-label">Address (optional)</label>
         </div>
 
         <div className='form-floating mb-3'>
@@ -152,7 +152,7 @@ export default function RegisterForm({ }: Props) {
             placeholder='DOB'
             required={true}
           />
-          <label htmlFor="inputDobname" className="form-label">DOB</label>
+          <label htmlFor="inputDob" className="form-label">DOB</label>
         </div>
       </fieldset>
 

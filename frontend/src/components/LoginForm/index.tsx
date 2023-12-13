@@ -28,11 +28,11 @@ export default function LoginForm({ }: Props) {
           username,
           password,
         },
-        withCredentials: true
       })
       .then(response => {
-        // const { id } = response.data.data;
-        // localStorage.setItem('id', id);
+        const { id, role } = response.data.data;
+        localStorage.setItem('id', id);
+        localStorage.setItem('role', role);
         console.log(response);
       })
       .catch(error => {
