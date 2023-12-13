@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react'
 import './RegisterForm.css'
 import axios from 'axios';
+import { registerUser } from '@services/api';
 
 type Props = {}
 
@@ -50,21 +51,16 @@ export default function RegisterForm({ }: Props) {
     e.preventDefault();
 
     // form submission logic
-    axios
-      .request({
-        method: 'post',
-        url: '/auth/register',
-        data: {
-          username,
-          password,
-          firstname,
-          lastname,
-          email,
-          phone,
-          address,
-          dob,
-        }
-      })
+    registerUser({
+      username,
+      password,
+      firstname,
+      lastname,
+      email,
+      phone,
+      address,
+      dob,
+    })
       .then(response => {
         console.log(response);
       })

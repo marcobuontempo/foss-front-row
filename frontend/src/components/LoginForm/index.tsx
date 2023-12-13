@@ -1,12 +1,16 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import './LoginForm.css'
-import axios from 'axios';
+import { loginUser } from '@services/api.ts';
+import { handleLoginSuccess } from '@services/authService';
 
 type Props = {}
 
 export default function LoginForm({ }: Props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  const navigate = useNavigate();
 
   const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target?.value);
@@ -16,24 +20,21 @@ export default function LoginForm({ }: Props) {
     setPassword(e.target?.value);
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     // form submission logic
-    axios
-      .request({
-        method: 'post',
-        url: '/auth/login',
-        data: {
-          username,
-          password,
-        },
-      })
+    loginUser({ username, password })
       .then(response => {
-        const { id, role } = response.data.data;
-        localStorage.setItem('id', id);
-        localStorage.setItem('role', role);
-        console.log(response);
+        // console.log(response);
+
+        // Store user info in local storage
+        handleLoginSuccess(response.data);
+
+        // Redirect to homepage after 3 seconds
+        setTimeout(() => {
+          navigate('/');
+        }, 3000);
       })
       .catch(error => {
         console.log(error);

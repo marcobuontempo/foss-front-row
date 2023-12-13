@@ -21,6 +21,8 @@
       "@components/*": ["src/components/*/index.tsx"],
       "@pages/*": ["src/pages/*/index.tsx"],
       "@types/*": ["src/types/*"],
+      "@utils/*": ["src/utils/*"],
+      "@services/*": ["src/services/*"],
       "@public/*": ["public/*"]
     },
 

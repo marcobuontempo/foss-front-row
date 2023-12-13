@@ -12,7 +12,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 /* Configs */
-import './service/axios-config.ts'
+import '@utils/axios-config.ts'
 
 /* Pages */
 import App from './App.tsx'
@@ -33,7 +33,7 @@ const router = createBrowserRouter([
       },
       {
         path: "register",
-        element: <RegisterPage />
+        element: <RegisterPage />,
       }
     ],
   },
