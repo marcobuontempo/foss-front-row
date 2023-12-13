@@ -1,6 +1,5 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react'
 import './RegisterForm.css'
-import axios from 'axios';
 import { registerUser } from '@services/api';
 
 type Props = {}

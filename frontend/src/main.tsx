@@ -9,33 +9,45 @@ import './reset.css'
 
 /* Bootstrap */
 import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 
 /* Configs */
 import '@utils/axios-config.ts'
+
+/* Other */
+import { ProtectedRouteObject } from './types/ProtectedRouteObject.ts'
 
 /* Pages */
 import App from './App.tsx'
 import LoginPage from '@pages/LoginPage'
 import ErrorPage from '@pages/ErrorPage'
 import RegisterPage from '@pages/RegisterPage'
+import HomePage from '@pages/HomePage'
 
+
+const protectedRoutes: ProtectedRouteObject[] = [
+  {
+    path: "/",
+    element: <HomePage />,
+  },
+  {
+    path: "login",
+    element: <LoginPage />,
+    isAuthenticated: false,
+  },
+  {
+    path: "register",
+    element: <RegisterPage />,
+    isAuthenticated: true,
+  }
+];
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
-    children: [
-      {
-        path: "login",
-        element: <LoginPage />,
-      },
-      {
-        path: "register",
-        element: <RegisterPage />,
-      }
-    ],
+    children: protectedRoutes,
   },
 ]);
 
