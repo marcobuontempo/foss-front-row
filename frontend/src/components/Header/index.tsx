@@ -17,7 +17,7 @@ export default function Header({ }: Props) {
 
   console.log(isAuthenticated, role, userid);
 
-  const handleLogout = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleLogout = async (e: React.MouseEvent<HTMLAnchorElement>) => {
     logout()
       .then(response => {
         /* 
@@ -50,7 +50,12 @@ export default function Header({ }: Props) {
       to: '/profile',
       text: 'Profile',
       isAuthenticated: true,
-      roleAccess: 'user',
+    },
+    {
+      to: '/admin',
+      text: 'Admin',
+      isAuthenticated: true,
+      adminOnly: true,
     },
     {
       to: '/',
@@ -63,7 +68,7 @@ export default function Header({ }: Props) {
   return (
     <nav className="Header navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
-        <Link className="navbar-brand" to={'/'}>
+        <Link className="navbar-brand" to={'/'} onClick={() => { throw new Error("CUSTOM ERROR") }}>
           <img src="/vite.svg" alt="" width="30" height="24" className="d-inline-block align-text-top" />
           TicketEcomm
         </Link>
@@ -75,8 +80,8 @@ export default function Header({ }: Props) {
             {
               // Conditionally render the navlist
               navlist.map(navItem => {
-                if (role !== 'admin' && navItem.roleAccess === 'admin') return null;  // skip admin routes if unauthorised
-                if (isAuthenticated !== navItem.isAuthenticated) return null;  // skip routes that don't match isAuthenticated state (e.g. 'Login' when already logged in)
+                if (navItem.adminOnly === true && role !== 'admin') return null;  // skip rendering admin navlinks if unauthorised
+                if (isAuthenticated !== navItem.isAuthenticated) return null;  // skip rendering navlinks that don't match isAuthenticated state (e.g. 'Login' when already logged in)
                 return (
                   <li className="nav-item" key={navItem.text}>
                     <Link className="btn btn-outline-success px-5" type="button" to={navItem.to} onClick={navItem.onClick}>{navItem.text}</Link>
