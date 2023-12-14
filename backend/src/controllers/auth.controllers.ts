@@ -1,7 +1,7 @@
-import User from "@models/User.model";
+import User, { IUser } from "@models/User.model";
 import UserDetail from "@models/UserDetail.model";
 import ErrorResponse from "@utils/responses/ErrorResponse";
-import { generateToken } from "@utils/auth/jwtUtils";
+import { generateToken, verifyToken } from "@utils/auth/jwtUtils";
 import { NextFunction, Request, Response } from "express";
 import SuccessResponse from "@utils/responses/SuccessResponse";
 
@@ -89,7 +89,32 @@ const login = async (req: Request, res: Response, next: NextFunction): Promise<v
   }
 };
 
+const logout = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    // Generate an expired and empty token
+    const token = generateToken(null, { expiresIn: '0' })
+    
+    // Set the JWT token as an HTTP cookie
+    res.cookie('token', token, {
+      httpOnly: true,  // Make the cookie accessible only through the HTTP request
+      secure: true,  // Ensure the cookie is only sent over HTTPS
+      sameSite: 'none',  // Allow cookie to be set on frontend
+    });
+
+    // Send successful response
+    const response = new SuccessResponse({
+      message: "user logged out successfully"
+    })
+    res.status(200).json(response);
+
+  } catch (error) {
+    // Handle the error response in middleware
+    next(error);
+  }
+};
+
 export {
+  register,
   login,
-  register
+  logout
 }

@@ -1,5 +1,5 @@
 import express from 'express';
-import { login, register } from '@controllers/auth.controllers';
+import { register, login, logout } from '@controllers/auth.controllers';
 
 const router = express.Router({ mergeParams: true });
 
@@ -8,5 +8,8 @@ router.post('/register', register);
 
 // User login
 router.post('/login', login);
+
+// User logout
+router.delete('/logout', logout);
 
 export default router;
