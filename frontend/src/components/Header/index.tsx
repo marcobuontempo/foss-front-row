@@ -1,7 +1,7 @@
 import React from 'react'
 import './Header.css'
 import { useAppSelector } from '@utils/useAppSelector'
-import { selectIsAuthenticated, selectRole, selectUserId } from '@features/auth/authSlice'
+import { selectIsAuthenticated, selectRole } from '@features/auth/authSlice'
 import { Link } from 'react-router-dom'
 import { onLogout } from '@services/authService'
 import { useAppDispatch } from '@utils/useAppDispatch'
@@ -13,13 +13,11 @@ export default function Header({ }: Props) {
   const dispatch = useAppDispatch();
   const isAuthenticated = useAppSelector(selectIsAuthenticated)
   const role = useAppSelector(selectRole)
-  const userid = useAppSelector(selectUserId)
-
-  console.log(isAuthenticated, role, userid);
 
   const handleLogout = async (e: React.MouseEvent<HTMLAnchorElement>) => {
     logout()
       .then(response => {
+        console.log(response);
         /* 
           only complete logout if endpoint is reached -
           (may prevent logout during downtime scenarios, 
@@ -27,7 +25,6 @@ export default function Header({ }: Props) {
           accidentally leaving valid jwt in unused http-cookie) 
         */
         onLogout(dispatch);
-        console.log(response);
       })
       .catch(error => {
         console.log(error);
@@ -68,7 +65,7 @@ export default function Header({ }: Props) {
   return (
     <nav className="Header navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
-        <Link className="navbar-brand" to={'/'} onClick={() => { throw new Error("CUSTOM ERROR") }}>
+        <Link className="navbar-brand" to={'/'}>
           <img src="/vite.svg" alt="" width="30" height="24" className="d-inline-block align-text-top" />
           TicketEcomm
         </Link>

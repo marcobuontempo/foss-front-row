@@ -4,5 +4,5 @@ export type ProtectedRouteObject =
   RouteObject &
   {
     isAuthenticated?: boolean,
-    adminOnly?: boolean
+    adminOnly?: boolean,
   }

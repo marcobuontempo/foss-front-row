@@ -93,4 +93,6 @@ DONE - Fetch localstorage role and userid on page load, and store in redux
 DONE - Implement Logout nav button
 DONE - Header (navbar) conditional rendering for auth role (!isauth -> login, register ... isauth -> menu-items, logout)
 DONE - Change redux isAuthorised to isAuthenticated
-- Implement protected routes (main.tsx, ProtectedRouteObject type, Roles type... fix/clean up or remove)
+DONE - Refresh causes localstorage 'userid' to delete
+DONE - Implement protected routes (main.tsx, ProtectedRouteObject type, Roles type... fix/clean up or remove)
+DONE - Remove console.logs

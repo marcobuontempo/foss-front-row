@@ -17,7 +17,7 @@ export default function ProtectedRouterProvider({ }: Props) {
   const isAuthenticated = useAppSelector(selectIsAuthenticated)
   const role = useAppSelector(selectRole)
 
-  // Define each route and access
+  // Define each route and options
   const routes: ProtectedRouteObject[] = [
     {
       path: "/",
@@ -46,13 +46,21 @@ export default function ProtectedRouterProvider({ }: Props) {
     }
   ];
 
+  // Protect/update routes based on priveleges
   const protectedRoutes = routes.map(route => {
-    if (route.adminOnly === true && role !== 'admin') { route.element = <ErrorPage />; return route } // don't allow access to admin routes if not 'admin' role
-    if (route.isAuthenticated === undefined) return route;  // allow access to all routes that don't explicitly define authentication requirements (unless adminOnly)
-    if (route.isAuthenticated !== isAuthenticated) { route.element = <ErrorPage />; return route } // don't allow access to authenticated routes if unauthenticated
-    return route
+    // Route requires admin **isAuthorised=undefined routes will still be unaccessible if admin rights do not match
+    if (route.adminOnly && role !== 'admin') {
+      route.element = <ErrorPage customText='Unauthorised Access' />;
+    }
+
+    // route is only valid for (un)/authenticated users. **isAuthorised=undefined is available to everyone
+    if (route.isAuthenticated !== isAuthenticated && route.isAuthenticated !== undefined) {
+      route.element = <ErrorPage customText={`Unauthorised Access - ${isAuthenticated ? "Logout" : "Login"} to Continue`} />;
+    }
+
+    // Return route (incl. route.element modifications)
+    return route;
   })
-  console.log(protectedRoutes)
 
   // Setup Router
   const router = createBrowserRouter([
