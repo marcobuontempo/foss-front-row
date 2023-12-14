@@ -46,6 +46,7 @@ OrderDate
 1. User Authentication:
 DONE - POST /auth/login - User login.
 DONE - POST /auth/register - User registration.
+DONE - DELETE /auth/logout - User logout (generate invalid token to override existing).
 
 2. User Operations:
 DONE - PUT /users/{userID}/password - Update the password of a specific user (requires authentication).
@@ -92,3 +93,4 @@ DONE - Fetch localstorage role and userid on page load, and store in redux
 DONE - Implement Logout nav button
 - Header (navbar) conditional rendering for auth role (!isauth -> login, register ... isauth -> menu-items, logout)
 - Implement protected routes (main.tsx, ProtectedRouteObject type, Roles type... fix/clean up or remove)
+- Change redux isAuthorised to isAuthenticated

@@ -1,5 +1,5 @@
 import store from '../store'
-import { handleLoginSuccess, handleLogout } from '@services/authService';
+import { onLoginSuccess, onLogout } from '@services/authService';
 
 
 export const initialiseAuthDataFromStorage = (): void => {
@@ -10,10 +10,10 @@ export const initialiseAuthDataFromStorage = (): void => {
   if (storedAuthData) {
     const authData = JSON.parse(storedAuthData);
     if (authData.userid && authData.role) {
-      handleLoginSuccess(authData, store.dispatch);
+      onLoginSuccess(authData, store.dispatch);
     } else {
       // if invalid, clear any localstorage and redux information related to auth
-      handleLogout(store.dispatch);
+      onLogout(store.dispatch);
     }
   }
 }

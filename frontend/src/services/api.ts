@@ -44,10 +44,24 @@ export const registerUser = async (details: {
     });
 }
 
+export const logout = async (): Promise<AxiosResponse> => {
+  return axios
+    .request({
+      method: 'delete',
+      url: '/auth/logout',
+    })
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      throw error;
+    });
+}
+
 
 // User Operations
 // ... export const updatePassword
-// ... export const deleteUser 
+// ... export const deleteUser
 
 
 // User Details Operations

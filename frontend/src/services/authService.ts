@@ -5,7 +5,7 @@ import { Dispatch } from '@reduxjs/toolkit';
 const AUTH_KEY = 'auth';
 
 // Handle successful login
-export const handleLoginSuccess = (loginResponse: { id: string; role: string; }, dispatch: Dispatch): void => {
+export const onLoginSuccess = (loginResponse: { id: string; role: string; }, dispatch: Dispatch): void => {
   const authData = {
     userid: loginResponse.id,
     role: loginResponse.role,
@@ -18,16 +18,10 @@ export const handleLoginSuccess = (loginResponse: { id: string; role: string; },
 };
 
 // Handle logout
-export const handleLogout = (dispatch: Dispatch): void => {
+export const onLogout = (dispatch: Dispatch): void => {
   // Clear the user information from localStorage
   localStorage.removeItem(AUTH_KEY);
 
   // Reset Redux auth state to default
   dispatch(setUnauthorised());
-};
-
-// Check if the user is authenticated
-export const isAuthenticated = (): boolean => {
-  // TODO
-  return true;
 };
