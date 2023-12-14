@@ -25,7 +25,7 @@ export default function LoginForm({ }: Props) {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    // form submission logic
+    // Form submission logic
     loginUser({ username, password })
       .then(response => {
         // console.log(response);

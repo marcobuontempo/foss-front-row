@@ -5,9 +5,9 @@ import { Dispatch } from '@reduxjs/toolkit';
 const AUTH_KEY = 'auth';
 
 // Handle successful login
-export const onLoginSuccess = (loginResponse: { id: string; role: string; }, dispatch: Dispatch): void => {
+export const onLoginSuccess = (loginResponse: { id?: string; userid?: string; role: string; }, dispatch: Dispatch): void => {
   const authData = {
-    userid: loginResponse.id,
+    userid: loginResponse.id || loginResponse.userid,
     role: loginResponse.role,
   }
   // Store the user information in localStorage
