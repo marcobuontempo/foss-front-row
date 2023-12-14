@@ -1,14 +1,25 @@
-import React from 'react'
+import React, { MouseEventHandler } from 'react'
 import './Header.css'
 import { useAppSelector } from '@utils/useAppSelector'
-import { selectIsAuthorised } from '@features/auth/authSlice'
+import { selectIsAuthorised, selectRole, selectUserId } from '@features/auth/authSlice'
 import { Link } from 'react-router-dom'
+import { handleLogout } from '@services/authService'
+import { useAppDispatch } from '@utils/useAppDispatch'
 
 type Props = {}
 
 export default function Header({ }: Props) {
+  const dispatch = useAppDispatch();
   const isAuthorised = useAppSelector(selectIsAuthorised)
+  const role = useAppSelector(selectRole)
+  const userid = useAppSelector(selectUserId)
   
+  console.log(isAuthorised, role, userid);
+
+  const handleLogoutOnClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    handleLogout(dispatch);
+  }
+
   return (
     <nav className="Header navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
@@ -26,6 +37,9 @@ export default function Header({ }: Props) {
             </li>
             <li className="nav-item">
               <Link className="btn btn-outline-success px-5" type="button" to={'/register'}>Register</Link>
+            </li>
+            <li className="nav-item">
+              <Link className="btn btn-outline-success px-5" type="button" to={'/'} onClick={handleLogoutOnClick}>Logout</Link>
             </li>
           </ul>
         </div>

@@ -19,6 +19,7 @@ import store from './store.ts'
 import '@utils/axios-config.ts'
 
 /* Other */
+import { initialiseAuthDataFromStorage } from '@utils/authStorage.ts'
 import { ProtectedRouteObject } from './types/ProtectedRouteObject.ts'
 
 /* Pages */
@@ -27,6 +28,10 @@ import LoginPage from '@pages/LoginPage'
 import ErrorPage from '@pages/ErrorPage'
 import RegisterPage from '@pages/RegisterPage'
 import HomePage from '@pages/HomePage'
+
+
+// Initialise auth data from localStorage
+initialiseAuthDataFromStorage();
 
 
 const protectedRoutes: ProtectedRouteObject[] = [

@@ -2,24 +2,25 @@ import { setAuthorised, setUnauthorised } from '@features/auth/authSlice';
 import { Dispatch } from '@reduxjs/toolkit';
 
 // Constants for localStorage keys
-const USER_ID_KEY = 'user-id';
-const USER_ROLE_KEY = 'user-role';
+const AUTH_KEY = 'auth';
 
 // Handle successful login
 export const handleLoginSuccess = (loginResponse: { id: string; role: string; }, dispatch: Dispatch): void => {
+  const authData = {
+    userid: loginResponse.id,
+    role: loginResponse.role,
+  }
   // Store the user information in localStorage
-  localStorage.setItem(USER_ID_KEY, loginResponse.id);
-  localStorage.setItem(USER_ROLE_KEY, loginResponse.role);
+  localStorage.setItem(AUTH_KEY, JSON.stringify(authData));
 
   // Update Redux auth state
-  dispatch(setAuthorised());
+  dispatch(setAuthorised(authData));
 };
 
 // Handle logout
 export const handleLogout = (dispatch: Dispatch): void => {
   // Clear the user information from localStorage
-  localStorage.removeItem(USER_ID_KEY);
-  localStorage.removeItem(USER_ROLE_KEY);
+  localStorage.removeItem(AUTH_KEY);
 
   // Reset Redux auth state to default
   dispatch(setUnauthorised());
