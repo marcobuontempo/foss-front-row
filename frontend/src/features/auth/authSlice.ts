@@ -2,13 +2,13 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { RootState } from 'src/store'
 
 export interface AuthState {
-  isAuthorised: boolean;
+  isAuthenticated: boolean;
   role: 'user' | 'admin' | null;
   userid: string | null;
 }
 
 const initialState: AuthState = {
-  isAuthorised: false,
+  isAuthenticated: false,
   role: null,
   userid: null,
 }
@@ -17,20 +17,20 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setAuthorised: (state, action) => {
-      state.isAuthorised = true;
+    setAuthenticated: (state, action) => {
+      state.isAuthenticated = true;
       state.role = action.payload.role;
       state.userid = action.payload.userid;
     },
-    setUnauthorised: (state) => {
+    setUnauthenticated: (state) => {
       return initialState;
     },
   }
 })
 
-export const { setAuthorised, setUnauthorised } = authSlice.actions
+export const { setAuthenticated, setUnauthenticated } = authSlice.actions
 
-export const selectIsAuthorised = (state: RootState) => state.auth.isAuthorised;
+export const selectIsAuthenticated = (state: RootState) => state.auth.isAuthenticated;
 export const selectRole = (state: RootState) => state.auth.role;
 export const selectUserId = (state: RootState) => state.auth.userid;
 

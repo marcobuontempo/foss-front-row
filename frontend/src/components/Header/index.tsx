@@ -1,7 +1,7 @@
 import React from 'react'
 import './Header.css'
 import { useAppSelector } from '@utils/useAppSelector'
-import { selectIsAuthorised, selectRole, selectUserId } from '@features/auth/authSlice'
+import { selectIsAuthenticated, selectRole, selectUserId } from '@features/auth/authSlice'
 import { Link } from 'react-router-dom'
 import { onLogout } from '@services/authService'
 import { useAppDispatch } from '@utils/useAppDispatch'
@@ -11,11 +11,11 @@ type Props = {}
 
 export default function Header({ }: Props) {
   const dispatch = useAppDispatch();
-  const isAuthorised = useAppSelector(selectIsAuthorised)
+  const isAuthenticated = useAppSelector(selectIsAuthenticated)
   const role = useAppSelector(selectRole)
   const userid = useAppSelector(selectUserId)
 
-  console.log(isAuthorised, role, userid);
+  console.log(isAuthenticated, role, userid);
 
   const handleLogout = (e: React.MouseEvent<HTMLAnchorElement>) => {
     logout()
@@ -76,7 +76,7 @@ export default function Header({ }: Props) {
               // Conditionally render the navlist
               navlist.map(navItem => {
                 if (role !== 'admin' && navItem.roleAccess === 'admin') return null;  // skip admin routes if unauthorised
-                if (isAuthorised !== navItem.isAuthenticated) return null;  // skip routes that don't match isAuthenticated state (e.g. 'Login' when already logged in)
+                if (isAuthenticated !== navItem.isAuthenticated) return null;  // skip routes that don't match isAuthenticated state (e.g. 'Login' when already logged in)
                 return (
                   <li className="nav-item" key={navItem.text}>
                     <Link className="btn btn-outline-success px-5" type="button" to={navItem.to} onClick={navItem.onClick}>{navItem.text}</Link>

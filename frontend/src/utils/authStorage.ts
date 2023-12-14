@@ -6,7 +6,7 @@ export const initialiseAuthDataFromStorage = (): void => {
   // Fetch data from localStorage on page load
   const storedAuthData = localStorage.getItem('auth');
 
-  // If valid data exists, dispatch setAuthorised action to update the Redux store
+  // If valid data exists, update redux store
   if (storedAuthData) {
     const authData = JSON.parse(storedAuthData);
     if (authData.userid && authData.role) {
