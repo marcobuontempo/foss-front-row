@@ -37,7 +37,7 @@ export default function LoginForm({ }: Props) {
         navigate('/');
       })
       .catch(error => {
-        console.log(error);
+        // console.log(error);
       })
   };
 

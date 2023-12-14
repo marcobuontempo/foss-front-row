@@ -17,7 +17,7 @@ export default function Header({ }: Props) {
   const handleLogout = async (e: React.MouseEvent<HTMLAnchorElement>) => {
     logout()
       .then(response => {
-        console.log(response);
+        // console.log(response);
         /* 
           only complete logout if endpoint is reached -
           (may prevent logout during downtime scenarios, 
@@ -27,7 +27,7 @@ export default function Header({ }: Props) {
         onLogout(dispatch);
       })
       .catch(error => {
-        console.log(error);
+        // console.log(error);
       })
   }
 
