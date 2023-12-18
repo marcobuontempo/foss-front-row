@@ -35,6 +35,8 @@ export type UpdateUserDetailsResponse = BaseResponse;
 
 export type ChangePasswordResponse = BaseResponse;
 
+export type DeleteUserResponse = BaseResponse;
+
 
 /** USER AUTHENTICATION */
 export const loginUser = async (credentials: { username: string; password: string }): Promise<LoginResponse> => {
@@ -106,8 +108,19 @@ export const updatePassword = async (userid: string, passwords: { currentpasswor
       throw error;
     })
 }
-// ... export const deleteUser
-
+export const deleteUser = async (userid: string): Promise<DeleteUserResponse> => {
+  return axios
+    .request({
+      method: 'delete',
+      url: `/users/${userid}`,
+    })
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      throw error;
+    })
+}
 
 // User Details Operations
 // ... export const getUsersDetails

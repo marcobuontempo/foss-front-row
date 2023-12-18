@@ -12,6 +12,7 @@ import ProfilePage from '@pages/ProfilePage'
 import ProfileCard from '@components/ProfileCard'
 import UpdateProfileForm from '@components/UpdateProfileForm'
 import ChangePasswordForm from '@components/ChangePasswordForm'
+import DeleteAccountForm from '@components/DeleteAccountForm'
 
 export type ProtectedRouteObject =
   RouteObject &
@@ -62,7 +63,7 @@ export default function ProtectedRouterProvider({ }: Props) {
         },
         {
           path: "delete-account",
-          element: <>TODO: DELETE ACCOUNT - TYPE EMAIL TO CONFIRM DELETION (PREVENT AUTOFILL OPTION)!</>
+          element: <DeleteAccountForm />
         }
       ]
     },
