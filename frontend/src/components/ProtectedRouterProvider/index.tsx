@@ -1,15 +1,21 @@
 import React from 'react'
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import { RouterProvider, createBrowserRouter, RouteObject } from 'react-router-dom'
 import App from '../../App'
 import LoginPage from '@pages/LoginPage'
 import ErrorPage from '@pages/ErrorPage'
 import RegisterPage from '@pages/RegisterPage'
 import HomePage from '@pages/HomePage'
-import { ProtectedRouteObject } from 'src/types/ProtectedRouteObject.ts'
 import { useAppSelector } from '@utils/useAppSelector'
 import { selectIsAuthenticated, selectRole } from '@features/auth/authSlice'
 import AdminPage from '@pages/AdminPage'
 import ProfilePage from '@pages/ProfilePage'
+
+export type ProtectedRouteObject =
+  RouteObject &
+  {
+    isAuthenticated?: boolean,
+    adminOnly?: boolean,
+  }
 
 type Props = {}
 

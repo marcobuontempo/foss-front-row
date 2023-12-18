@@ -80,7 +80,7 @@ DONE - DELETE /orders/{orderID} - Cancel a specific order (requires authenticati
 ## Other
 1. Date saved to mongo is in datetime format. Only accepts mm/dd/yyyy format. And due to timezone difference, the DOB will be adjusted to the wrong day (as it may go back 10 hours to adjust for difference, which is obviously unintended)
 2. Implement mongo transactions to avoid race conditions and database issues. *Requires a replica or cluster mongo setup => use a suitable docker-compose
-
+3. Generate API Documentation (Swagger?)
 
 
 
@@ -88,11 +88,10 @@ DONE - DELETE /orders/{orderID} - Cancel a specific order (requires authenticati
 # FRONTEND
 
 ## ...
-DONE - Setup redux auth role and userid
-DONE - Fetch localstorage role and userid on page load, and store in redux
-DONE - Implement Logout nav button
-DONE - Header (navbar) conditional rendering for auth role (!isauth -> login, register ... isauth -> menu-items, logout)
-DONE - Change redux isAuthorised to isAuthenticated
-DONE - Refresh causes localstorage 'userid' to delete
-DONE - Implement protected routes (main.tsx, ProtectedRouteObject type, Roles type... fix/clean up or remove)
-DONE - Remove console.logs
+- Create profile page
+- Implement 'change password' on profile page
+- Implement 'update details' on profile page
+- Create 'Events' landing page
+- Create 'Create Event' form
+- Create 'Find Events' page
+- Create individual 'Event' information pages
