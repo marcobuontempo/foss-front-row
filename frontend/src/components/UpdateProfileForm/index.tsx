@@ -38,6 +38,7 @@ export default function UpdateProfileForm({ }: Props) {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
+    // Get updated values -> removes any key/values with "" as value (to prevent accidental override of existing details with empty strings)
     const updatedDetails = Object.fromEntries(
       Object.entries({
         firstname,
@@ -60,6 +61,7 @@ export default function UpdateProfileForm({ }: Props) {
 
   return (
     <form className='UpdateProfileForm container-sm py-3 text-center' onSubmit={handleSubmit}>
+      <h1 className='text-center'>Update Details</h1>
 
       <div className='form-floating mb-3'>
         <input

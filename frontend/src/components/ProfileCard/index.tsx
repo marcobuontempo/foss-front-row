@@ -12,7 +12,8 @@ export default function ProfileCard({ }: Props) {
 
   return (
     <div className='ProfileCard'>
-      <table className='table table-striped container-sm'>
+      <h1 className="text-center">Profile</h1>
+      <table className='table table-bordered table-striped container-sm'>
         <tbody>
           {Object.keys(userDetails).map(k => {
             if (k === "_id") return null; // Skip rendering for the "_id" key

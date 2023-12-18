@@ -31,9 +31,9 @@ export type UserDetailsResponse = BaseResponse & {
   }
 };
 
-export type UpdateUserDetailsResponse = BaseResponse & {
-  // TODO ???
-};
+export type UpdateUserDetailsResponse = BaseResponse;
+
+export type ChangePasswordResponse = BaseResponse;
 
 
 /** USER AUTHENTICATION */
@@ -92,7 +92,20 @@ export const logout = async (): Promise<LogoutResponse> => {
 
 
 // User Operations
-// ... export const updatePassword
+export const updatePassword = async (userid: string, passwords: { currentpassword: string, newpassword: string }): Promise<UserDetailsResponse> => {
+  return axios
+    .request({
+      method: 'put',
+      url: `/users/${userid}/password`,
+      data: passwords,
+    })
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      throw error;
+    })
+}
 // ... export const deleteUser
 
 

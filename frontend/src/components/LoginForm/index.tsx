@@ -43,6 +43,8 @@ export default function LoginForm({ }: Props) {
 
   return (
     <form className='LoginForm container-sm py-3 text-center' onSubmit={handleSubmit}>
+      <h1>Login</h1>
+
       <div className='form-floating mb-3'>
         <input
           type="text"

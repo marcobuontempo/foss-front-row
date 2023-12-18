@@ -70,6 +70,8 @@ export default function RegisterForm({ }: Props) {
 
   return (
     <form className='RegisterForm container-sm py-3 text-center' onSubmit={handleSubmit}>
+      <h1>Register</h1>
+
       <fieldset>
         <legend>Personal Details</legend>
         <div className='form-floating mb-3'>

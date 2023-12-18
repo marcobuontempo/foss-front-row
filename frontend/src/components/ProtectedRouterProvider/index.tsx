@@ -11,6 +11,7 @@ import AdminPage from '@pages/AdminPage'
 import ProfilePage from '@pages/ProfilePage'
 import ProfileCard from '@components/ProfileCard'
 import UpdateProfileForm from '@components/UpdateProfileForm'
+import ChangePasswordForm from '@components/ChangePasswordForm'
 
 export type ProtectedRouteObject =
   RouteObject &
@@ -57,11 +58,11 @@ export default function ProtectedRouterProvider({ }: Props) {
         },
         {
           path: "change-password",
-          element: <>CHANGE PASSWORD</>
+          element: <ChangePasswordForm />
         },
         {
           path: "delete-account",
-          element: <>DELETE ACCOUNT</>
+          element: <>TODO: DELETE ACCOUNT - TYPE EMAIL TO CONFIRM DELETION (PREVENT AUTOFILL OPTION)!</>
         }
       ]
     },

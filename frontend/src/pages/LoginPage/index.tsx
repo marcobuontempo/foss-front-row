@@ -7,7 +7,6 @@ type Props = {}
 export default function LoginPage({ }: Props) {
   return (
     <main className='LoginPage text-center'>
-      <h1>Login</h1>
       <LoginForm />
     </main>
   )
