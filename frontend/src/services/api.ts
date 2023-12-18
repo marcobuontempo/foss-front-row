@@ -1,7 +1,40 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 
-// User Authentication
-export const loginUser = async (credentials: { username: string; password: string }): Promise<AxiosResponse> => {
+/** RESPONSE TYPES */
+
+// Common base
+type BaseResponse = {
+  success: boolean;
+  message: string;
+}
+
+export type LoginResponse = BaseResponse & {
+  data: {
+    id: string;
+    role: 'user' | 'admin';
+  }
+};
+
+export type RegisterResponse = BaseResponse;
+
+export type LogoutResponse = BaseResponse;
+
+export type UserDetailsResponse = BaseResponse & {
+  data: {
+    _id: string;
+    firstname: string;
+    lastname: string;
+    email: string;
+    phone: string;
+    address: string;
+    dob: string;
+  }
+};
+
+
+
+/** USER AUTHENTICATION */
+export const loginUser = async (credentials: { username: string; password: string }): Promise<LoginResponse> => {
   return axios
     .request({
       method: 'post',
@@ -27,7 +60,7 @@ export const registerUser = async (details: {
   phone: string;
   address: string;
   dob: string;
-}): Promise<AxiosResponse> => {
+}): Promise<RegisterResponse> => {
   return axios
     .request({
       method: 'post',
@@ -44,7 +77,7 @@ export const registerUser = async (details: {
     });
 }
 
-export const logout = async (): Promise<AxiosResponse> => {
+export const logout = async (): Promise<LogoutResponse> => {
   return axios
     .request({
       method: 'delete',
@@ -66,7 +99,21 @@ export const logout = async (): Promise<AxiosResponse> => {
 
 // User Details Operations
 // ... export const getUsersDetails
-// ... export const getUserDetails
+
+export const getUserDetails = async (userid: string): Promise<UserDetailsResponse> => {
+  return axios
+    .request({
+      method: 'get',
+      url: `/userdetails/${userid}`,
+    })
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      throw error;
+    })
+}
+
 // ... export const updateUserDetails
 
 
