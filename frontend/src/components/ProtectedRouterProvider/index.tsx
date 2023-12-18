@@ -9,12 +9,15 @@ import { useAppSelector } from '@utils/useAppSelector'
 import { selectIsAuthenticated, selectRole } from '@features/auth/authSlice'
 import AdminPage from '@pages/AdminPage'
 import ProfilePage from '@pages/ProfilePage'
+import ProfileCard from '@components/ProfileCard'
+import UpdateProfileForm from '@components/UpdateProfileForm'
 
 export type ProtectedRouteObject =
   RouteObject &
   {
-    isAuthenticated?: boolean,
-    adminOnly?: boolean,
+    isAuthenticated?: boolean;
+    adminOnly?: boolean;
+    children?: ProtectedRouteObject[];
   }
 
 type Props = {}
@@ -43,6 +46,24 @@ export default function ProtectedRouterProvider({ }: Props) {
       path: "profile",
       element: <ProfilePage />,
       isAuthenticated: true,
+      children: [
+        {
+          path: "",
+          element: <ProfileCard />
+        },
+        {
+          path: "update",
+          element: <UpdateProfileForm />
+        },
+        {
+          path: "change-password",
+          element: <>CHANGE PASSWORD</>
+        },
+        {
+          path: "delete-account",
+          element: <>DELETE ACCOUNT</>
+        }
+      ]
     },
     {
       path: "admin",

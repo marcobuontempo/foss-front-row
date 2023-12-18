@@ -95,3 +95,7 @@ DONE - Create profile page
 - Create 'Create Event' form
 - Create 'Find Events' page
 - Create individual 'Event' information pages
+
+
+# OTHER TODO
+- Restrict, using backend, which fields can be updated in PUT - /userdetails

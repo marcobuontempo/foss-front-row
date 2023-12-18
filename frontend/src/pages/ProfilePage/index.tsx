@@ -4,24 +4,22 @@ import { UserDetailsResponse, getUserDetails } from '@services/api';
 import { useAppSelector } from '@utils/useAppSelector';
 import { selectUserId } from '@features/auth/authSlice';
 import ProfileCard from '@components/ProfileCard';
+import { Outlet } from 'react-router-dom';
+import { useAppDispatch } from '@utils/useAppDispatch';
+import { setUserDetails } from '@features/user/userDetailsSlice';
 
 type Props = {}
 
 export default function ProfilePage({ }: Props) {
   const userid = useAppSelector(selectUserId);
 
-  const [profileDetails, setProfileDetails] = useState<null | UserDetailsResponse['data']>(null);
+  const dispatch = useAppDispatch();
 
   const fetchProfileDetails = async () => {
     if (userid) {
       getUserDetails(userid)
         .then(response => {
-          // Map each empty value to "N/A"
-          for (const key in response.data) {
-            const typedKey = key as keyof UserDetailsResponse['data'];
-            if (response.data[typedKey] === "") response.data[typedKey] = "N/A";
-          }
-          setProfileDetails(response.data);
+          dispatch(setUserDetails(response.data));
         })
         .catch(error => {
           console.log(error);
@@ -35,7 +33,7 @@ export default function ProfilePage({ }: Props) {
 
   return (
     <main className='ProfilePage'>
-      <ProfileCard profileDetails={profileDetails} />
+      <Outlet />
     </main>
   )
 }

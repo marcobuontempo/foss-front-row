@@ -31,6 +31,9 @@ export type UserDetailsResponse = BaseResponse & {
   }
 };
 
+export type UpdateUserDetailsResponse = BaseResponse & {
+  // TODO ???
+};
 
 
 /** USER AUTHENTICATION */
@@ -39,9 +42,7 @@ export const loginUser = async (credentials: { username: string; password: strin
     .request({
       method: 'post',
       url: '/auth/login',
-      data: {
-        ...credentials
-      },
+      data: credentials,
     })
     .then(response => {
       return response.data;
@@ -65,9 +66,7 @@ export const registerUser = async (details: {
     .request({
       method: 'post',
       url: '/auth/register',
-      data: {
-        ...details
-      }
+      data: details,
     })
     .then(response => {
       return response.data;
@@ -114,7 +113,26 @@ export const getUserDetails = async (userid: string): Promise<UserDetailsRespons
     })
 }
 
-// ... export const updateUserDetails
+export const updateUserDetails = async (userid: string, updatedDetails: {
+  firstname?: string;
+  lastname?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+}): Promise<UpdateUserDetailsResponse> => {
+  return axios
+    .request({
+      method: 'put',
+      url: `/userdetails/${userid}`,
+      data: updatedDetails,
+    })
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      throw error;
+    })
+}
 
 
 // Event Operations
