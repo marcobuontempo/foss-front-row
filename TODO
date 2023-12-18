@@ -88,7 +88,7 @@ DONE - DELETE /orders/{orderID} - Cancel a specific order (requires authenticati
 # FRONTEND
 
 ## ...
-- Create profile page
+DONE - Create profile page
 - Implement 'change password' on profile page
 - Implement 'update details' on profile page
 - Create 'Events' landing page
