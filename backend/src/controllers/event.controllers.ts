@@ -52,7 +52,7 @@ const createNewEvent = async (req: AuthenticatedRequest, res: Response, next: Ne
 
     // Create a new Event document
     const newEvent = new Event({ title, date, venue, owner: req.user?.userid });
-
+    
     // Save the event to the database (will self validate in this step)
     await newEvent.save();
 
