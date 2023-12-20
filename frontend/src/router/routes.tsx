@@ -14,6 +14,8 @@ import DeleteAccountForm from '@components/DeleteAccountForm'
 import EventsPage from '@pages/EventsPage'
 import ErrorPage from "@pages/ErrorPage";
 import CreateEventForm from "@components/CreateEventForm";
+import EventInformationDisplay from "@components/EventInformationDisplay";
+import AllEventsDisplay from "@components/AllEventsDisplay";
 
 export type ProtectedRouteObject =
   RouteObject &
@@ -47,8 +49,16 @@ export const routes: ProtectedRouteObject[] = [
     isAuthenticated: true,
     children: [
       {
+        path: "",
+        element: <AllEventsDisplay />
+      },
+      {
         path: "create",
         element: <CreateEventForm />,
+      },
+      {
+        path: ":eventid",
+        element: <EventInformationDisplay />
       }
     ]
   },

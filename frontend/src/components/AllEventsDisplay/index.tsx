@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import './AllEventsDisplay.css'
-import { EventsResponse, getAllEvents } from '@services/api'
+import { EventResponse, getAllEvents } from '@services/api'
+import EventDisplayCard from '@components/EventDisplayCard'
 
 type Props = {}
 
 export default function AllEventsDisplay({ }: Props) {
-  const [events, setEvents] = useState<EventsResponse['data'][]>([])
+  const [events, setEvents] = useState<EventResponse['data'][]>([])
 
   const fetchEvents = async () => {
     getAllEvents()
@@ -25,35 +26,9 @@ export default function AllEventsDisplay({ }: Props) {
   return (
     <div className='AllEventsDisplay'>
       <h1>Events:</h1>
-      <ul>
+      <ul className='list-group w-100'>
         {
-          events.map(ev => {
-            return (
-              <li key={ev.title}>
-                <table className='table table-bordered' style={{ maxWidth: '500px' }}>
-                  <tbody>
-                    <tr>
-                      <td>Title:</td>
-                      <td>{ev.title}</td>
-                    </tr>
-                    <tr>
-                      <td>Venue:</td>
-                      <td>{ev.venue}</td>
-                    </tr>
-                    <tr>
-                      <td>Date:</td>
-                      <td>{ev.date}</td>
-                    </tr>
-                    <tr>
-                      <td colSpan={2}>
-                        <button>View</button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </li>
-            )
-          })
+          events.map(ev => <EventDisplayCard key={ev.title} eventData={ev} />)
         }
       </ul>
     </div>

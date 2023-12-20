@@ -91,11 +91,21 @@ DONE - DELETE /orders/{orderID} - Cancel a specific order (requires authenticati
 DONE - Add /events route
 DONE - Change ProtectedRouterProvider to /router and extract routes object into own file
 DONE - Link navbar to render conditionally from /router/routes array
-- Create 'Events' landing page
-- Create 'Create Event' form
-- Create 'Find Events' page
-- Create individual 'Event' information pages
+DONE - Create 'Events' landing page
+DONE - Create 'Create Event' form
+DONE - Create individual 'Event' information pages
+- Create cart
+- Implement 'Add to Cart' for tickets in event info display
+- Navlinks in profile, to toggle between account details, orders, settings, etc.
+- Navlinks in Events, for create event, my events
+- Add ability to add x tickets to cart (incl. max price and seat type, from dropdown -> dropdown generated from fetched tickets)
+- Create 'Order Tickets' page
+- 'Manage Events' from EventsPage (edit/delete my events, )
+- Add ability to search (or filter) events
+- Create 'Ticket Scanning' option for 'My Events'
+
 
 
 # OTHER TODO
 - Restrict, using backend, which fields can be updated in PUT - /userdetails
+- Confirmations for buttons, e.g. logout, reserve ticket, etc.

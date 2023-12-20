@@ -43,7 +43,7 @@ export type DeleteUserResponse = BaseResponse;
 
 export type CreateEventResponse = BaseResponse;
 
-export type EventsResponse = BaseResponse & {
+export type EventResponse = BaseResponse & {
   data: {
     _id: string;
     title: string;
@@ -56,8 +56,22 @@ export type EventsResponse = BaseResponse & {
 };
 
 export type AllEventsResponse = BaseResponse & {
-  data: EventsResponse['data'][];
+  data: EventResponse['data'][];
 };
+
+export type TicketResponse = BaseResponse & {
+  data: {
+    _id: string;
+    eventid: string;
+    price: number;
+    seat: string;
+    available: boolean;
+  }
+};
+
+export type AllTicketsResponse = BaseResponse & {
+  data: TicketResponse['data'][];
+}
 
 
 /** USER AUTHENTICATION */
@@ -230,11 +244,38 @@ export const getAllEvents = async (): Promise<AllEventsResponse> => {
     })
 }
 
+export const getEvent = async (eventid: string): Promise<EventResponse> => {
+  return axios
+    .request({
+      method: 'get',
+      url: `/events/${eventid}`,
+    })
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      throw error;
+    })
+}
+
 
 
 
 // Ticket Operations
-// ... (similar naming pattern for ticket operations)
+export const getEventTickets = async (eventid: string): Promise<AllTicketsResponse> => {
+  return axios
+    .request({
+      method: 'get',
+      url: `/events/${eventid}/tickets`,
+    })
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      throw error;
+    })
+}
+
 
 
 // Order Operations
