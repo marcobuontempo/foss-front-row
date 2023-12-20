@@ -37,6 +37,8 @@ export type ChangePasswordResponse = BaseResponse;
 
 export type DeleteUserResponse = BaseResponse;
 
+export type CreateEventResponse = BaseResponse;
+
 
 /** USER AUTHENTICATION */
 export const loginUser = async (credentials: { username: string; password: string }): Promise<LoginResponse> => {
@@ -93,7 +95,7 @@ export const logout = async (): Promise<LogoutResponse> => {
 }
 
 
-// User Operations
+/** USER OPERATIONS */
 export const updatePassword = async (userid: string, passwords: { currentpassword: string, newpassword: string }): Promise<UserDetailsResponse> => {
   return axios
     .request({
@@ -122,8 +124,20 @@ export const deleteUser = async (userid: string): Promise<DeleteUserResponse> =>
     })
 }
 
-// User Details Operations
-// ... export const getUsersDetails
+/** USER DETAILS OPERATIONS */
+export const getAllUsersDetails = async (): Promise<UserDetailsResponse[]> => {
+  return axios
+    .request({
+      method: 'get',
+      url: '/userdetails',
+    })
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      throw error;
+    })
+}
 
 export const getUserDetails = async (userid: string): Promise<UserDetailsResponse> => {
   return axios
@@ -162,7 +176,25 @@ export const updateUserDetails = async (userid: string, updatedDetails: {
 
 
 // Event Operations
-// ... (similar naming pattern for event operations)
+export const createEvent = async (details: {
+  title: string;
+  date: string;
+  venue: string;
+  ticketQty: number;
+}): Promise<CreateEventResponse> => {
+  return axios
+    .request({
+      method: 'post',
+      url: '/events',
+      data: details,
+    })
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      throw error;
+    })
+}
 
 
 // Ticket Operations
