@@ -1,6 +1,6 @@
 import React from 'react'
 import { RouterProvider, createBrowserRouter, RouteObject } from 'react-router-dom'
-import App from '../../App'
+import App from '../App'
 import LoginPage from '@pages/LoginPage'
 import ErrorPage from '@pages/ErrorPage'
 import RegisterPage from '@pages/RegisterPage'
@@ -13,6 +13,7 @@ import ProfileCard from '@components/ProfileCard'
 import UpdateProfileForm from '@components/UpdateProfileForm'
 import ChangePasswordForm from '@components/ChangePasswordForm'
 import DeleteAccountForm from '@components/DeleteAccountForm'
+import EventsPage from '@pages/EventsPage'
 
 export type ProtectedRouteObject =
   RouteObject &
@@ -43,6 +44,11 @@ export default function ProtectedRouterProvider({ }: Props) {
       path: "register",
       element: <RegisterPage />,
       isAuthenticated: false,
+    },
+    {
+      path: "events",
+      element: <EventsPage />,
+      isAuthenticated: true,
     },
     {
       path: "profile",

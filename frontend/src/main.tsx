@@ -19,7 +19,7 @@ import '@utils/axios-config.ts'
 
 /* Other */
 import { initialiseAuthDataFromStorage } from '@utils/authStorage.ts'
-import ProtectedRouterProvider from '@components/ProtectedRouterProvider'
+import ProtectedRouterProvider from '@router/ProtectedRouterProvider'
 
 
 // Initialise auth data from localStorage

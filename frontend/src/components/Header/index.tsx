@@ -44,6 +44,11 @@ export default function Header({ }: Props) {
       isAuthenticated: false,
     },
     {
+      to: '/events',
+      text: 'Events',
+      isAuthenticated: true,
+    },
+    {
       to: '/profile',
       text: 'Profile',
       isAuthenticated: true,
