@@ -20,6 +20,7 @@
       "@*": ["src/*"],
       "@components/*": ["src/components/*/index.tsx"],
       "@pages/*": ["src/pages/*/index.tsx"],
+      "@router/*": ["src/router/*"],
       "@utils/*": ["src/utils/*"],
       "@services/*": ["src/services/*"],
       "@features/*": ["src/features/*"],

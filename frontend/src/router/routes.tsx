@@ -1,4 +1,5 @@
 import { RouteObject } from "react-router-dom";
+import { AuthState } from "@features/auth/authSlice";
 // Page imports
 import LoginPage from '@pages/LoginPage'
 import RegisterPage from '@pages/RegisterPage'
@@ -10,24 +11,23 @@ import UpdateProfileForm from '@components/UpdateProfileForm'
 import ChangePasswordForm from '@components/ChangePasswordForm'
 import DeleteAccountForm from '@components/DeleteAccountForm'
 import EventsPage from '@pages/EventsPage'
-
-export type NavbarRouteObject = {
-  to?: string;
-  text?: string;
-  onClick?: (e: React.MouseEvent<any>) => Promise<void>;
-}
+import ErrorPage from "@pages/ErrorPage";
 
 export type ProtectedRouteObject =
   RouteObject &
-  NavbarRouteObject &
   {
     isAuthenticated?: boolean;
     adminOnly?: boolean;
-    children?: ProtectedRouteObject[];
+    to?: string;
+    text?: string;
+    onClick?: (e: React.MouseEvent<any>) => Promise<void>;
   }
 
-/** Route information described here... (note: 'admin' can access 'user', but not vice-versa) */
-const routes: ProtectedRouteObject[] = [
+/** Route information described here
+ *  - can ONLY apply protection on top level routes (e.g. /profile, but not /profile/update), but children will inherit parent protection
+ *  - role:'admin' can access role:'user' routes, but not vice-versa
+ */
+export const routes: ProtectedRouteObject[] = [
   {
     path: "/",
     element: <HomePage />,
@@ -36,22 +36,21 @@ const routes: ProtectedRouteObject[] = [
     path: "login",
     element: <LoginPage />,
     isAuthenticated: false,
-    to: '/login',
-    text: 'Login',
   },
   {
     path: "register",
     element: <RegisterPage />,
     isAuthenticated: false,
-    to: '/register',
-    text: 'Register',
+  },
+  {
+    path: "events",
+    element: <EventsPage />,
+    isAuthenticated: true,
   },
   {
     path: "profile",
     element: <ProfilePage />,
     isAuthenticated: true,
-    to: '/profile',
-    text: 'Profile',
     children: [
       {
         path: "",
@@ -72,18 +71,30 @@ const routes: ProtectedRouteObject[] = [
     ]
   },
   {
-    path: "events",
-    element: <EventsPage />,
-    isAuthenticated: true,
-  },
-  {
     path: "admin",
     element: <AdminPage />,
     isAuthenticated: true,
     adminOnly: true,
-    to: '/admin',
-    text: 'Admin',
   }
 ];
 
-export default routes;
+export const generateProtectedRoutes = (isAuthenticated: boolean, role: AuthState['role']): ProtectedRouteObject[] => {
+  const routesCopy = routes.map(route => ({ ...route })); // Copy the routes, to ensure we never modify the original state
+
+  return routesCopy.map(route => {
+    // Route requires admin **isAuthenticated=undefined routes will still be unaccessible if admin rights do not match
+    if (route.adminOnly && role !== 'admin') {
+      route.element = <ErrorPage customText='Unauthorised Access' />;
+    }
+
+    // route is only valid for (un)/authenticated users. **isAuthenticated=undefined is available to everyone
+    if (route.isAuthenticated !== isAuthenticated && route.isAuthenticated !== undefined) {
+      route.element = <ErrorPage customText={`Unauthorised Access - ${isAuthenticated ? "Logout" : "Login"} to Continue`} />;
+    }
+
+    // Return route (incl. route.element modifications)
+    return route;
+  });
+}
+
+export default generateProtectedRoutes;
