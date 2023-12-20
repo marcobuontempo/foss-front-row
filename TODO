@@ -88,11 +88,9 @@ DONE - DELETE /orders/{orderID} - Cancel a specific order (requires authenticati
 # FRONTEND
 
 ## ...
-DONE - Create profile page
-- Implement 'change password' on profile page
-- Implement 'update details' on profile page
-- Add /events route
-- Change ProtectedRouterProvider to /routes and extract routes object into own file
+DONE - Add /events route
+DONE - Change ProtectedRouterProvider to /router and extract routes object into own file
+DONE - Link navbar to render conditionally from /router/routes array
 - Create 'Events' landing page
 - Create 'Create Event' form
 - Create 'Find Events' page

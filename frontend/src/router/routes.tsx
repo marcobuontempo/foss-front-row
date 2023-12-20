@@ -3,6 +3,7 @@ import { AuthState } from "@features/auth/authSlice";
 // Page imports
 import LoginPage from '@pages/LoginPage'
 import RegisterPage from '@pages/RegisterPage'
+import LogoutPage from '@pages/LogoutPage'
 import HomePage from '@pages/HomePage'
 import AdminPage from '@pages/AdminPage'
 import ProfilePage from '@pages/ProfilePage'
@@ -18,9 +19,6 @@ export type ProtectedRouteObject =
   {
     isAuthenticated?: boolean;
     adminOnly?: boolean;
-    to?: string;
-    text?: string;
-    onClick?: (e: React.MouseEvent<any>) => Promise<void>;
   }
 
 /** Route information described here
@@ -75,6 +73,11 @@ export const routes: ProtectedRouteObject[] = [
     element: <AdminPage />,
     isAuthenticated: true,
     adminOnly: true,
+  },
+  {
+    path: "logout",
+    element: <LogoutPage />,
+    isAuthenticated: true,
   }
 ];
 
