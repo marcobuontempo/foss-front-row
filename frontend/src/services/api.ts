@@ -31,6 +31,10 @@ export type UserDetailsResponse = BaseResponse & {
   }
 };
 
+export type AllUserDetailsResponse = BaseResponse & {
+  data: UserDetailsResponse['data'][];
+};
+
 export type UpdateUserDetailsResponse = BaseResponse;
 
 export type ChangePasswordResponse = BaseResponse;
@@ -38,6 +42,22 @@ export type ChangePasswordResponse = BaseResponse;
 export type DeleteUserResponse = BaseResponse;
 
 export type CreateEventResponse = BaseResponse;
+
+export type EventsResponse = BaseResponse & {
+  data: {
+    _id: string;
+    title: string;
+    date: string;
+    venue: string;
+    owner: string;
+    createdAt: string;
+    updatedAt: string;
+  }
+};
+
+export type AllEventsResponse = BaseResponse & {
+  data: EventsResponse['data'][];
+};
 
 
 /** USER AUTHENTICATION */
@@ -125,7 +145,7 @@ export const deleteUser = async (userid: string): Promise<DeleteUserResponse> =>
 }
 
 /** USER DETAILS OPERATIONS */
-export const getAllUsersDetails = async (): Promise<UserDetailsResponse[]> => {
+export const getAllUserDetails = async (): Promise<AllUserDetailsResponse> => {
   return axios
     .request({
       method: 'get',
@@ -195,6 +215,22 @@ export const createEvent = async (details: {
       throw error;
     })
 }
+
+export const getAllEvents = async (): Promise<AllEventsResponse> => {
+  return axios
+    .request({
+      method: 'get',
+      url: '/events',
+    })
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      throw error;
+    })
+}
+
+
 
 
 // Ticket Operations
