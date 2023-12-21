@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { UserDetailsResponse } from '@services/api';
 import type { RootState } from 'src/store'
 
-const initialUserDetailsState: UserDetailsResponse['data'] = {
+const initialState: UserDetailsResponse['data'] = {
   _id: "",
   firstname: "",
   lastname: "",
@@ -12,17 +12,14 @@ const initialUserDetailsState: UserDetailsResponse['data'] = {
   address: "",
 }
 
-// Create slices for each section
 const userDetailsSlice = createSlice({
   name: 'userDetails',
-  initialState: initialUserDetailsState,
+  initialState: initialState,
   reducers: {
     setUserDetails: (state, action) => {
       return { ...state, ...action.payload };
     },
-    clearUserDetails: () => {
-      return initialUserDetailsState;
-    },
+    clearUserDetails: () => initialState,
   },
 });
 

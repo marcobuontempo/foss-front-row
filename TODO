@@ -94,7 +94,8 @@ DONE - Link navbar to render conditionally from /router/routes array
 DONE - Create 'Events' landing page
 DONE - Create 'Create Event' form
 DONE - Create individual 'Event' information pages
-- Create cart
+DONE - Create cart. including redux slices (cart, ticketsToAddToCart)
+- Change event tickets display to be simple inline, with checkbox, and a single global 'Add to Cart' button
 - Implement 'Add to Cart' for tickets in event info display
 - Navlinks in profile, to toggle between account details, orders, settings, etc.
 - Navlinks in Events, for create event, my events
@@ -109,3 +110,4 @@ DONE - Create individual 'Event' information pages
 # OTHER TODO
 - Restrict, using backend, which fields can be updated in PUT - /userdetails
 - Confirmations for buttons, e.g. logout, reserve ticket, etc.
+- Add types to redux reducer actions

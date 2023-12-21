@@ -22,9 +22,7 @@ export const authSlice = createSlice({
       state.role = action.payload.role;
       state.userid = action.payload.userid;
     },
-    setUnauthenticated: (state) => {
-      return initialState;
-    },
+    setUnauthenticated: () => initialState,
   }
 })
 
