@@ -8,6 +8,7 @@ type Props = {
   isCart?: boolean;
 }
 
+// Custom sort - by priority: eventid, availability, price
 const sortByEventIdAvailabilityAndPrice = (a: TicketResponse['data'], b: TicketResponse['data']) => {
   // Compare eventids as strings
   const eventIdComparison = a.eventid.localeCompare(b.eventid);

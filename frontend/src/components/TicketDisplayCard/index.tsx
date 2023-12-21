@@ -1,9 +1,9 @@
 import React from 'react'
 import { TicketResponse } from '@services/api';
 import './TicketDisplayCard.css'
-import { addTicketToCart, removeTicketFromCart, selectCart } from '@features/cart/cartSlice';
-import { useAppDispatch } from '@utils/useAppDispatch';
+import { selectCart } from '@features/cart/cartSlice';
 import { useAppSelector } from '@utils/useAppSelector';
+import { addOrRemoveItemToCart } from '@utils/cartStorage';
 
 type Props = {
   ticketData: TicketResponse['data'];
@@ -15,16 +15,15 @@ export default function TicketDisplayCard({ ticketData, showRemoveButton = false
 
   const { tickets } = useAppSelector(selectCart);
 
-  const dispatch = useAppDispatch();
 
   const handleAddTicketToCartOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    dispatch(addTicketToCart(ticketData));
+    addOrRemoveItemToCart('tickets', 'add', ticketData);
   }
 
   const handleRemoveTicketFromCartOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    dispatch(removeTicketFromCart(ticketData._id));
+    addOrRemoveItemToCart('tickets', 'remove', ticketData);
   }
 
   // Change state if ticket is in already in cart

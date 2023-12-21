@@ -20,10 +20,12 @@ import '@utils/axios-config.ts'
 /* Other */
 import { initialiseAuthDataFromStorage } from '@utils/authStorage.ts'
 import ProtectedRouterProvider from '@router/ProtectedRouterProvider'
+import { initialiseCartDataFromStorage } from '@utils/cartStorage.ts'
 
 
-// Initialise auth data from localStorage
+// Initialise data from localStorage
 initialiseAuthDataFromStorage();
+initialiseCartDataFromStorage();
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

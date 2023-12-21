@@ -1,11 +1,11 @@
 import { setAuthenticated, setUnauthenticated } from '@features/auth/authSlice';
-import { Dispatch } from '@reduxjs/toolkit';
+import store from '../store';
 
 // Constants for localStorage keys
 const AUTH_KEY = 'auth';
 
 // Handle successful login
-export const onLoginSuccess = (loginResponse: { id?: string; userid?: string; role: string; }, dispatch: Dispatch): void => {
+export const onLoginSuccess = (loginResponse: { id?: string; userid?: string; role: string; }): void => {
   const authData = {
     userid: loginResponse.id || loginResponse.userid,
     role: loginResponse.role,
@@ -14,14 +14,14 @@ export const onLoginSuccess = (loginResponse: { id?: string; userid?: string; ro
   localStorage.setItem(AUTH_KEY, JSON.stringify(authData));
 
   // Update Redux auth state
-  dispatch(setAuthenticated(authData));
+  store.dispatch(setAuthenticated(authData));
 };
 
 // Handle logout
-export const onLogout = (dispatch: Dispatch): void => {
+export const onLogout = (): void => {
   // Clear the user information from localStorage
   localStorage.removeItem(AUTH_KEY);
 
   // Reset Redux auth state to default
-  dispatch(setUnauthenticated());
+  store.dispatch(setUnauthenticated());
 };
