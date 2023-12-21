@@ -1,4 +1,4 @@
-import TicketDisplayCard from '@components/TicketDisplayCard';
+import TicketsList from '@components/TicketsList';
 import { AllTicketsResponse, EventResponse, getEvent, getEventTickets } from '@services/api';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
@@ -44,23 +44,7 @@ export default function EventInformationDisplay({ }: Props) {
       <p>Venue: {eventData.venue}</p>
       <p>Date: {eventData.date}</p>
 
-      <table className='table'>
-        <thead>
-          <tr className='table-light'>
-            <th scope='col'>Seat</th>
-            <th scope='col'>Price</th>
-            <th scope='col'>Purchase</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            tickets
-              .sort((a, b) => (a.available === b.available) ? a.price - b.price : a.available ? -1 : 1) // sort available tickets first
-              .map(ticket => <TicketDisplayCard key={ticket._id} ticketData={ticket} />)
-          }
-        </tbody>
-      </table>
-
+      <TicketsList tickets={tickets} />
     </div>
   )
 }

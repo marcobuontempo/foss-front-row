@@ -16,6 +16,7 @@ import ErrorPage from "@pages/ErrorPage";
 import CreateEventForm from "@components/CreateEventForm";
 import EventInformationDisplay from "@components/EventInformationDisplay";
 import AllEventsDisplay from "@components/AllEventsDisplay";
+import CartPage from "@pages/CartPage";
 
 export type ProtectedRouteObject =
   RouteObject &
@@ -61,6 +62,11 @@ export const routes: ProtectedRouteObject[] = [
         element: <EventInformationDisplay />
       }
     ]
+  },
+  {
+    path: "cart",
+    element: <CartPage />,
+    isAuthenticated: true,
   },
   {
     path: "profile",
