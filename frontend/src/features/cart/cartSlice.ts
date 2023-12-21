@@ -14,17 +14,17 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState: initialState,
   reducers: {
-    addTicketsToCart: (state, action: PayloadAction<TicketResponse['data']>) => {
+    addTicketToCart: (state, action: PayloadAction<TicketResponse['data']>) => {
       state.tickets.push(action.payload);
     },
-    removeTicketsFromCart: (state, action: PayloadAction<string>) => {
+    removeTicketFromCart: (state, action: PayloadAction<string>) => {
       state.tickets = state.tickets.filter(ticket => ticket._id !== action.payload);
     },
     clearCart: () => initialState,
   },
 });
 
-export const { addTicketsToCart, removeTicketsFromCart, clearCart } = cartSlice.actions;
+export const { addTicketToCart, removeTicketFromCart, clearCart } = cartSlice.actions;
 
 export const selectCart = (state: RootState) => state.cart;
 
