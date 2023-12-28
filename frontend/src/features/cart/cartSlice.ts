@@ -14,8 +14,14 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState: initialState,
   reducers: {
-    updateEntireCart: (state, action: PayloadAction<CartState>) => {
+    setCart: (state, action: PayloadAction<CartState>) => {
       return action.payload;
+    },
+    setTickets: (state, action: PayloadAction<TicketResponse['data'][]>) => {
+      return {
+        ...state,
+        tickets: action.payload,
+      }
     },
     addTicketToCart: (state, action: PayloadAction<TicketResponse['data']>) => {
       state.tickets.push(action.payload);
@@ -27,7 +33,7 @@ const cartSlice = createSlice({
   },
 });
 
-export const { updateEntireCart, addTicketToCart, removeTicketFromCart, clearCart } = cartSlice.actions;
+export const { setCart, setTickets, addTicketToCart, removeTicketFromCart, clearCart } = cartSlice.actions;
 
 export const selectCart = (state: RootState) => state.cart;
 

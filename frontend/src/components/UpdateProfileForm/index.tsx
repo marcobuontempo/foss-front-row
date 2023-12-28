@@ -50,7 +50,7 @@ export default function UpdateProfileForm({ }: Props) {
         .filter(([_, value]) => value !== ""));
 
     // form submission logic
-    updateUserDetails(userDetails._id, updatedDetails)
+    await updateUserDetails(userDetails._id, updatedDetails)
       .then(response => {
         console.log(response);
       })

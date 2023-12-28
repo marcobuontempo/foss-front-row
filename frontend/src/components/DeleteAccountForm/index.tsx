@@ -26,7 +26,7 @@ export default function DeleteAccountForm({ }: Props) {
 
     // form submission logic
     if (userid) {
-      deleteUser(userid)
+      await deleteUser(userid)
         .then(response => {
           console.log(response);
         })

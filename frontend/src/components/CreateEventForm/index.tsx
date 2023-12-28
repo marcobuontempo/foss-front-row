@@ -30,7 +30,7 @@ export default function CreateEventForm({ }: Props) {
     e.preventDefault();
 
     // Form submission logic
-    createEvent({ title, date, venue, ticketQty: parseInt(ticketQty) })
+    await createEvent({ title, date, venue, ticketQty: parseInt(ticketQty) })
       .then(response => {
         console.log(response);
       })

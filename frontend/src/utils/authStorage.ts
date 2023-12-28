@@ -10,10 +10,10 @@ export const initialiseAuthDataFromStorage = (): void => {
   if (storedAuthData) {
     const authData = JSON.parse(storedAuthData);
     if (authData.userid && authData.role) {
-      onLoginSuccess(authData, store.dispatch);
+      onLoginSuccess(authData);
     } else {
       // if invalid, clear any localstorage and redux information related to auth
-      onLogout(store.dispatch);
+      onLogout();
     }
   }
 }

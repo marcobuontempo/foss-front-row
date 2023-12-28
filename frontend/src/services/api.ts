@@ -278,3 +278,17 @@ export const getEventTickets = async (eventid: string): Promise<AllTicketsRespon
 
 /** ORDER OPERATIONS */
 // ... (similar naming pattern for order operations)
+export const orderTickets = async (eventid: string, tickets: string[]): Promise<AllTicketsResponse> => {
+  return axios
+    .request({
+      method: 'post',
+      url: `/events/${eventid}/tickets/order`,
+      data: { tickets },
+    })
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      throw error;
+    })
+}

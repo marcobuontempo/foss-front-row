@@ -41,7 +41,7 @@ export default function ChangePasswordForm({ }: Props) {
 
     // form submission logic
     if (userid) {
-      updatePassword(userid, passwords)
+      await updatePassword(userid, passwords)
         .then(response => {
           console.log(response);
         })

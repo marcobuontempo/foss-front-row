@@ -9,7 +9,7 @@ export default function AllEventsDisplay({ }: Props) {
   const [events, setEvents] = useState<EventResponse['data'][]>([])
 
   const fetchEvents = async () => {
-    getAllEvents()
+    await getAllEvents()
       .then(response => {
         // console.log(response)
         setEvents(response.data)

@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import './LoginForm.css'
 import { loginUser } from '@services/api.ts';
 import { onLoginSuccess } from '@services/authService';
-import { useAppDispatch } from '@utils/useAppDispatch';
 
 type Props = {}
 
@@ -12,7 +11,6 @@ export default function LoginForm({ }: Props) {
   const [password, setPassword] = useState('');
 
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
 
   const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target?.value);
@@ -26,12 +24,12 @@ export default function LoginForm({ }: Props) {
     e.preventDefault();
 
     // Form submission logic
-    loginUser({ username, password })
+    await loginUser({ username, password })
       .then(response => {
         // console.log(response);
 
         // Store user info in local storage
-        onLoginSuccess(response.data, dispatch);
+        onLoginSuccess(response.data);
 
         // Redirect to homepage...
         navigate('/');

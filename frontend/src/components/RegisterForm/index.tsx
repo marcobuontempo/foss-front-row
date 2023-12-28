@@ -50,7 +50,7 @@ export default function RegisterForm({ }: Props) {
     e.preventDefault();
 
     // form submission logic
-    registerUser({
+    await registerUser({
       username,
       password,
       firstname,

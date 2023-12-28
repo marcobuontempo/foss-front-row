@@ -19,7 +19,7 @@ export default function ProfilePage({ }: Props) {
 
   const fetchProfileDetails = async () => {
     if (userid) {
-      getUserDetails(userid)
+      await getUserDetails(userid)
         .then(response => {
           dispatch(setUserDetails(response.data));
         })
@@ -49,7 +49,7 @@ export default function ProfilePage({ }: Props) {
           <Link
             className={`nav-link ${currentRoute === "orders" && "active"}`}
             to={"orders"}>
-            Orders
+            My Orders
           </Link>
         </li>
         <li className="nav-item">

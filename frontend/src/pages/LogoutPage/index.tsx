@@ -8,11 +8,10 @@ import { useNavigate } from 'react-router-dom'
 type Props = {}
 
 export default function LogoutPage({ }: Props) {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    logout()
+    await logout()
       .then(response => {
         // console.log(response);
         /* 
@@ -22,7 +21,7 @@ export default function LogoutPage({ }: Props) {
           accidentally leaving valid jwt in unused http-cookie)
         */
         navigate("/");
-        onLogout(dispatch);
+        onLogout();
       })
       .catch(error => {
         // console.log(error);
