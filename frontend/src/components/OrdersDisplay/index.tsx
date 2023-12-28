@@ -5,6 +5,8 @@ type Props = {}
 
 export default function OrdersDisplay({}: Props) {
   return (
-    <div>OrdersDisplay</div>
+    <div>
+      Orders Display
+    </div>
   )
 }

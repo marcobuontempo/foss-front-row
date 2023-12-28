@@ -25,7 +25,6 @@ export default function AllEventsDisplay({ }: Props) {
 
   return (
     <div className='AllEventsDisplay'>
-      <h1>Events:</h1>
       <ul className='list-group w-100'>
         {
           events.map(ev => <EventDisplayCard key={ev.title} eventData={ev} />)

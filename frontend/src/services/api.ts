@@ -158,6 +158,7 @@ export const deleteUser = async (userid: string): Promise<DeleteUserResponse> =>
     })
 }
 
+
 /** USER DETAILS OPERATIONS */
 export const getAllUserDetails = async (): Promise<AllUserDetailsResponse> => {
   return axios
@@ -209,7 +210,7 @@ export const updateUserDetails = async (userid: string, updatedDetails: {
 }
 
 
-// Event Operations
+/** EVENT OPERATIONS */
 export const createEvent = async (details: {
   title: string;
   date: string;
@@ -259,9 +260,7 @@ export const getEvent = async (eventid: string): Promise<EventResponse> => {
 }
 
 
-
-
-// Ticket Operations
+/** TICKET OPERATIONS */
 export const getEventTickets = async (eventid: string): Promise<AllTicketsResponse> => {
   return axios
     .request({
@@ -277,6 +276,5 @@ export const getEventTickets = async (eventid: string): Promise<AllTicketsRespon
 }
 
 
-
-// Order Operations
+/** ORDER OPERATIONS */
 // ... (similar naming pattern for order operations)

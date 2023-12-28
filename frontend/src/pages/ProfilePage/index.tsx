@@ -36,6 +36,7 @@ export default function ProfilePage({ }: Props) {
   return (
     <main className='ProfilePage'>
 
+      {/* Nav Links */}
       <ul className="nav nav-tabs justify-content-center">
         <li className="nav-item">
           <Link
@@ -60,6 +61,7 @@ export default function ProfilePage({ }: Props) {
         </li>
       </ul>
 
+      {/* Content */}
       <Outlet />
     </main>
   )

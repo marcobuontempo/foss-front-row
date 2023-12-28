@@ -98,8 +98,8 @@ DONE - Create cart. including redux slices (cart, ticketsToAddToCart)
 DONE - Change event tickets display to be simple inline, with 'Add to Cart' button
 DONE - Create Cart page
 DONE - Persist Cart with localStorage, and load on application start
-- Navlinks in profile, to toggle between account details, orders, settings, etc.
-- Navlinks in Events, for create event, my events
+DONE - Navlinks in profile, to toggle between account details, orders, settings, etc.
+DONE - Navlinks in Events, for create event, my events
 - Add ability to add x tickets to cart (incl. max price and seat type, from dropdown -> dropdown generated from fetched tickets)
 - Create 'Order Tickets' page
 - 'Manage Events' from EventsPage (edit/delete my events)

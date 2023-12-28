@@ -19,6 +19,7 @@ import AllEventsDisplay from "@components/AllEventsDisplay";
 import CartPage from "@pages/CartPage";
 import OrdersDisplay from "@components/OrdersDisplay";
 import ProfileSettingsDisplay from "@components/ProfileSettingsDisplay";
+import ManageEvents from "@components/ManageEvents";
 
 export type ProtectedRouteObject =
   RouteObject &
@@ -58,6 +59,10 @@ export const routes: ProtectedRouteObject[] = [
       {
         path: "create",
         element: <CreateEventForm />,
+      },
+      {
+        path: "manage",
+        element: <ManageEvents />,
       },
       {
         path: ":eventid",
