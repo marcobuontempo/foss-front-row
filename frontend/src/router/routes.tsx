@@ -17,6 +17,8 @@ import CreateEventForm from "@components/CreateEventForm";
 import EventInformationDisplay from "@components/EventInformationDisplay";
 import AllEventsDisplay from "@components/AllEventsDisplay";
 import CartPage from "@pages/CartPage";
+import OrdersDisplay from "@components/OrdersDisplay";
+import ProfileSettingsDisplay from "@components/ProfileSettingsDisplay";
 
 export type ProtectedRouteObject =
   RouteObject &
@@ -76,6 +78,14 @@ export const routes: ProtectedRouteObject[] = [
       {
         path: "",
         element: <ProfileCard />
+      },
+      {
+        path: "orders",
+        element: <OrdersDisplay />
+      },
+      {
+        path: "settings",
+        element: <ProfileSettingsDisplay />
       },
       {
         path: "update",
