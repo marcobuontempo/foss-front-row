@@ -1,14 +1,17 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react'
-import './CreateEventForm.css'
-import { createEvent } from '@services/api';
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
+import './UpdateEventForm.css'
+import { EventResponse, editEvent, getEvent } from '@services/api';
+import { useParams } from 'react-router-dom';
 
 type Props = {}
 
-export default function CreateEventForm({ }: Props) {
+export default function UpdateEventForm({ }: Props) {
   const [title, setTitle] = useState('');
   const [date, setDate] = useState('');
   const [venue, setVenue] = useState('');
-  const [ticketQty, setTicketQty] = useState('');
+
+  // Get the 'eventid' parameter from the URL
+  const { eventid } = useParams();
 
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target?.value);
@@ -22,25 +25,44 @@ export default function CreateEventForm({ }: Props) {
     setVenue(e.target?.value);
   };
 
-  const handleTicketQtyChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setTicketQty(e.target?.value);
-  };
+
+  const fetchEvent = async () => {
+    if (eventid) {
+      await getEvent(eventid)
+        .then(response => {
+          // console.log(response.data)
+          setTitle(response.data.title)
+          setDate(response.data.date.split("T")[0])
+          setVenue(response.data.venue)
+          return response.data
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    }
+  }
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     // Form submission logic
-    await createEvent({ title, date, venue, ticketQty: parseInt(ticketQty) })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-      })
+    if (eventid) {
+      await editEvent(eventid, { title, date, venue })
+        .then(response => {
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    }
   };
 
+  useEffect(() => {
+    fetchEvent();
+  }, [])
+
   return (
-    <form className='CreateEventForm container-sm py-3 text-center' onSubmit={handleSubmit}>
+    <form className='UpdateEventForm container-sm py-3 text-center' onSubmit={handleSubmit}>
       <h1>Create Event</h1>
 
       <div className='form-floating mb-3'>
@@ -82,23 +104,7 @@ export default function CreateEventForm({ }: Props) {
         <label htmlFor="inputVenue" className="form-label">Venue</label>
       </div>
 
-      <div className='form-floating mb-3'>
-        <input
-          type="number"
-          min={1}
-          max={100}
-          step={1}
-          className="form-control"
-          id="inputTicketQty"
-          value={ticketQty}
-          onChange={handleTicketQtyChange}
-          placeholder='Ticket Quantity'
-          required={true}
-        />
-        <label htmlFor="inputTicketQty" className="form-label">Ticket Quantity</label>
-      </div>
-
-      <button type="submit" className="btn btn-primary">Create</button>
+      <button type="submit" className="btn btn-primary">Update</button>
     </form>
   )
 }

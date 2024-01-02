@@ -3,7 +3,7 @@ import { selectUserId } from '@features/auth/authSlice';
 import { AllTicketsResponse, EventResponse, deleteEvent, getEvent, getEventTickets } from '@services/api';
 import { useAppSelector } from '@utils/useAppSelector';
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 type Props = {}
 
@@ -11,6 +11,8 @@ export default function EventInformationDisplay({ }: Props) {
   const [eventData, setEventData] = useState<EventResponse['data'] | null>(null)
   const [tickets, setTickets] = useState<AllTicketsResponse['data']>([]);
   const [isOwner, setIsOwner] = useState<boolean>(false);
+
+  const navigate = useNavigate()
 
   // Get the 'eventid' parameter from the URL
   const { eventid } = useParams();
@@ -53,6 +55,11 @@ export default function EventInformationDisplay({ }: Props) {
     }
   }
 
+  const handleEditEvent = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    navigate(`/events/${eventid}/update`)
+  }
+
   useEffect(() => {
     fetchEvent();
   }, [])
@@ -71,7 +78,7 @@ export default function EventInformationDisplay({ }: Props) {
         isOwner &&
         <div>
           <h4>Owner Controls</h4>
-          <button className='btn btn-info' type='button'>Edit Event</button>
+          <button className='btn btn-info' type='button' onClick={handleEditEvent}>Edit Event</button>
           <button className='btn btn-danger' type='button' onClick={handleDeleteEvent}>Delete Event</button>
         </div>
       }

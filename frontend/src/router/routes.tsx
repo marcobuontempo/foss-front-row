@@ -20,6 +20,7 @@ import CartPage from "@pages/CartPage";
 import OrdersDisplay from "@components/OrdersDisplay";
 import ProfileSettingsDisplay from "@components/ProfileSettingsDisplay";
 import ManageEvents from "@components/ManageEvents";
+import UpdateEventForm from "@components/UpdateEventForm";
 
 export type ProtectedRouteObject =
   RouteObject &
@@ -66,7 +67,11 @@ export const routes: ProtectedRouteObject[] = [
       },
       {
         path: ":eventid",
-        element: <EventInformationDisplay />
+        element: <EventInformationDisplay />,
+      },
+      {
+        path: ":eventid/update",
+        element: <UpdateEventForm />
       }
     ]
   },

@@ -63,6 +63,8 @@ export type UserEventsResponse = BaseResponse & {
   data: EventResponse['data'][];
 };
 
+export type EditEventResponse = BaseResponse;
+
 export type DeleteEventResponse = BaseResponse;
 
 export type TicketResponse = BaseResponse & {
@@ -270,6 +272,25 @@ export const getEvent = async (eventid: string): Promise<EventResponse> => {
     .request({
       method: 'get',
       url: `/events/${eventid}`,
+    })
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      throw error;
+    })
+}
+
+export const editEvent = async (eventid: string, updatedDetails: {
+  title: string;
+  date: string;
+  venue: string;
+}): Promise<EditEventResponse> => {
+  return axios
+    .request({
+      method: 'put',
+      url: `/events/${eventid}`,
+      data: updatedDetails,
     })
     .then(response => {
       return response.data;
