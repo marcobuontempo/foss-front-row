@@ -42,6 +42,26 @@ const getOneEvent = async (req: Request, res: Response, next: NextFunction): Pro
   }
 };
 
+const getUserEvents = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    // Get User
+    const { userid } = req.params;
+
+    // Get all events
+    const events = await Event.find({ owner: userid }).select({ __v: false });
+
+    // Send success response
+    const response = new SuccessResponse({
+      message: "events retrieved successfully",
+      data: events
+    });
+    res.status(200).json(response);
+
+  } catch (error) {
+    next(error);
+  }
+};
+
 const createNewEvent = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { title, date, venue, ticketQty } = req.body;
@@ -52,7 +72,7 @@ const createNewEvent = async (req: AuthenticatedRequest, res: Response, next: Ne
 
     // Create a new Event document
     const newEvent = new Event({ title, date, venue, owner: req.user?.userid });
-    
+
     // Save the event to the database (will self validate in this step)
     await newEvent.save();
 
@@ -110,6 +130,7 @@ const deleteEvent = async (req: Request, res: Response, next: NextFunction): Pro
 export {
   getAllEvents,
   getOneEvent,
+  getUserEvents,
   createNewEvent,
   updateEvent,
   deleteEvent,

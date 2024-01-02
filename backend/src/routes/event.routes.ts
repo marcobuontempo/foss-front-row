@@ -1,4 +1,5 @@
-import { createNewEvent, deleteEvent, getAllEvents, getOneEvent, updateEvent } from '@controllers/event.controllers';
+import { createNewEvent, deleteEvent, getAllEvents, getOneEvent, getUserEvents, updateEvent } from '@controllers/event.controllers';
+import { isCurrentAuthUser } from '@utils/auth/isCurrentAuthUser';
 import { isEventOwner } from '@utils/auth/isEventOwner';
 import express from 'express';
 
@@ -9,6 +10,9 @@ router.get('/', getAllEvents);
 
 // Retrieve details of a specific event
 router.get('/:eventid', getOneEvent);
+
+// Retrieve a list of a specific user's events (requires authentication)
+router.get('/user/:userid', isCurrentAuthUser, getUserEvents);
 
 // Create a new event (requires authentication)
 router.post('/', createNewEvent);
