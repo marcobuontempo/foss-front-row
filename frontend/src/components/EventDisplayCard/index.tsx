@@ -12,7 +12,7 @@ export default function EventDisplayCard({ eventData }: Props) {
 
   const handleViewEventOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    navigate(eventData._id)
+    navigate(`/events/${eventData._id}`)
   }
 
   return (

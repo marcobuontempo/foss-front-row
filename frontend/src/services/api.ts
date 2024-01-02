@@ -59,6 +59,12 @@ export type AllEventsResponse = BaseResponse & {
   data: EventResponse['data'][];
 };
 
+export type UserEventsResponse = BaseResponse & {
+  data: EventResponse['data'][];
+};
+
+export type DeleteEventResponse = BaseResponse;
+
 export type TicketResponse = BaseResponse & {
   data: {
     _id: string;
@@ -245,10 +251,38 @@ export const getAllEvents = async (): Promise<AllEventsResponse> => {
     })
 }
 
+export const getUserEvents = async (userid: string): Promise<UserEventsResponse> => {
+  return axios
+    .request({
+      method: 'get',
+      url: `/events/user/${userid}`,
+    })
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      throw error;
+    })
+}
+
 export const getEvent = async (eventid: string): Promise<EventResponse> => {
   return axios
     .request({
       method: 'get',
+      url: `/events/${eventid}`,
+    })
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      throw error;
+    })
+}
+
+export const deleteEvent = async (eventid: string): Promise<DeleteEventResponse> => {
+  return axios
+    .request({
+      method: 'delete',
       url: `/events/${eventid}`,
     })
     .then(response => {

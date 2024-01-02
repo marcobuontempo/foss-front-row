@@ -1,5 +1,7 @@
 import TicketsList from '@components/TicketsList';
-import { AllTicketsResponse, EventResponse, getEvent, getEventTickets } from '@services/api';
+import { selectUserId } from '@features/auth/authSlice';
+import { AllTicketsResponse, EventResponse, deleteEvent, getEvent, getEventTickets } from '@services/api';
+import { useAppSelector } from '@utils/useAppSelector';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 
@@ -8,9 +10,13 @@ type Props = {}
 export default function EventInformationDisplay({ }: Props) {
   const [eventData, setEventData] = useState<EventResponse['data'] | null>(null)
   const [tickets, setTickets] = useState<AllTicketsResponse['data']>([]);
+  const [isOwner, setIsOwner] = useState<boolean>(false);
 
   // Get the 'eventid' parameter from the URL
   const { eventid } = useParams();
+
+  // Get 'userid'
+  const userid = useAppSelector(selectUserId);
 
   const fetchEvent = async () => {
     if (eventid) {
@@ -18,6 +24,7 @@ export default function EventInformationDisplay({ }: Props) {
         .then(response => {
           // console.log(response.data)
           setEventData(response.data)
+          setIsOwner(response.data.owner === userid)
           return response.data
         })
         .catch(error => {
@@ -29,6 +36,20 @@ export default function EventInformationDisplay({ }: Props) {
           // console.log(response.data)
           setTickets(response.data)
         })
+    }
+  }
+
+  const handleDeleteEvent = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (eventid) {
+      await deleteEvent(eventid)
+      .then(response => {
+        console.log(response)
+        return response
+      })
+      .catch(error => {
+        console.log(error)
+      })
     }
   }
 
@@ -45,6 +66,15 @@ export default function EventInformationDisplay({ }: Props) {
       <p>Date: {eventData.date}</p>
 
       <TicketsList tickets={tickets} />
+
+      {
+        isOwner &&
+        <div>
+          <h4>Owner Controls</h4>
+          <button className='btn btn-info' type='button'>Edit Event</button>
+          <button className='btn btn-danger' type='button' onClick={handleDeleteEvent}>Delete Event</button>
+        </div>
+      }
     </div>
   )
 }
