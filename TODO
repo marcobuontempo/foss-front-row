@@ -101,10 +101,13 @@ DONE - Persist Cart with localStorage, and load on application start
 DONE - Navlinks in profile, to toggle between account details, orders, settings, etc.
 DONE - Navlinks in Events, for create event, my events
 DONE - Create 'Order Tickets' page
-- Add ability to add x tickets to cart (incl. max price and seat type, from dropdown -> dropdown generated from fetched tickets)
+DONE - Add ability to search (or filter) events
 - 'Manage Events' from EventsPage (edit/delete my events)
-- Add ability to search (or filter) events
 - Create 'Ticket Scanning' option for 'My Events'
+- Add ability to add x tickets to cart (incl. max price and seat type, from dropdown -> dropdown generated from fetched tickets)
+- Group events in frontend cart
+- Create 'My Orders' page, to display a list of orders
+- Create 'My Tickets' page, to display a list of purchased tickets
 - Update redux selector for auth => selectAuth , and deconstruct {} to get variables (instead of an individual select for each variable)
 
 
@@ -113,4 +116,4 @@ DONE - Create 'Order Tickets' page
 - Restrict, using backend, which fields can be updated in PUT - /userdetails
 - Confirmations for buttons, e.g. logout, reserve ticket, etc.
 - Add types to redux reducer actions
-- Group events in frontend cart
+- Change to MaterialUI

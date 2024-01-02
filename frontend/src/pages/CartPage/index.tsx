@@ -13,7 +13,7 @@ export default function CartPage({ }: Props) {
 
   const submitTicketOrder = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    
+
     let unprocessedTickets = tickets.map(ticket => ticket)
     let failedTickets: TicketResponse['data'][] = [];
 
@@ -45,7 +45,7 @@ export default function CartPage({ }: Props) {
   return (
     <main className='CartPage'>
       <CartItemsDisplay />
-      <button className='btn btn-info' onClick={submitTicketOrder}>Order Tickets</button>
+      <button className='btn btn-info' onClick={submitTicketOrder}>Place Order</button>
     </main>
   )
 }
