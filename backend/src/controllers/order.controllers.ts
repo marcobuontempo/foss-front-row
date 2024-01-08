@@ -20,6 +20,25 @@ const getAllOrders = async (req: Request, res: Response, next: NextFunction): Pr
   }
 };
 
+const getUserOrders = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const { userid } = req.params;
+
+    // Get orders
+    const orders = await Order.find({ userid }).select({ __v: false });
+
+    // Send success response
+    const response = new SuccessResponse({
+      message: "orders retrieved successfully",
+      data: orders
+    });
+    res.status(200).json(response);
+
+  } catch (error) {
+    next(error);
+  }
+};
+
 const getOneOrder = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     // Get order
@@ -58,6 +77,7 @@ const deleteOrder = async (req: Request, res: Response, next: NextFunction): Pro
 
 export {
   getAllOrders,
+  getUserOrders,
   getOneOrder,
   deleteOrder,
 }
