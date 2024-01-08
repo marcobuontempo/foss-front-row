@@ -15,7 +15,7 @@ import { Provider } from 'react-redux'
 import store from './store.ts'
 
 /* Configs */
-import '@utils/axios-config.ts'
+import '@utils/axiosConfig.ts'
 
 /* Other */
 import { initialiseAuthDataFromStorage } from '@utils/authStorage.ts'
