@@ -21,6 +21,9 @@ import OrdersDisplay from "@components/OrdersDisplay";
 import ProfileSettingsDisplay from "@components/ProfileSettingsDisplay";
 import ManageEvents from "@components/ManageEvents";
 import UpdateEventForm from "@components/UpdateEventForm";
+import TicketsPage from "@pages/TicketsPage";
+import TicketQRDisplay from "@components/TicketQRDisplay";
+import TicketQRScan from "@components/TicketQRScan";
 
 export type ProtectedRouteObject =
   RouteObject &
@@ -47,6 +50,25 @@ export const routes: ProtectedRouteObject[] = [
     path: "register",
     element: <RegisterPage />,
     isAuthenticated: false,
+  },
+  {
+    path: "tickets",
+    element: <TicketsPage />,
+    isAuthenticated: true,
+    children: [
+      {
+        path: "",
+        element: null,
+      },
+      {
+        path: "display",
+        element: <TicketQRDisplay />,
+      },
+      {
+        path: "scan",
+        element: <TicketQRScan />,
+      }
+    ]
   },
   {
     path: "events",
