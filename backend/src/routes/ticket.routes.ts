@@ -1,5 +1,6 @@
 import { consumeTicket, deleteTicket, getAllTickets, getOneTicket, getTicketIdentifier, orderTickets, updateTicket } from '@controllers/ticket.controllers';
 import { isEventOwner } from '@utils/auth/isEventOwner';
+import { isTicketOwner } from '@utils/auth/isTicketOwner';
 import express from 'express';
 
 const router = express.Router({ mergeParams: true });
@@ -20,7 +21,7 @@ router.put('/:ticketid', isEventOwner, updateTicket);
 router.delete('/:ticketid', isEventOwner, deleteTicket);
 
 // Generate Ticket Code (for use with QR)
-router.get('/:ticketid/generate', getTicketIdentifier);
+router.get('/:ticketid/generate', isTicketOwner, getTicketIdentifier);
 
 // Check-in Ticket (using generated code, normally stored in QR)
 router.post('/:ticketid/consume', consumeTicket)

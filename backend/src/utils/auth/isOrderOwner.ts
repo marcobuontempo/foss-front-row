@@ -12,7 +12,7 @@ const isOrderOwner = async (req: AuthenticatedRequest, res: Response, next: Next
 
     if (order) return next();
 
-    throw new ErrorResponse(401, 'user must be the Order owner to access this ability');
+    throw new ErrorResponse(401, 'user must be the Order owner to perform this action');
 
   } catch (error) {
     next(error);

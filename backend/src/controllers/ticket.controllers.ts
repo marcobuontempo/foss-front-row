@@ -125,14 +125,12 @@ const deleteTicket = async (req: Request, res: Response, next: NextFunction): Pr
   }
 };
 
-const getTicketIdentifier = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const getTicketIdentifier = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { ticketid, eventid } = req.params;
 
-    // Identify ticket owner
-    const orders = await Order.find({ tickets: { $in: [ticketid] } })  // find orders containing the ticket
-      .sort({ createdAt: -1 }); // sort by date the order is created
-    const ownerid = orders[0].userid.toString();  // select the owner of the most recent order containing the ticket (i.e. the current owner)
+    // Get ticket owner (i.e. current auth user, since middleware has already determined they are ticket owner)
+    const ownerid = req.user?.userid;
 
     // Get event info
     const event = await Event.findById(eventid);
@@ -141,7 +139,7 @@ const getTicketIdentifier = async (req: Request, res: Response, next: NextFuncti
     const ticket = await Ticket.findById(ticketid);
 
     // Create ticket identifier
-    if (!ticket || !event) throw new ErrorResponse(422, "cannot process invalid ticket");
+    if (!ownerid || !event || !ticket) throw new ErrorResponse(422, "cannot process invalid ticket");
     const ticketUID = await generateTicketUID(ticket, event, ownerid);
 
     // Send success response

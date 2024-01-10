@@ -11,7 +11,7 @@ const isEventOwner = async (req: AuthenticatedRequest, res: Response, next: Next
     const event = await Event.findOne({ _id: eventid, owner: req.user?.userid });
 
     // If no event found, then user is not the event owner
-    if (!event) throw new ErrorResponse(401, 'user must be the Event owner to access this ability');
+    if (!event) throw new ErrorResponse(401, 'user must be the Event owner to perform this action');
     
     return next();
 
