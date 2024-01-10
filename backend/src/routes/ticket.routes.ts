@@ -20,7 +20,7 @@ router.put('/:ticketid', isEventOwner, updateTicket);
 router.delete('/:ticketid', isEventOwner, deleteTicket);
 
 // Generate Ticket Code (for use with QR)
-router.post('/:ticketid/generate', getTicketIdentifier);
+router.get('/:ticketid/generate', getTicketIdentifier);
 
 // Check-in Ticket (using generated code, normally stored in QR)
 router.post('/:ticketid/consume', consumeTicket)

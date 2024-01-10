@@ -129,7 +129,7 @@ const getTicketIdentifier = async (req: Request, res: Response, next: NextFuncti
   try {
     const { ticketid, eventid } = req.params;
 
-    // Get ticket owner
+    // Identify ticket owner
     const orders = await Order.find({ tickets: { $in: [ticketid] } })  // find orders containing the ticket
       .sort({ createdAt: -1 }); // sort by date the order is created
     const ownerid = orders[0].userid.toString();  // select the owner of the most recent order containing the ticket (i.e. the current owner)
@@ -148,7 +148,7 @@ const getTicketIdentifier = async (req: Request, res: Response, next: NextFuncti
     const response = new SuccessResponse({
       message: 'ticket uid successfully created',
       data: {
-        ticketUID
+        ticketUID,
       }
     });
     res.status(200).json(response);
@@ -160,13 +160,11 @@ const getTicketIdentifier = async (req: Request, res: Response, next: NextFuncti
 
 const consumeTicket = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    // Find ticket and delete
-    const { eventid, ticketid } = req.params;
-    await Ticket.findOneAndDelete({ _id: ticketid, eventid });
+    // TODO
 
     // Send success response
     const response = new SuccessResponse({
-      message: "ticket deleted successfully",
+      message: "ticket successfully consumed",
     });
     res.status(200).json(response);
 
