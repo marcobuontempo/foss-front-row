@@ -74,6 +74,7 @@ export type TicketResponse = BaseResponse & {
     price: number;
     seat: string;
     available: boolean;
+    consumed: boolean;
   }
 };
 
@@ -81,6 +82,28 @@ export type AllTicketsResponse = BaseResponse & {
   data: TicketResponse['data'][];
 }
 
+export type OrderResponse = BaseResponse & {
+  data: {
+    _id: string;
+    userid: string;
+    eventid: EventResponse['data'];
+    tickets: TicketResponse['data'][];
+    totalQuantity: number;
+    totalPrice: number;
+    createdAt: string;
+    updatedAt: string;
+  }
+}
+
+export type UserOrdersResponse = BaseResponse & {
+  data: OrderResponse['data'][];
+}
+
+export type TicketUIDGenerateResponse = BaseResponse & {
+  data: {
+    ticketUID: string;
+  }
+}
 
 /** USER AUTHENTICATION */
 export const loginUser = async (credentials: { username: string; password: string }): Promise<LoginResponse> => {
@@ -330,15 +353,42 @@ export const getEventTickets = async (eventid: string): Promise<AllTicketsRespon
     })
 }
 
+export const generateTicketUID = async (eventid: string, ticketid: string): Promise<TicketUIDGenerateResponse> => {
+  return axios
+    .request({
+      method: 'get',
+      url: `/events/${eventid}/tickets/${ticketid}/generate`,
+    })
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      throw error;
+    })
+}
+
 
 /** ORDER OPERATIONS */
-// ... (similar naming pattern for order operations)
 export const orderTickets = async (eventid: string, tickets: string[]): Promise<AllTicketsResponse> => {
   return axios
     .request({
       method: 'post',
       url: `/events/${eventid}/tickets/order`,
       data: { tickets },
+    })
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      throw error;
+    })
+}
+
+export const getUserOrders = async (userid: string): Promise<UserOrdersResponse> => {
+  return axios
+    .request({
+      method: 'get',
+      url: `/orders/user/${userid}`,
     })
     .then(response => {
       return response.data;
