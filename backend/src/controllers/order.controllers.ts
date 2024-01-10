@@ -25,7 +25,14 @@ const getUserOrders = async (req: Request, res: Response, next: NextFunction): P
     const { userid } = req.params;
 
     // Get orders
-    const orders = await Order.find({ userid }).select({ __v: false });
+    const orders = await Order
+      .find({ userid })
+      .populate({
+        path: 'eventid',
+        model: 'Event',
+        select: '-__v',
+      })
+      .select({ __v: false });
 
     // Send success response
     const response = new SuccessResponse({
