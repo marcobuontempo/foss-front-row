@@ -32,6 +32,11 @@ const getUserOrders = async (req: Request, res: Response, next: NextFunction): P
         model: 'Event',
         select: '-__v',
       })
+      .populate({
+        path: 'tickets',
+        model: 'Ticket',
+        select: '-__v'
+      })
       .select({ __v: false });
 
     // Send success response

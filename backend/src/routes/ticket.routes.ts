@@ -1,4 +1,4 @@
-import { deleteTicket, getAllTickets, getOneTicket, orderTickets, updateTicket } from '@controllers/ticket.controllers';
+import { consumeTicket, deleteTicket, getAllTickets, getOneTicket, getTicketIdentifier, orderTickets, updateTicket } from '@controllers/ticket.controllers';
 import { isEventOwner } from '@utils/auth/isEventOwner';
 import express from 'express';
 
@@ -18,5 +18,11 @@ router.put('/:ticketid', isEventOwner, updateTicket);
 
 // Delete a specific ticket (requires authentication).
 router.delete('/:ticketid', isEventOwner, deleteTicket);
+
+// Generate Ticket Code (for use with QR)
+router.post('/:ticketid/generate', getTicketIdentifier);
+
+// Check-in Ticket (using generated code, normally stored in QR)
+router.post('/:ticketid/consume', consumeTicket)
 
 export default router;

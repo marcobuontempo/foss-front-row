@@ -1,8 +1,10 @@
 import { AuthenticatedRequest } from "@middlewares/authentication.middleware";
+import Event from "@models/Event.model";
 import Order from "@models/Order.model";
 import Ticket from "@models/Ticket.model";
 import ErrorResponse from "@utils/responses/ErrorResponse";
 import SuccessResponse from "@utils/responses/SuccessResponse";
+import { generateTicketUID } from "@utils/services/ticketService";
 import { NextFunction, Request, Response } from "express";
 
 const getAllTickets = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -123,10 +125,62 @@ const deleteTicket = async (req: Request, res: Response, next: NextFunction): Pr
   }
 };
 
+const getTicketIdentifier = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const { ticketid, eventid } = req.params;
+
+    // Get ticket owner
+    const orders = await Order.find({ tickets: { $in: [ticketid] } })  // find orders containing the ticket
+      .sort({ createdAt: -1 }); // sort by date the order is created
+    const ownerid = orders[0].userid.toString();  // select the owner of the most recent order containing the ticket (i.e. the current owner)
+
+    // Get event info
+    const event = await Event.findById(eventid);
+
+    // Get ticket info
+    const ticket = await Ticket.findById(ticketid);
+
+    // Create ticket identifier
+    if (!ticket || !event) throw new ErrorResponse(422, "cannot process invalid ticket");
+    const ticketUID = await generateTicketUID(ticket, event, ownerid);
+
+    // Send success response
+    const response = new SuccessResponse({
+      message: 'ticket uid successfully created',
+      data: {
+        ticketUID
+      }
+    });
+    res.status(200).json(response);
+
+  } catch (error) {
+    next(error);
+  }
+};
+
+const consumeTicket = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    // Find ticket and delete
+    const { eventid, ticketid } = req.params;
+    await Ticket.findOneAndDelete({ _id: ticketid, eventid });
+
+    // Send success response
+    const response = new SuccessResponse({
+      message: "ticket deleted successfully",
+    });
+    res.status(200).json(response);
+
+  } catch (error) {
+    next(error);
+  }
+};
+
 export {
   getAllTickets,
   getOneTicket,
   orderTickets,
   updateTicket,
   deleteTicket,
+  getTicketIdentifier,
+  consumeTicket,
 }

@@ -5,6 +5,7 @@ interface ITicket extends Document {
   price: number;
   seat: string;
   available: boolean;
+  consumed: boolean;
 }
 
 const ticketSchema = new Schema<ITicket>({
@@ -28,6 +29,11 @@ const ticketSchema = new Schema<ITicket>({
     required: true,
     default: true
   },
+  consumed: {
+    type: Boolean,
+    required: true,
+    default: false
+  }
 });
 
 const Ticket = mongoose.model<ITicket>('Ticket', ticketSchema);
