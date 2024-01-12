@@ -11,15 +11,16 @@ type Props = {
     datetime: string,
     venue: string,
     owner: string,
-  }
+  };
+  handleClearTicket: () => void;
 }
 
-export default function TicketQRDisplay({ qrUrl, ticket }: Props) {
+export default function TicketQRDisplay({ qrUrl, ticket, handleClearTicket }: Props) {
   const ref = useRef<HTMLTableElement>(null)
 
   const ticketDateTime = new Date(1735650000000);
 
-  const saveTicketAsImg = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSaveTicketAsPNG = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (ref.current === null) return;
 
@@ -35,8 +36,13 @@ export default function TicketQRDisplay({ qrUrl, ticket }: Props) {
       })
   }
 
+  const handleStartNewGeneration = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    handleClearTicket();
+  }
+
   return (
-    <div className="TicketQRGenerator d-flex flex-column align-items-center">
+    <div className="TicketQRDisplay d-flex flex-column align-items-center">
       <table className='table table-light text-center' style={{ maxWidth: '500px' }} ref={ref}>
         <tbody>
           <tr>
@@ -66,7 +72,8 @@ export default function TicketQRDisplay({ qrUrl, ticket }: Props) {
           </tr>
         </tbody>
       </table>
-      <button type='button' onClick={saveTicketAsImg}>Save for Offline</button>
+      <button type='button' onClick={handleSaveTicketAsPNG}>Save for Offline</button>
+      <button type='button' onClick={handleStartNewGeneration}>Generate another ticket?</button>
     </div>
   )
 }

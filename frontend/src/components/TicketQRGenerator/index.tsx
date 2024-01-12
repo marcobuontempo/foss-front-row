@@ -8,6 +8,16 @@ import TicketQRDisplay from '@components/TicketQRDisplay';
 
 type Props = {}
 
+const defaultTicketDetails = {
+  ticketid: "",
+  eventid: "",
+  seat: "",
+  title: "",
+  datetime: "",
+  venue: "",
+  owner: "",
+}
+
 export default function TicketQRGenerator({ }: Props) {
   const userid = useAppSelector(selectUserId);
 
@@ -15,28 +25,25 @@ export default function TicketQRGenerator({ }: Props) {
   const [selectedEvent, setSelectedEvent] = useState("");
   const [selectedTicket, setSelectedTicket] = useState("");
   const [qrUrl, setQrUrl] = useState<string | null>(null);
-  const [ticketDetails, setTicketDetails] = useState({
-    ticketid: "",
-    eventid: "",
-    seat: "",
-    title: "",
-    datetime: "",
-    venue: "",
-    owner: "",
-  });
+  const [ticketDetails, setTicketDetails] = useState(defaultTicketDetails);
 
   useEffect(() => {
     if (userid) {
       getUserOrders(userid)
-        .then(response => {
-          console.log(response)
-          setOrders(response.data)
-        })
-        .catch(error => {
-          console.log(error)
-        })
+      .then(response => {
+        console.log(response)
+        setOrders(response.data)
+      })
+      .catch(error => {
+        console.log(error)
+      })
     }
   }, [])
+  
+  const handleClearTicket = () => {
+    setQrUrl("");
+    setTicketDetails(defaultTicketDetails);
+  }
 
   const handleSelectEventChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedEvent(e.target.value);
@@ -86,7 +93,7 @@ export default function TicketQRGenerator({ }: Props) {
 
   if (qrUrl) {
     // display ticket if already generated
-    return <TicketQRDisplay qrUrl={qrUrl} ticket={ticketDetails} />
+    return <TicketQRDisplay qrUrl={qrUrl} ticket={ticketDetails} handleClearTicket={handleClearTicket} />
   } else {
     // otherwise, provide options to generate a ticket
     return (
