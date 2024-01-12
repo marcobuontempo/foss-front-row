@@ -1,14 +1,17 @@
-import React, { FormEvent, useEffect, useState } from 'react'
+import React, { FormEvent, useEffect, useRef, useState } from 'react'
 import './TicketQRDisplay.css'
 import QRCode from 'qrcode'
 import { useAppSelector } from '@utils/useAppSelector';
 import { selectUserId } from '@features/auth/authSlice';
 import { UserOrdersResponse, generateTicketUID, getUserOrders } from '@services/api';
+import * as htmlToImage from 'html-to-image';
 
 type Props = {}
 
 export default function TicketQRDisplay({ }: Props) {
   const userid = useAppSelector(selectUserId);
+
+  const ref = useRef<HTMLTableElement>(null)
 
   const [orders, setOrders] = useState<UserOrdersResponse['data']>([]);
   const [selectedEvent, setSelectedEvent] = useState("");
@@ -23,6 +26,22 @@ export default function TicketQRDisplay({ }: Props) {
     venue: "",
     owner: "",
   });
+
+  const saveTicketAsImg = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (ref.current === null) return;
+
+    htmlToImage.toPng(ref.current, { cacheBust: true, width: 500 })
+      .then((dataUrl) => {
+        const link = document.createElement('a')
+        link.download = `ticket_${ticketDetails.ticketid}.png`
+        link.href = dataUrl
+        link.click()
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
 
   useEffect(() => {
     if (userid) {
@@ -85,11 +104,16 @@ export default function TicketQRDisplay({ }: Props) {
 
   if (qrUrl) {
     // display ticket if already generated
+    const ticketDateTime = new Date(1735650000000);
     return (
-      <div className="TicketQRDisplay">
-        <img src={qrUrl} />
-        <table>
+      <div className="TicketQRDisplay d-flex flex-column align-items-center">
+        <table className='table table-light text-center' style={{ maxWidth: '500px' }} ref={ref}>
           <tbody>
+            <tr>
+              <td colSpan={2}>
+                <img src={qrUrl} />
+              </td>
+            </tr>
             <tr>
               <td>Event:</td>
               <td>{ticketDetails.title}</td>
@@ -99,8 +123,12 @@ export default function TicketQRDisplay({ }: Props) {
               <td>{ticketDetails.venue}</td>
             </tr>
             <tr>
-              <td>Date & Time:</td>
-              <td>{ticketDetails.datetime}</td>
+              <td>Date:</td>
+              <td>{ticketDateTime.toLocaleDateString()}</td>
+            </tr>
+            <tr>
+              <td>Time:</td>
+              <td>{ticketDateTime.toLocaleTimeString(undefined, { timeZoneName: 'short' })}</td>
             </tr>
             <tr>
               <td>Seat:</td>
@@ -108,6 +136,7 @@ export default function TicketQRDisplay({ }: Props) {
             </tr>
           </tbody>
         </table>
+        <button type='button' onClick={saveTicketAsImg}>Save for Offline</button>
       </div>
     )
   } else {
