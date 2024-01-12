@@ -2,7 +2,6 @@ import React, { useRef } from 'react'
 import * as htmlToImage from 'html-to-image';
 
 type Props = {
-  qrUrl: string;
   ticket: {
     eventid: string;
     ticketid: string;
@@ -11,13 +10,23 @@ type Props = {
     unixdatetime: number;
     seat: string;
   };
-  handleClearTicket: () => void;
+  isCheckin?: boolean;
+  qrUrl?: string;
+  handleClearTicket?: React.MouseEventHandler;
+  handleCheckInTicket?: React.MouseEventHandler;
 }
 
-export default function TicketQRDisplay({ qrUrl, ticket, handleClearTicket }: Props) {
+export default function TicketQRDisplay({
+  ticket,
+  isCheckin = false,
+  qrUrl,
+  handleClearTicket,
+  handleCheckInTicket
+}: Props) {
+
   const ref = useRef<HTMLTableElement>(null)
 
-  const ticketDateTime = new Date(1735650000000);
+  const localeDatetime = new Date(ticket.unixdatetime);
 
   const handleSaveTicketAsPNG = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -35,20 +44,35 @@ export default function TicketQRDisplay({ qrUrl, ticket, handleClearTicket }: Pr
       })
   }
 
-  const handleStartNewGeneration = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    handleClearTicket();
-  }
-
   return (
     <div className="TicketQRDisplay d-flex flex-column align-items-center">
       <table className='table table-light text-center' style={{ maxWidth: '500px' }} ref={ref}>
         <tbody>
-          <tr>
-            <td colSpan={2}>
-              <img src={qrUrl} />
-            </td>
-          </tr>
+          {/* Ticket display options - ID's for check-in, QR code for display */}
+          {
+            isCheckin ?
+              <>
+                <tr>
+                  <td>
+                    Ticket ID:
+                  </td>
+                  <td>{ticket.ticketid}</td>
+                </tr>
+                <tr>
+                  <td>
+                    Event ID:
+                  </td>
+                  <td>{ticket.eventid}</td>
+                </tr>
+              </>
+              :
+              <tr>
+                <td colSpan={2}>
+                  <img src={qrUrl} />
+                </td>
+              </tr>
+          }
+
           <tr>
             <td>Event:</td>
             <td>{ticket.title}</td>
@@ -59,11 +83,11 @@ export default function TicketQRDisplay({ qrUrl, ticket, handleClearTicket }: Pr
           </tr>
           <tr>
             <td>Date:</td>
-            <td>{ticketDateTime.toLocaleDateString()}</td>
+            <td>{localeDatetime.toLocaleDateString()}</td>
           </tr>
           <tr>
             <td>Time:</td>
-            <td>{ticketDateTime.toLocaleTimeString(undefined, { timeZoneName: 'short' })}</td>
+            <td>{localeDatetime.toLocaleTimeString(undefined, { timeZoneName: 'short' })}</td>
           </tr>
           <tr>
             <td>Seat:</td>
@@ -71,8 +95,17 @@ export default function TicketQRDisplay({ qrUrl, ticket, handleClearTicket }: Pr
           </tr>
         </tbody>
       </table>
-      <button type='button' onClick={handleSaveTicketAsPNG}>Save for Offline</button>
-      <button type='button' onClick={handleStartNewGeneration}>Generate another ticket?</button>
+
+      {/* Button Options */}
+      {
+        isCheckin ?
+          <button type='button' onClick={handleCheckInTicket}>Check-In</button>
+          :
+          <>
+            <button type='button' onClick={handleSaveTicketAsPNG}>Save for Offline</button>
+            <button type='button' onClick={handleClearTicket}>Generate another ticket?</button>
+          </>
+      }
     </div>
   )
 }

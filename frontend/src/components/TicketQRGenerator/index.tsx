@@ -8,7 +8,7 @@ import TicketQRDisplay from '@components/TicketQRDisplay';
 
 type Props = {}
 
-const defaultTicketDetails = {
+export const defaultTicketDetails = {
   uid: "",
   eventid: "",
   ticketid: "",
@@ -40,7 +40,8 @@ export default function TicketQRGenerator({ }: Props) {
     }
   }, [])
 
-  const handleClearTicket = () => {
+  const handleClearTicket = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     setQrUrl("");
     setTicketDetails(defaultTicketDetails);
   }
@@ -84,7 +85,7 @@ export default function TicketQRGenerator({ }: Props) {
 
   if (qrUrl) {
     // display ticket if already generated
-    return <TicketQRDisplay qrUrl={qrUrl} ticket={ticketDetails} handleClearTicket={handleClearTicket} />
+    return <TicketQRDisplay ticket={ticketDetails} qrUrl={qrUrl} handleClearTicket={handleClearTicket} />
   } else {
     // otherwise, provide options to generate a ticket
     return (
