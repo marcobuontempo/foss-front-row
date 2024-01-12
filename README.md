@@ -6,7 +6,7 @@
 PORT=<custom_port>
 FRONTEND_URL=<frontend_url_for_cors_access>
 MONGODB_URI=mongodb://<host>:<port>/<collection_name>
-JWT_SECRET_KEY=<custom_signing_key>
+JWT_SECRET_KEY=<custom_jwt_signing_key>
 ```
 
 ## frontend

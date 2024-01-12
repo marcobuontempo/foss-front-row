@@ -88,25 +88,16 @@ DONE - DELETE /orders/{orderID} - Cancel a specific order (requires authenticati
 # FRONTEND
 
 ## ...
-DONE - Add /events route
-DONE - Change ProtectedRouterProvider to /router and extract routes object into own file
-DONE - Link navbar to render conditionally from /router/routes array
-DONE - Create 'Events' landing page
-DONE - Create 'Create Event' form
-DONE - Create individual 'Event' information pages
-DONE - Create cart. including redux slices (cart, ticketsToAddToCart)
-DONE - Change event tickets display to be simple inline, with 'Add to Cart' button
-DONE - Create Cart page
-DONE - Persist Cart with localStorage, and load on application start
-DONE - Navlinks in profile, to toggle between account details, orders, settings, etc.
-DONE - Navlinks in Events, for create event, my events
-DONE - Create 'Order Tickets' page
-DONE - Add ability to search (or filter) events
-DONE - 'Manage Events' from EventsPage (edit/delete my events)
-- Create 'My Tickets' page
-  - shows tickets purchased
-  - each ticket can generate and save QR code
-- Create 'Ticket Scanning' option for 'My Events'
+- Option to 'Save for Offline' ticket as PDF
+- Convert unix datetime to local
+- Set options for QR code (HIGH data loss prevention, etc.)
+
+DONE - Create 'Ticket Scanning' option for 'My Events'
+  - create /ticket/:ticketid/consume endpoint, requires event owner to process
+  - when qr code is read and ticketUID is stored as state, display the ticket (hardcode uid string for now)
+  - 'Check In' ticket option will process the submission
+  - Add browser camera support to scan
+
 - Add ability to add x tickets to cart (incl. max price and seat type, from dropdown -> dropdown generated from fetched tickets)
 - Group events in frontend cart
 - Create 'My Orders' page, to display a list of orders
@@ -117,6 +108,7 @@ DONE - 'Manage Events' from EventsPage (edit/delete my events)
 
 # OTHER TODO
 - Restrict, using backend, which fields can be updated in PUT - /userdetails
+- Change foreign keys on each model to omit 'id' in name. i.e. 'userid' => 'user' ... 'eventid' => 'event'
 - Confirmations for buttons, e.g. logout, reserve ticket, etc.
 - Add types to redux reducer actions
 - Change to MaterialUI

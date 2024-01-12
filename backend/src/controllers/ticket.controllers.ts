@@ -144,9 +144,17 @@ const getTicketIdentifier = async (req: AuthenticatedRequest, res: Response, nex
 
     // Send success response
     const response = new SuccessResponse({
-      message: 'ticket uid successfully created',
+      message: 'ticket uid successfully generated',
       data: {
-        ticketUID,
+        uid: ticketUID,
+        info: {
+          eventid: event._id,
+          ticketid: ticket._id,
+          title: event.title,
+          unixdatetime: new Date(event.date).getTime(),
+          venue: event.venue,
+          seat: ticket.seat,
+        }
       }
     });
     res.status(200).json(response);

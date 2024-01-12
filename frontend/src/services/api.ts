@@ -101,7 +101,15 @@ export type UserOrdersResponse = BaseResponse & {
 
 export type TicketUIDGenerateResponse = BaseResponse & {
   data: {
-    ticketUID: string;
+    uid: string;
+    info: {
+      eventid: string;
+      ticketid: string;
+      title: string;
+      venue: string;
+      unixdatetime: number;
+      seat: string;
+    }
   }
 }
 

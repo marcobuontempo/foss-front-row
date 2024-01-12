@@ -4,13 +4,12 @@ import * as htmlToImage from 'html-to-image';
 type Props = {
   qrUrl: string;
   ticket: {
-    ticketid: string,
-    eventid: string,
-    seat: string,
-    title: string,
-    datetime: string,
-    venue: string,
-    owner: string,
+    eventid: string;
+    ticketid: string;
+    title: string;
+    venue: string;
+    unixdatetime: number;
+    seat: string;
   };
   handleClearTicket: () => void;
 }

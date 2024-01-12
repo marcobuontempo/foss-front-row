@@ -9,13 +9,13 @@ import TicketQRDisplay from '@components/TicketQRDisplay';
 type Props = {}
 
 const defaultTicketDetails = {
-  ticketid: "",
+  uid: "",
   eventid: "",
-  seat: "",
+  ticketid: "",
   title: "",
-  datetime: "",
   venue: "",
-  owner: "",
+  unixdatetime: 0,
+  seat: "",
 }
 
 export default function TicketQRGenerator({ }: Props) {
@@ -30,16 +30,16 @@ export default function TicketQRGenerator({ }: Props) {
   useEffect(() => {
     if (userid) {
       getUserOrders(userid)
-      .then(response => {
-        console.log(response)
-        setOrders(response.data)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+        .then(response => {
+          console.log(response)
+          setOrders(response.data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   }, [])
-  
+
   const handleClearTicket = () => {
     setQrUrl("");
     setTicketDetails(defaultTicketDetails);
@@ -57,38 +57,29 @@ export default function TicketQRGenerator({ }: Props) {
   const handleTicketSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    // fetch a generated ticket uid from server
-    const ticketUID =
+    // fetch a generated ticket uid & info from server
+    const ticketData =
       await generateTicketUID(selectedEvent, selectedTicket)
         .then(response => {
-          return response.data.ticketUID;
+          const newTicketDetails = {
+            ...response.data.info,
+            uid: response.data.uid,
+          }
+          setTicketDetails(newTicketDetails)
+          return newTicketDetails;
         })
         .catch(error => {
           console.log(error)
         })
 
-    if (ticketUID) {
-      // get ticket information and save in state
-      const [ticketid, eventid, seat, title, datetime, venue, owner] = ticketUID.split("::");
-      setTicketDetails({
-        ticketid,
-        eventid,
-        seat,
-        title,
-        datetime,
-        venue,
-        owner,
+    // generate the QR code and save in state
+    await QRCode.toDataURL(JSON.stringify(ticketData))
+      .then(url => {
+        setQrUrl(url)
       })
-
-      // generate the QR code and save in state
-      await QRCode.toDataURL(ticketUID)
-        .then(url => {
-          setQrUrl(url)
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    }
+      .catch(error => {
+        console.log(error)
+      })
   }
 
   if (qrUrl) {
