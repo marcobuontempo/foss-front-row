@@ -22,8 +22,8 @@ import ProfileSettingsDisplay from "@components/ProfileSettingsDisplay";
 import ManageEvents from "@components/ManageEvents";
 import UpdateEventForm from "@components/UpdateEventForm";
 import TicketsPage from "@pages/TicketsPage";
-import TicketQRDisplay from "@components/TicketQRDisplay";
 import TicketQRScan from "@components/TicketQRScan";
+import TicketQRGenerator from "@components/TicketQRGenerator";
 
 export type ProtectedRouteObject =
   RouteObject &
@@ -62,7 +62,7 @@ export const routes: ProtectedRouteObject[] = [
       },
       {
         path: "display",
-        element: <TicketQRDisplay />,
+        element: <TicketQRGenerator />,
       },
       {
         path: "scan",
