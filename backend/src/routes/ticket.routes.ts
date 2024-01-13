@@ -24,6 +24,6 @@ router.delete('/:ticketid', isEventOwner, deleteTicket);
 router.get('/:ticketid/generate', isTicketOwner, getTicketIdentifier);
 
 // Check-in Ticket (using generated code, normally stored in QR)
-router.post('/:ticketid/consume', consumeTicket)
+router.put('/:ticketid/consume', isEventOwner, consumeTicket)
 
 export default router;

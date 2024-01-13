@@ -166,7 +166,17 @@ const getTicketIdentifier = async (req: AuthenticatedRequest, res: Response, nex
 
 const consumeTicket = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    // TODO
+    const { ticketid } = req.params;
+
+    // Get ticket info
+    const ticket = await Ticket.findById(ticketid);
+
+    if (!ticket) throw new ErrorResponse(422, "cannot process invalid ticket");
+    if (ticket.consumed === true) throw new ErrorResponse(422, "cannot process ticket already consumed");
+
+    // Update ticket
+    ticket.consumed = true;
+    ticket.save();
 
     // Send success response
     const response = new SuccessResponse({
