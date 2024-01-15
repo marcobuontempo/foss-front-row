@@ -11,7 +11,7 @@ const isTicketOwner = async (req: AuthenticatedRequest, res: Response, next: Nex
     const { ticketid } = req.params;
     const orders = await Order.find({ tickets: { $in: [ticketid] } })  // find orders containing the ticket
       .sort({ createdAt: -1 }); // sort by date the order is created
-    const ownerid = orders[0].userid.toString();  // select the owner of the most recent order containing the ticket (i.e. the current owner)
+    const ownerid = orders[0].user.toString();  // select the owner of the most recent order containing the ticket (i.e. the current owner)
 
     if (ownerid === req.user?.userid) {
       return next();

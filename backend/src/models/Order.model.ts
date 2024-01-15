@@ -1,8 +1,8 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
 interface IOrder extends Document {
-  userid: Schema.Types.ObjectId;
-  eventid: Schema.Types.ObjectId;
+  user: Schema.Types.ObjectId;
+  event: Schema.Types.ObjectId;
   tickets: Array<Schema.Types.ObjectId>;
   totalQuantity: number;
   totalPrice: number;
@@ -10,12 +10,12 @@ interface IOrder extends Document {
 
 const orderSchema = new Schema<IOrder>(
   {
-    userid: {
+    user: {
       type: Schema.Types.ObjectId,
       ref: 'User',
       required: true
     },
-    eventid: {
+    event: {
       type: Schema.Types.ObjectId,
       ref: 'Event',
       required: true

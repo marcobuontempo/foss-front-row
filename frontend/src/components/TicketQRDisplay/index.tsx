@@ -4,8 +4,8 @@ import './TicketQRDisplay.css'
 
 type Props = {
   ticket: {
-    eventid: string;
-    ticketid: string;
+    id: string;
+    event: string;
     title: string;
     venue: string;
     unixdatetime: number;
@@ -36,7 +36,7 @@ export default function TicketQRDisplay({
     htmlToImage.toPng(ref.current, { cacheBust: true, width: 500 })
       .then((dataUrl) => {
         const link = document.createElement('a')
-        link.download = `ticket_${ticket.ticketid}.png`
+        link.download = `ticket_${ticket.id}.png`
         link.href = dataUrl
         link.click()
       })
@@ -58,13 +58,13 @@ export default function TicketQRDisplay({
                   <td>
                     Ticket ID:
                   </td>
-                  <td>{ticket.ticketid}</td>
+                  <td>{ticket.id}</td>
                 </tr>
                 <tr>
                   <td>
                     Event ID:
                   </td>
-                  <td>{ticket.eventid}</td>
+                  <td>{ticket.event}</td>
                 </tr>
               </>
               :

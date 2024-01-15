@@ -18,8 +18,9 @@ export default function TicketQRScan({ }: Props) {
     // ensure data has been parsed correctly before storing
     if (
       uid &&
-      ticket.eventid &&
-      ticket.ticketid &&
+      ticket.id &&
+      ticket.event &&
+      ticket.title &&
       ticket.venue &&
       ticket.unixdatetime &&
       ticket.seat
@@ -33,7 +34,7 @@ export default function TicketQRScan({ }: Props) {
   const handleCheckInTicket = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     // Update ticket in database
-    consumeTicket(ticket.eventid, ticket.ticketid)
+    consumeTicket(ticket.event, ticket.id, uid)
       .then(response => {
         console.log(response);
       })

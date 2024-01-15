@@ -26,9 +26,9 @@ const getUserOrders = async (req: Request, res: Response, next: NextFunction): P
 
     // Get orders
     const orders = await Order
-      .find({ userid })
+      .find({ user: userid })
       .populate({
-        path: 'eventid',
+        path: 'event',
         model: 'Event',
         select: '-__v',
       })

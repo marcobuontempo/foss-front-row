@@ -1,7 +1,7 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
 interface ITicket extends Document {
-  eventid: Schema.Types.ObjectId;
+  event: Schema.Types.ObjectId;
   price: number;
   seat: string;
   available: boolean;
@@ -9,7 +9,7 @@ interface ITicket extends Document {
 }
 
 const ticketSchema = new Schema<ITicket>({
-  eventid: {
+  event: {
     type: Schema.Types.ObjectId,
     ref: 'Event',
     required: true

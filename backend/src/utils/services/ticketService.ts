@@ -6,7 +6,7 @@ import crypto from 'crypto';
 const createTicketsForEvent = async (event: IEvent, numberOfTickets: number) => {
   // Create and save tickets
   for (let i = 0; i < numberOfTickets; i++) {
-    const ticket = new Ticket({ eventid: event._id });
+    const ticket = new Ticket({ event: event._id });
     await ticket.save();
   }
 };

@@ -11,7 +11,7 @@ type Props = {
 // Custom sort - by priority: eventid, availability, price
 const sortByEventIdAvailabilityAndPrice = (a: TicketResponse['data'], b: TicketResponse['data']) => {
   // Compare eventids as strings
-  const eventIdComparison = a.eventid.localeCompare(b.eventid);
+  const eventIdComparison = a.event.localeCompare(b.event);
 
   if (eventIdComparison === 0) {
     // If eventids are equal, check availability

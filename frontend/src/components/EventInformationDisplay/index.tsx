@@ -46,7 +46,7 @@ export default function EventInformationDisplay({ }: Props) {
     if (eventid) {
       await deleteEvent(eventid)
       .then(response => {
-        console.log(response)
+        // console.log(response)
         return response
       })
       .catch(error => {

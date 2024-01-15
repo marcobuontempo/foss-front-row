@@ -12,8 +12,8 @@ type EventDetails = EventResponse['data'] & { tickets: TicketResponse['data'][] 
 
 export const defaultTicketDetails = {
   uid: "",
-  eventid: "",
-  ticketid: "",
+  id: "",
+  event: "",
   title: "",
   venue: "",
   unixdatetime: 0,
@@ -34,12 +34,12 @@ export default function TicketQRGenerator({ }: Props) {
   const groupEvents = () => {
     const events: EventDetails[] = [];
     orders.forEach(order => {
-      const existingEvent = events.find(event => event._id === order.eventid._id);
+      const existingEvent = events.find(event => event._id === order.event._id);
       if (existingEvent) {
         existingEvent.tickets.push(...order.tickets);
       } else {
         events.push({
-          ...order.eventid,
+          ...order.event,
           tickets: [...order.tickets],  // create copy of tickets, instead of reference to each ticket object
         })
       }
@@ -100,7 +100,7 @@ export default function TicketQRGenerator({ }: Props) {
 
     // generate the QR code and save in state
     await QRCode.toDataURL(JSON.stringify(ticketData), {
-      errorCorrectionLevel: 'high',
+      errorCorrectionLevel: 'quartile',
       scale: 10,
     })
       .then(url => {

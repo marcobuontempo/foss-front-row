@@ -11,7 +11,7 @@ const getAllTickets = async (req: Request, res: Response, next: NextFunction): P
   try {
     // Get tickets
     const { eventid } = req.params;
-    const tickets = await Ticket.find({ eventid }).select({ __v: false });
+    const tickets = await Ticket.find({ event: eventid }).select({ __v: false });
 
     // Send success response
     const response = new SuccessResponse({
@@ -29,7 +29,7 @@ const getOneTicket = async (req: Request, res: Response, next: NextFunction): Pr
   try {
     // Get ticket
     const { eventid, ticketid } = req.params;
-    const ticket = await Ticket.findOne({ _id: ticketid, eventid }).select({ __v: false });
+    const ticket = await Ticket.findOne({ _id: ticketid, event: eventid }).select({ __v: false });
     if (!ticket) throw new ErrorResponse(400, "ticket not found");
 
     // Send success response
@@ -64,8 +64,8 @@ const orderTickets = async (req: AuthenticatedRequest, res: Response, next: Next
 
     // Create an order
     const order = new Order({
-      userid,
-      eventid,
+      user: userid,
+      event: eventid,
       tickets,
       totalQuantity: tickets.length,
       totalPrice: availableTickets.reduce((acc, ticket) => acc + ticket.price, 0),
@@ -95,7 +95,7 @@ const updateTicket = async (req: Request, res: Response, next: NextFunction): Pr
   try {
     // Find ticket, update, and validate
     const { eventid, ticketid } = req.params;
-    await Ticket.findOneAndUpdate({ _id: ticketid, eventid }, req.body, { runValidators: true });
+    await Ticket.findOneAndUpdate({ _id: ticketid, event: eventid }, req.body, { runValidators: true });
 
     // Send success response
     const response = new SuccessResponse({
@@ -112,7 +112,7 @@ const deleteTicket = async (req: Request, res: Response, next: NextFunction): Pr
   try {
     // Find ticket and delete
     const { eventid, ticketid } = req.params;
-    await Ticket.findOneAndDelete({ _id: ticketid, eventid });
+    await Ticket.findOneAndDelete({ _id: ticketid, event: eventid });
 
     // Send success response
     const response = new SuccessResponse({
@@ -148,11 +148,11 @@ const getTicketIdentifier = async (req: AuthenticatedRequest, res: Response, nex
       data: {
         uid: ticketUID,
         info: {
-          eventid: event._id,
-          ticketid: ticket._id,
+          id: ticket._id,
+          event: event._id,
           title: event.title,
-          unixdatetime: new Date(event.date).getTime(),
           venue: event.venue,
+          unixdatetime: new Date(event.date).getTime(),
           seat: ticket.seat,
         }
       }
@@ -164,15 +164,24 @@ const getTicketIdentifier = async (req: AuthenticatedRequest, res: Response, nex
   }
 };
 
-const consumeTicket = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const consumeTicket = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { ticketid } = req.params;
+    const { uid } = req.body;
+    const ownerid = req.user?.userid;
+
+    if (!uid) throw new ErrorResponse(400, "uid required")
 
     // Get ticket info
     const ticket = await Ticket.findById(ticketid);
+    const event = await Event.findById(ticket?.event);
 
-    if (!ticket) throw new ErrorResponse(422, "cannot process invalid ticket");
+    if (!ticket || !event || !ownerid) throw new ErrorResponse(422, "cannot process invalid ticket");
     if (ticket.consumed === true) throw new ErrorResponse(422, "cannot process ticket already consumed");
+    
+    // Verify UID
+    const ticketUID = await generateTicketUID(ticket, event, ownerid);
+    if (ticketUID !== uid) throw new ErrorResponse(422, "ticket has invalid uid");
 
     // Update ticket
     ticket.consumed = true;

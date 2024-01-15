@@ -70,7 +70,7 @@ export type DeleteEventResponse = BaseResponse;
 export type TicketResponse = BaseResponse & {
   data: {
     _id: string;
-    eventid: string;
+    event: string;
     price: number;
     seat: string;
     available: boolean;
@@ -85,8 +85,8 @@ export type AllTicketsResponse = BaseResponse & {
 export type OrderResponse = BaseResponse & {
   data: {
     _id: string;
-    userid: string;
-    eventid: EventResponse['data'];
+    user: string;
+    event: EventResponse['data'];
     tickets: TicketResponse['data'][];
     totalQuantity: number;
     totalPrice: number;
@@ -103,8 +103,8 @@ export type TicketUIDGenerateResponse = BaseResponse & {
   data: {
     uid: string;
     info: {
-      eventid: string;
-      ticketid: string;
+      id: string;
+      event: string;
       title: string;
       venue: string;
       unixdatetime: number;
@@ -377,11 +377,14 @@ export const generateTicketUID = async (eventid: string, ticketid: string): Prom
     })
 }
 
-export const consumeTicket = async (eventid: string, ticketid: string): Promise<TicketConsumeResponse> => {
+export const consumeTicket = async (eventid: string, ticketid: string, ticketuid: string): Promise<TicketConsumeResponse> => {
   return axios
     .request({
       method: 'put',
       url: `/events/${eventid}/tickets/${ticketid}/consume`,
+      data: {
+        uid: ticketuid
+      }
     })
     .then(response => {
       return response.data;

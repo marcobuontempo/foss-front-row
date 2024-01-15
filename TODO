@@ -87,29 +87,21 @@ DONE - DELETE /orders/{orderID} - Cancel a specific order (requires authenticati
 # FRONTEND
 
 ## ...
-DONE - Set options for QR code (HIGH data loss prevention, etc.)
-- Setup 'Checkin' on frontend to make request and verify
-- 'My Tickets', orders with the same events aren't grouped
-- Rename .eventid to .event in getUserOrders() (or rename eventid, userid, etc. in all models to event & user instead)
-
-DONE - Create 'Ticket Scanning' option for 'My Events'
-  DONE - create /ticket/:ticketid/consume endpoint, requires event owner to process
-  DONE - when qr code is read and ticketUID is stored as state, display the ticket (hardcode uid string for now)
-  - 'Check In' ticket option will process the submission
-  - Add browser camera support to scan
-
+DONE - Rename .eventid to .event in getUserOrders() (or rename eventid, userid, etc. in all models to event & user instead)
+DONE - Check ticket uid when checking in
 - Add ability to add x tickets to cart (incl. max price and seat type, from dropdown -> dropdown generated from fetched tickets)
 - Group events in frontend cart
 - Create 'My Orders' page, to display a list of orders
-- Create 'My Tickets' page, to display a list of purchased tickets
+- Create a /user/tickets (?) endpoint to retrieve a list of all user tickets. Update frontend to fetch accordingly (for generateTicket), instead of having to calculate from orders list
 - Update redux selector for auth => selectAuth , and deconstruct {} to get variables (instead of an individual select for each variable)
 - Allow event time to be saved when creating the event (frontend -> unix -> backend -> server datetime)
-
+- Cart qty count on navbar
 
 
 # OTHER TODO
 - Restrict, using backend, which fields can be updated in PUT - /userdetails
-- Change foreign keys on each model to omit 'id' in name. i.e. 'userid' => 'user' ... 'eventid' => 'event'
 - Confirmations for buttons, e.g. logout, reserve ticket, etc.
 - Add types to redux reducer actions
+- Toast notifications for success/fail requests
+- Setup mongo replica set -> create a docker-compose image to do this -> implement transactions on backend where required
 - Change to MaterialUI

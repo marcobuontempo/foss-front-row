@@ -8,7 +8,7 @@ const isOrderOwner = async (req: AuthenticatedRequest, res: Response, next: Next
   try {
     // See if order can be found (where owner must match auth user's details)
     const { orderid } = req.params;
-    const order = await Order.findOne({ _id: orderid, userid: req.user?.userid });
+    const order = await Order.findOne({ _id: orderid, user: req.user?.userid });
 
     if (order) return next();
 

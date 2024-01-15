@@ -19,8 +19,8 @@ export default function CartPage({ }: Props) {
 
     // repeat until no tickets left to process
     while (unprocessedTickets.length > 0) {
-      const currentEventId = unprocessedTickets[0].eventid  // get eventid of an unprocessed ticket in array
-      const ticketsToOrder = unprocessedTickets.filter(ticket => ticket.eventid === currentEventId).map(ticket => ticket._id);  // get array of all ticketids that match the current eventid to place order for
+      const currentEventId = unprocessedTickets[0].event  // get eventid of an unprocessed ticket in array
+      const ticketsToOrder = unprocessedTickets.filter(ticket => ticket.event === currentEventId).map(ticket => ticket._id);  // get array of all ticketids that match the current eventid to place order for
 
       // place order
       if (currentEventId) {
@@ -29,13 +29,13 @@ export default function CartPage({ }: Props) {
           console.log(data)
         })
         .catch(error => {
-            failedTickets = [...failedTickets, ...unprocessedTickets.filter(ticket => ticket.eventid === currentEventId)];  // store reference to any failed tickets
+            failedTickets = [...failedTickets, ...unprocessedTickets.filter(ticket => ticket.event === currentEventId)];  // store reference to any failed tickets
             console.log(error)
           })
       }
 
       // remove tickets from unprocessed array
-      unprocessedTickets = unprocessedTickets.filter(ticket => ticket.eventid !== currentEventId)
+      unprocessedTickets = unprocessedTickets.filter(ticket => ticket.event !== currentEventId)
     }
 
     // update redux store to only contain remaining unprocessed tickets (i.e. failed order tickets)
