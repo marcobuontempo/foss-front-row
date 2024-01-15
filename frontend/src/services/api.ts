@@ -113,6 +113,8 @@ export type TicketUIDGenerateResponse = BaseResponse & {
   }
 }
 
+export type TicketConsumeResponse = BaseResponse;
+
 /** USER AUTHENTICATION */
 export const loginUser = async (credentials: { username: string; password: string }): Promise<LoginResponse> => {
   return axios
@@ -366,6 +368,20 @@ export const generateTicketUID = async (eventid: string, ticketid: string): Prom
     .request({
       method: 'get',
       url: `/events/${eventid}/tickets/${ticketid}/generate`,
+    })
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      throw error;
+    })
+}
+
+export const consumeTicket = async (eventid: string, ticketid: string): Promise<TicketConsumeResponse> => {
+  return axios
+    .request({
+      method: 'put',
+      url: `/events/${eventid}/tickets/${ticketid}/consume`,
     })
     .then(response => {
       return response.data;

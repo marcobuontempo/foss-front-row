@@ -9,8 +9,10 @@ axios.defaults.withCredentials = true;
 axios.interceptors.response.use(
   response => response,
   error => {
-    if (error.response && error.response.status === 401) {
-      // Handle 401 response - redirect to /logout
+    if (error.response &&
+      error.response.status === 401 &&
+      error.response?.data?.errors === 'invalid token') {
+      // Handle invalid token response - redirect to /logout
       document.location.href = "/logout"
     }
     return Promise.reject(error);

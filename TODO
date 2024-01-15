@@ -76,7 +76,6 @@ DONE - GET /orders - Retrieve a list of user orders (requires authentication).
 DONE - GET /orders/{orderID} - Retrieve details of a specific order (requires authentication).
 DONE - DELETE /orders/{orderID} - Cancel a specific order (requires authentication).
 
-
 ## Other
 1. Date saved to mongo is in datetime format. Only accepts mm/dd/yyyy format. And due to timezone difference, the DOB will be adjusted to the wrong day (as it may go back 10 hours to adjust for difference, which is obviously unintended)
 2. Implement mongo transactions to avoid race conditions and database issues. *Requires a replica or cluster mongo setup => use a suitable docker-compose
@@ -88,13 +87,14 @@ DONE - DELETE /orders/{orderID} - Cancel a specific order (requires authenticati
 # FRONTEND
 
 ## ...
-- Option to 'Save for Offline' ticket as PDF
-- Convert unix datetime to local
-- Set options for QR code (HIGH data loss prevention, etc.)
+DONE - Set options for QR code (HIGH data loss prevention, etc.)
+- Setup 'Checkin' on frontend to make request and verify
+- 'My Tickets', orders with the same events aren't grouped
+- Rename .eventid to .event in getUserOrders() (or rename eventid, userid, etc. in all models to event & user instead)
 
 DONE - Create 'Ticket Scanning' option for 'My Events'
-  - create /ticket/:ticketid/consume endpoint, requires event owner to process
-  - when qr code is read and ticketUID is stored as state, display the ticket (hardcode uid string for now)
+  DONE - create /ticket/:ticketid/consume endpoint, requires event owner to process
+  DONE - when qr code is read and ticketUID is stored as state, display the ticket (hardcode uid string for now)
   - 'Check In' ticket option will process the submission
   - Add browser camera support to scan
 
@@ -103,6 +103,7 @@ DONE - Create 'Ticket Scanning' option for 'My Events'
 - Create 'My Orders' page, to display a list of orders
 - Create 'My Tickets' page, to display a list of purchased tickets
 - Update redux selector for auth => selectAuth , and deconstruct {} to get variables (instead of an individual select for each variable)
+- Allow event time to be saved when creating the event (frontend -> unix -> backend -> server datetime)
 
 
 

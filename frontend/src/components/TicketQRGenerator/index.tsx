@@ -3,10 +3,12 @@ import './TicketQRGenerator.css'
 import QRCode from 'qrcode'
 import { useAppSelector } from '@utils/useAppSelector';
 import { selectUserId } from '@features/auth/authSlice';
-import { UserOrdersResponse, generateTicketUID, getUserOrders } from '@services/api';
+import { EventResponse, TicketResponse, UserOrdersResponse, generateTicketUID, getUserOrders } from '@services/api';
 import TicketQRDisplay from '@components/TicketQRDisplay';
 
 type Props = {}
+
+type EventDetails = EventResponse['data'] & { tickets: TicketResponse['data'][] };
 
 export const defaultTicketDetails = {
   uid: "",
@@ -18,6 +20,7 @@ export const defaultTicketDetails = {
   seat: "",
 }
 
+
 export default function TicketQRGenerator({ }: Props) {
   const userid = useAppSelector(selectUserId);
 
@@ -27,11 +30,33 @@ export default function TicketQRGenerator({ }: Props) {
   const [qrUrl, setQrUrl] = useState<string | null>(null);
   const [ticketDetails, setTicketDetails] = useState(defaultTicketDetails);
 
+
+  const groupEvents = () => {
+    const events: EventDetails[] = [];
+    orders.forEach(order => {
+      const existingEvent = events.find(event => event._id === order.eventid._id);
+      if (existingEvent) {
+        existingEvent.tickets.push(...order.tickets);
+      } else {
+        events.push({
+          ...order.eventid,
+          tickets: [...order.tickets],  // create copy of tickets, instead of reference to each ticket object
+        })
+      }
+    })
+    return events;
+  }
+
+  const groupEventTickets = () => {
+    const event = groupEvents().find(event => event._id === selectedEvent);
+    return event ? event.tickets : [];
+  }
+
   useEffect(() => {
+    // fetch user orders
     if (userid) {
       getUserOrders(userid)
         .then(response => {
-          console.log(response)
           setOrders(response.data)
         })
         .catch(error => {
@@ -74,7 +99,10 @@ export default function TicketQRGenerator({ }: Props) {
         })
 
     // generate the QR code and save in state
-    await QRCode.toDataURL(JSON.stringify(ticketData))
+    await QRCode.toDataURL(JSON.stringify(ticketData), {
+      errorCorrectionLevel: 'high',
+      scale: 10,
+    })
       .then(url => {
         setQrUrl(url)
       })
@@ -100,7 +128,7 @@ export default function TicketQRGenerator({ }: Props) {
               <select name='event' value={selectedEvent} onChange={handleSelectEventChange}>
                 <option value="" disabled>select event...</option>
                 {
-                  [...new Set(orders.map(order => order.eventid))]
+                  groupEvents()
                     .map(event => <option value={event._id} key={event._id}>{event.title}</option>)
                 }
               </select>
@@ -109,13 +137,11 @@ export default function TicketQRGenerator({ }: Props) {
               <select name='ticket' value={selectedTicket} onChange={handleSelectTicketChange}>
                 <option value="" disabled>select ticket...</option>
                 {
-                  orders
-                    .filter(order => order.eventid._id === selectedEvent)
-                    .flatMap(order => order.tickets)
+                  groupEventTickets()
                     .map(ticket => <option value={ticket._id} key={ticket._id}>{ticket._id} | ({ticket.seat})</option>)
                 }
               </select>
-              <button type='submit'>Generate Ticket</button>
+              <button className='btn btn-info' type='submit'>Generate Ticket</button>
             </form>
         }
       </div>

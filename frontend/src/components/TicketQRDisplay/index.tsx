@@ -1,5 +1,6 @@
 import React, { useRef } from 'react'
 import * as htmlToImage from 'html-to-image';
+import './TicketQRDisplay.css'
 
 type Props = {
   ticket: {
@@ -10,7 +11,7 @@ type Props = {
     unixdatetime: number;
     seat: string;
   };
-  isCheckin?: boolean;
+  isScanned?: boolean;
   qrUrl?: string;
   handleClearTicket?: React.MouseEventHandler;
   handleCheckInTicket?: React.MouseEventHandler;
@@ -18,7 +19,7 @@ type Props = {
 
 export default function TicketQRDisplay({
   ticket,
-  isCheckin = false,
+  isScanned = false,
   qrUrl,
   handleClearTicket,
   handleCheckInTicket
@@ -48,9 +49,10 @@ export default function TicketQRDisplay({
     <div className="TicketQRDisplay d-flex flex-column align-items-center">
       <table className='table table-light text-center' style={{ maxWidth: '500px' }} ref={ref}>
         <tbody>
-          {/* Ticket display options - ID's for check-in, QR code for display */}
+          {/* Ticket display options */}
           {
-            isCheckin ?
+            isScanned ?
+            // show ID's when ticket has been scanned
               <>
                 <tr>
                   <td>
@@ -66,9 +68,10 @@ export default function TicketQRDisplay({
                 </tr>
               </>
               :
+              // show qr code when creating ticket
               <tr>
                 <td colSpan={2}>
-                  <img src={qrUrl} />
+                  <img className='TicketQRDisplay__qr' src={qrUrl} />
                 </td>
               </tr>
           }
@@ -98,12 +101,12 @@ export default function TicketQRDisplay({
 
       {/* Button Options */}
       {
-        isCheckin ?
-          <button type='button' onClick={handleCheckInTicket}>Check-In</button>
+        isScanned ?
+          <button className='btn btn-info' type='button' onClick={handleCheckInTicket}>Check-In</button>
           :
           <>
-            <button type='button' onClick={handleSaveTicketAsPNG}>Save for Offline</button>
-            <button type='button' onClick={handleClearTicket}>Generate another ticket?</button>
+            <button className='btn btn-info' type='button' onClick={handleSaveTicketAsPNG}>Save for Offline</button>
+            <button className='btn btn-info' type='button' onClick={handleClearTicket}>Generate another ticket?</button>
           </>
       }
     </div>

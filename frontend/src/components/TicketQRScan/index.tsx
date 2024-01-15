@@ -4,6 +4,7 @@ import Html5QRcodePlugin from '@components/Html5QRcodePlugin'
 import { Html5QrcodeResult } from 'html5-qrcode';
 import { defaultTicketDetails } from '@components/TicketQRGenerator';
 import TicketQRDisplay from '@components/TicketQRDisplay';
+import { consumeTicket } from '@services/api';
 
 type Props = {}
 
@@ -31,20 +32,24 @@ export default function TicketQRScan({ }: Props) {
 
   const handleCheckInTicket = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    console.log("Checking in...")
-    // POST request /scan
+    // Update ticket in database
+    consumeTicket(ticket.eventid, ticket.ticketid)
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      })
   }
 
   return (
     <div className='TicketQRScan'>
       {
         success ?
-          <TicketQRDisplay ticket={ticket} isCheckin={true} handleCheckInTicket={handleCheckInTicket} />
+          <TicketQRDisplay ticket={ticket} isScanned={true} handleCheckInTicket={handleCheckInTicket} />
           :
           <Html5QRcodePlugin qrCodeSuccessCallback={onNewScanResult} />
       }
     </div>
   )
 }
-
-// {"eventid":"65698383166a218cf09ae32d","ticketid":"65698383166a218cf09ae335","title":"TEST EVENT!!!","unixdatetime":1735650000000,"venue":"AUS","seat":"General Admission [GA]","uid":"44bc18e1cbc078e11c9bf20b2634faec041c6b509e628b6cb23277c8b593c2ec"}
