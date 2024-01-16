@@ -85,10 +85,12 @@ DONE - DELETE /orders/{orderID} - Cancel a specific order (requires authenticati
 - Cart qty count on navbar
 - Confirmations for buttons, e.g. logout, reserve ticket, etc.
 - Add admin panel actions
+- Styling
 
 
 # BACKEND
 - Prevent account delete if account type (to delete) is =admin
+- Let admin access any isCurrentAuthUser actions
 - /consume ticket uid and /generate uid may not match. Need to verify which ownerid is being used.
 - Setup backend to accept dd/mm/yyyy format for DOB creation. Ensure it keeps the same date regardless of timezone difference of the frontend (maybe send raw string of date ?)
 - Setup root endpoint '/' to display rest endpoint info

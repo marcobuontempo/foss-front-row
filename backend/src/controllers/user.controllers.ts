@@ -45,6 +45,16 @@ const deleteUser = async (req: AuthenticatedRequest, res: Response, next: NextFu
   try {
     // Find user and delete from both User and UserDetail collections
     const { userid } = req.params;
+
+    const user = await User.findById(userid);
+    
+    // Check user exists to delete
+    if (!user) throw new ErrorResponse(404, 'user not found')
+
+    // Prevent deletion of admin accounts
+    if (user.role === 'admin') throw new ErrorResponse(403, 'account is protected from deletion')
+
+    // Process deletions
     await User.findByIdAndDelete(userid);
     await UserDetail.findByIdAndDelete(userid);
 
