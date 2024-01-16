@@ -89,8 +89,7 @@ DONE - DELETE /orders/{orderID} - Cancel a specific order (requires authenticati
 ## ...
 DONE - Rename .eventid to .event in getUserOrders() (or rename eventid, userid, etc. in all models to event & user instead)
 DONE - Check ticket uid when checking in
-- Add ability to add x tickets to cart (incl. max price and seat type, from dropdown -> dropdown generated from fetched tickets)
-- Group events in frontend cart
+DONE - Group events in frontend cart
 - Create 'My Orders' page, to display a list of orders
 - Create a /user/tickets (?) endpoint to retrieve a list of all user tickets. Update frontend to fetch accordingly (for generateTicket), instead of having to calculate from orders list
 - Update redux selector for auth => selectAuth , and deconstruct {} to get variables (instead of an individual select for each variable)
@@ -104,4 +103,4 @@ DONE - Check ticket uid when checking in
 - Add types to redux reducer actions
 - Toast notifications for success/fail requests
 - Setup mongo replica set -> create a docker-compose image to do this -> implement transactions on backend where required
-- Change to MaterialUI
+- Add admin panel actions

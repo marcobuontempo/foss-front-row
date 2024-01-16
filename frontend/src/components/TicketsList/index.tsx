@@ -34,6 +34,11 @@ export default function TicketsList({ tickets, isCart = false }: Props) {
       <caption className='text-center fw-bold'>TICKETS</caption>
       <thead>
         <tr className='table-light'>
+          {
+            // column for event id display when in cart
+            isCart &&
+            <th scope='col'>Event</th>
+          }
           <th scope='col'>Seat</th>
           <th scope='col'>Price</th>
           <th scope='col'>Action</th>
@@ -43,7 +48,7 @@ export default function TicketsList({ tickets, isCart = false }: Props) {
         {
           [...tickets]
             .sort(sortByEventIdAvailabilityAndPrice)
-            .map(ticket => <TicketDisplayCard key={ticket._id} ticketData={ticket} showRemoveButton={isCart} />)
+            .map(ticket => <TicketDisplayCard key={ticket._id} ticketData={ticket} isCart={isCart} showRemoveButton={isCart} />)
         }
       </tbody>
     </table>

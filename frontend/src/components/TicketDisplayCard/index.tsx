@@ -8,10 +8,16 @@ import { addOrRemoveItemToCart } from '@utils/cartStorage';
 type Props = {
   ticketData: TicketResponse['data'];
   showRemoveButton?: boolean;
+  isCart?: boolean;
 }
 
-export default function TicketDisplayCard({ ticketData, showRemoveButton = false }: Props) {
-  const { price, seat, available } = ticketData;
+export default function TicketDisplayCard({
+  ticketData,
+  isCart = false,
+  showRemoveButton = false
+}: Props) {
+  
+  const { event, price, seat, available } = ticketData;
 
   const { tickets } = useAppSelector(selectCart);
 
@@ -31,6 +37,11 @@ export default function TicketDisplayCard({ ticketData, showRemoveButton = false
 
   return (
     <tr className='TicketDisplayCard'>
+      {
+        // show event id when in card
+        isCart &&
+        <td>{event}</td>
+      }
       <td>{seat}</td>
       <td>{price === 0 ? "FREE" : price}</td>
       <td>
