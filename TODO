@@ -91,7 +91,6 @@ DONE - DELETE /orders/{orderID} - Cancel a specific order (requires authenticati
 # BACKEND
 - /consume ticket uid and /generate uid may not match. Need to verify which ownerid is being used.
 - Setup backend to accept dd/mm/yyyy format for DOB creation. Ensure it keeps the same date regardless of timezone difference of the frontend (maybe send raw string of date ?)
-- Setup root endpoint '/' to display rest endpoint info
 - Lock npm versions
 - update ticketService to save all tickets in an array before performing a single .save (?) method
 
