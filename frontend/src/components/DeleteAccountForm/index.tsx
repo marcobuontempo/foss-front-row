@@ -1,13 +1,13 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react'
 import './DeleteAccountForm.css'
 import { useAppSelector } from '@utils/useAppSelector';
-import { deleteUser, updatePassword } from '@services/api';
-import { selectUserId } from '@features/auth/authSlice';
+import { deleteUser } from '@services/api';
+import { selectAuth } from '@features/auth/authSlice';
 
 type Props = {}
 
 export default function DeleteAccountForm({ }: Props) {
-  const userid = useAppSelector(selectUserId);
+  const { userid } = useAppSelector(selectAuth);
 
   const [confirmationText, setConfirmationText] = useState("");
 

@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 import './ManageEvents.css'
 import { EventResponse, getUserEvents } from '@services/api'
 import { useAppSelector } from '@utils/useAppSelector';
-import { selectUserId } from '@features/auth/authSlice';
+import { selectAuth } from '@features/auth/authSlice';
 import EventDisplayCard from '@components/EventDisplayCard';
 
 type Props = {}
 
 export default function ManageEvents({ }: Props) {
-  const userid = useAppSelector(selectUserId);
+  const { userid } = useAppSelector(selectAuth);
 
   const [events, setEvents] = useState<EventResponse['data'][]>([])
 

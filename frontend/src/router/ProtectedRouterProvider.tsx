@@ -3,7 +3,7 @@ import { RouterProvider, createBrowserRouter, RouteObject } from 'react-router-d
 import App from '../App'
 import ErrorPage from '@pages/ErrorPage'
 import { useAppSelector } from '@utils/useAppSelector'
-import { selectIsAuthenticated, selectRole } from '@features/auth/authSlice'
+import { selectAuth } from '@features/auth/authSlice'
 import generateProtectedRoutes from '@router/routes'
 
 export type ProtectedRouteObject =
@@ -17,8 +17,7 @@ export type ProtectedRouteObject =
 type Props = {}
 
 export default function ProtectedRouterProvider({ }: Props) {
-  const isAuthenticated = useAppSelector(selectIsAuthenticated)
-  const role = useAppSelector(selectRole)
+  const { isAuthenticated, role } = useAppSelector(selectAuth);
 
   // Protect/update routes based on priveleges
   const protectedRoutes = generateProtectedRoutes(isAuthenticated, role)

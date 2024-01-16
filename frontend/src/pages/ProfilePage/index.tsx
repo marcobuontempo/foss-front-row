@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import './ProfilePage.css'
 import { getUserDetails } from '@services/api';
 import { useAppSelector } from '@utils/useAppSelector';
-import { selectUserId } from '@features/auth/authSlice';
+import { selectAuth } from '@features/auth/authSlice';
 import { Outlet, useLocation } from 'react-router-dom';
 import { useAppDispatch } from '@utils/useAppDispatch';
 import { setUserDetails } from '@features/user/userDetailsSlice';
@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 type Props = {}
 
 export default function ProfilePage({ }: Props) {
-  const userid = useAppSelector(selectUserId);
+  const { userid } = useAppSelector(selectAuth);
 
   const currentRoute = useLocation().pathname.split("/").slice(-1)[0]
 

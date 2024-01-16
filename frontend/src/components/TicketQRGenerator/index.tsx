@@ -2,7 +2,7 @@ import React, { FormEvent, useEffect, useState } from 'react'
 import './TicketQRGenerator.css'
 import QRCode from 'qrcode'
 import { useAppSelector } from '@utils/useAppSelector';
-import { selectUserId } from '@features/auth/authSlice';
+import { selectAuth } from '@features/auth/authSlice';
 import { UserTicketsResponse, generateTicketUID, getUserTickets } from '@services/api';
 import TicketQRDisplay from '@components/TicketQRDisplay';
 
@@ -20,7 +20,7 @@ export const defaultTicketDetails = {
 
 
 export default function TicketQRGenerator({ }: Props) {
-  const userid = useAppSelector(selectUserId);
+  const { userid } = useAppSelector(selectAuth);
 
   const [tickets, setTickets] = useState<UserTicketsResponse['data']>([]);
   const [selectedEvent, setSelectedEvent] = useState("");

@@ -1,4 +1,3 @@
-import store from '../store'
 import { onLoginSuccess, onLogout } from '@services/authService';
 
 

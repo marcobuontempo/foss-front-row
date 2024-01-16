@@ -2,12 +2,12 @@ import React, { ChangeEvent, FormEvent, useState } from 'react'
 import './ChangePasswordForm.css'
 import { useAppSelector } from '@utils/useAppSelector';
 import { updatePassword } from '@services/api';
-import { selectUserId } from '@features/auth/authSlice';
+import { selectAuth } from '@features/auth/authSlice';
 
 type Props = {}
 
 export default function ChangePasswordForm({ }: Props) {
-  const userid = useAppSelector(selectUserId);
+  const { userid } = useAppSelector(selectAuth);
 
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");

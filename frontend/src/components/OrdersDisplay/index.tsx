@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react'
 import './OrdersDisplay.css'
 import { UserOrdersResponse, getUserOrders } from '@services/api'
 import { useAppSelector } from '@utils/useAppSelector'
-import { selectUserId } from '@features/auth/authSlice'
+import { selectAuth } from '@features/auth/authSlice'
 
 type Props = {}
 
 export default function OrdersDisplay({ }: Props) {
-  const userid = useAppSelector(selectUserId);
+  const { userid } = useAppSelector(selectAuth);
 
   const [orders, setOrders] = useState<UserOrdersResponse['data']>([]);
 
@@ -41,7 +41,7 @@ export default function OrdersDisplay({ }: Props) {
         {
           orders.map(order => {
             return order
-            .tickets.map((ticket, ticketIndex) => {
+              .tickets.map((ticket, ticketIndex) => {
                 const isFirstOrder = ticketIndex === 0;
                 return (
                   <tr key={ticket._id}>

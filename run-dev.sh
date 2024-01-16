@@ -1,3 +1,5 @@
+## QUICKSTART BATCH TO RUN PROJECT
+
 # Start MongoDB container
 echo Starting mongodb...
 start docker start mongodb

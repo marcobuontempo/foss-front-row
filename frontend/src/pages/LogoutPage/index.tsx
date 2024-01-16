@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import './LogoutPage.css'
 import { logout } from '@services/api'
 import { onLogout } from '@services/authService'
-import { useAppDispatch } from '@utils/useAppDispatch'
 import { useNavigate } from 'react-router-dom'
 
 type Props = {}

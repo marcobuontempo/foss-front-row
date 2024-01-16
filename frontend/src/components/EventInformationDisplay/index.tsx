@@ -1,5 +1,5 @@
 import TicketsList from '@components/TicketsList';
-import { selectUserId } from '@features/auth/authSlice';
+import { selectAuth } from '@features/auth/authSlice';
 import { AllTicketsResponse, EventResponse, deleteEvent, getEvent, getEventTickets } from '@services/api';
 import { useAppSelector } from '@utils/useAppSelector';
 import React, { useEffect, useState } from 'react'
@@ -18,7 +18,7 @@ export default function EventInformationDisplay({ }: Props) {
   const { eventid } = useParams();
 
   // Get 'userid'
-  const userid = useAppSelector(selectUserId);
+  const { userid } = useAppSelector(selectAuth);
 
   const fetchEvent = async () => {
     if (eventid) {
@@ -45,13 +45,13 @@ export default function EventInformationDisplay({ }: Props) {
     e.preventDefault();
     if (eventid) {
       await deleteEvent(eventid)
-      .then(response => {
-        // console.log(response)
-        return response
-      })
-      .catch(error => {
-        console.log(error)
-      })
+        .then(response => {
+          // console.log(response)
+          return response
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   }
 

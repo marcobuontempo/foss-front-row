@@ -1,15 +1,14 @@
 import React from 'react'
 import './Header.css'
 import { useAppSelector } from '@utils/useAppSelector'
-import { selectIsAuthenticated, selectRole } from '@features/auth/authSlice'
+import { selectAuth } from '@features/auth/authSlice'
 import { Link } from 'react-router-dom'
 import generateProtectedRoutes from '@router/routes'
 
 type Props = {}
 
 export default function Header({ }: Props) {
-  const isAuthenticated = useAppSelector(selectIsAuthenticated)
-  const role = useAppSelector(selectRole)
+  const { isAuthenticated, role } = useAppSelector(selectAuth);
 
   // get nav list from routes
   const navlist = generateProtectedRoutes(isAuthenticated, role)

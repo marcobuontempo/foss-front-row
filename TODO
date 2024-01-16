@@ -78,8 +78,6 @@ DONE - DELETE /orders/{orderID} - Cancel a specific order (requires authenticati
 
 
 # FRONTEND
-- Update frontend to fetch tickets with new endpoint (for generateTicket section), instead of having to calculate from orders list
-- Update redux selector for auth => selectAuth , and deconstruct {} to get variables (instead of an individual select for each variable)
 - Add types to redux reducer actions
 - Modal for event successes
 - Toast notifications for fail requests
