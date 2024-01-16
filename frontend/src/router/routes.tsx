@@ -24,6 +24,7 @@ import UpdateEventForm from "@components/UpdateEventForm";
 import TicketsPage from "@pages/TicketsPage";
 import TicketQRScan from "@components/TicketQRScan";
 import TicketQRGenerator from "@components/TicketQRGenerator";
+import TicketsPageLanding from "@components/TicketsPageLanding";
 
 export type ProtectedRouteObject =
   RouteObject &
@@ -58,7 +59,7 @@ export const routes: ProtectedRouteObject[] = [
     children: [
       {
         path: "",
-        element: null,
+        element: <TicketsPageLanding />,
       },
       {
         path: "display",
