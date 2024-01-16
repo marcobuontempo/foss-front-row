@@ -22,6 +22,7 @@ router.use('/userdetails', authenticate, userDetailsRoutes);
 router.use('/events/:eventid/tickets', authenticate, ticketRoutes);
 router.use('/events', authenticate, eventRoutes);
 router.use('/orders', authenticate, orderRoutes);
+router.use('/tickets', authenticate, ticketRoutes);
 
 // All Invalid Endpoints
 router.use('*', (req,res,next) => next(new ErrorResponse(404,"invalid endpoint")));

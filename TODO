@@ -103,5 +103,7 @@ DONE - Create 'My Orders' page, to display a list of orders
 - Modal for event successes
 - Add types to redux reducer actions
 - Toast notifications for success/fail requests
+- Add footer
+- update ticketService to save all tickets in an array before performing a single .save (?) method
 - Setup mongo replica set -> create a docker-compose image to do this -> implement transactions on backend where required
 - Add admin panel actions

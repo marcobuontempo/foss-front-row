@@ -6,6 +6,7 @@ import ErrorResponse from "@utils/responses/ErrorResponse";
 import SuccessResponse from "@utils/responses/SuccessResponse";
 import { generateTicketUID } from "@utils/services/ticketService";
 import { NextFunction, Request, Response } from "express";
+import * as mongoose from "mongoose";
 
 const getAllTickets = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -42,6 +43,67 @@ const getOneTicket = async (req: Request, res: Response, next: NextFunction): Pr
   } catch (error) {
     next(error);
   }
+};
+
+const getUserTickets = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
+  try {
+
+    // Get User Orders
+    const tickets = await Order.aggregate([
+      {
+        $match: {
+          user: new mongoose.Types.ObjectId(req.user?.userid),
+        },
+      },
+      {
+        $unwind: '$tickets',
+      },
+      {
+        $lookup: {
+          from: 'tickets',
+          localField: 'tickets',
+          foreignField: '_id',
+          as: 'ticket',
+        }
+      },
+      {
+        $unwind: '$ticket',
+      },
+      {
+        $lookup: {
+          from: 'events',
+          localField: 'ticket.event',
+          foreignField: '_id',
+          as: 'ticket.event',
+        }
+      },
+      {
+        $unwind: '$ticket.event',
+      },
+      {
+        $unwind: '$event'
+      },
+      {
+        $replaceWith: '$ticket'
+      },
+      {
+        $unset: [
+          '__v',
+          'event.__v'
+        ]
+      }
+    ]);
+
+// Send success response
+const response = new SuccessResponse({
+  message: "user's tickets retrieved successfully",
+  data: tickets,
+});
+res.status(200).json(response);
+
+  } catch (error) {
+  next(error);
+}
 };
 
 const orderTickets = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
@@ -178,7 +240,7 @@ const consumeTicket = async (req: AuthenticatedRequest, res: Response, next: Nex
 
     if (!ticket || !event || !ownerid) throw new ErrorResponse(422, "cannot process invalid ticket");
     if (ticket.consumed === true) throw new ErrorResponse(422, "cannot process ticket already consumed");
-    
+
     // Verify UID
     const ticketUID = await generateTicketUID(ticket, event, ownerid);
     if (ticketUID !== uid) throw new ErrorResponse(422, "ticket has invalid uid");
@@ -201,6 +263,7 @@ const consumeTicket = async (req: AuthenticatedRequest, res: Response, next: Nex
 export {
   getAllTickets,
   getOneTicket,
+  getUserTickets,
   orderTickets,
   updateTicket,
   deleteTicket,

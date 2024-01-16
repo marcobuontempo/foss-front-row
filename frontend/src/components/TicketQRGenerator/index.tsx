@@ -3,7 +3,7 @@ import './TicketQRGenerator.css'
 import QRCode from 'qrcode'
 import { useAppSelector } from '@utils/useAppSelector';
 import { selectUserId } from '@features/auth/authSlice';
-import { EventResponse, TicketResponse, UserOrdersResponse, generateTicketUID, getUserOrders } from '@services/api';
+import { EventResponse, TicketResponse, UserOrdersResponse, generateTicketUID, getUserOrders, getUserTickets } from '@services/api';
 import TicketQRDisplay from '@components/TicketQRDisplay';
 
 type Props = {}
@@ -55,6 +55,10 @@ export default function TicketQRGenerator({ }: Props) {
   useEffect(() => {
     // fetch user orders
     if (userid) {
+      getUserTickets(userid)
+      .then(response => console.log(response))
+      .catch(error => console.log(error));
+
       getUserOrders(userid)
         .then(response => {
           setOrders(response.data)

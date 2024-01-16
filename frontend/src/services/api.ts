@@ -363,6 +363,20 @@ export const getEventTickets = async (eventid: string): Promise<AllTicketsRespon
     })
 }
 
+export const getUserTickets = async (userid: string): Promise<AllTicketsResponse> => {
+  return axios
+    .request({
+      method: 'get',
+      url: `/tickets/user/${userid}`,
+    })
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      throw error;
+    })
+}
+
 export const generateTicketUID = async (eventid: string, ticketid: string): Promise<TicketUIDGenerateResponse> => {
   return axios
     .request({

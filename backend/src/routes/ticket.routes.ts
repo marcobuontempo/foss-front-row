@@ -1,4 +1,5 @@
-import { consumeTicket, deleteTicket, getAllTickets, getOneTicket, getTicketIdentifier, orderTickets, updateTicket } from '@controllers/ticket.controllers';
+import { consumeTicket, deleteTicket, getAllTickets, getOneTicket, getTicketIdentifier, getUserTickets, orderTickets, updateTicket } from '@controllers/ticket.controllers';
+import { isCurrentAuthUser } from '@utils/auth/isCurrentAuthUser';
 import { isEventOwner } from '@utils/auth/isEventOwner';
 import { isTicketOwner } from '@utils/auth/isTicketOwner';
 import express from 'express';
@@ -7,6 +8,9 @@ const router = express.Router({ mergeParams: true });
 
 // Retrieve available tickets for a specific event
 router.get('/', getAllTickets);
+
+// Retrieve all tickets associated with a user (i.e. ordered/purchased)
+router.get('/user/:userid', isCurrentAuthUser, getUserTickets);
 
 // Retrieve details of a specific ticket
 router.get('/:ticketid', getOneTicket);
