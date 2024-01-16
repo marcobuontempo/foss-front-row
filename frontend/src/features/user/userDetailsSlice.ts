@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { UserDetailsResponse } from '@services/api';
 import type { RootState } from 'src/store'
 
@@ -14,9 +14,9 @@ const initialState: UserDetailsResponse['data'] = {
 
 const userDetailsSlice = createSlice({
   name: 'userDetails',
-  initialState: initialState,
+  initialState,
   reducers: {
-    setUserDetails: (state, action) => {
+    setUserDetails: (state, action: PayloadAction<UserDetailsResponse['data']>) => {
       return { ...state, ...action.payload };
     },
     clearUserDetails: () => initialState,

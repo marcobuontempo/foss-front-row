@@ -5,11 +5,12 @@ import store from '../store';
 const AUTH_KEY = 'auth';
 
 // Handle successful login
-export const onLoginSuccess = (loginResponse: { id?: string; userid?: string; role: string; }): void => {
+export const onLoginSuccess = (loginResponse: { id?: string | null; userid?: string; role: 'user' | 'admin'; }): void => {
   const authData = {
-    userid: loginResponse.id || loginResponse.userid,
+    userid: loginResponse?.id || loginResponse?.userid || null,
     role: loginResponse.role,
   }
+
   // Store the user information in localStorage
   localStorage.setItem(AUTH_KEY, JSON.stringify(authData));
 

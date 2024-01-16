@@ -12,7 +12,7 @@ const initialState: CartState = {
 
 const cartSlice = createSlice({
   name: 'cart',
-  initialState: initialState,
+  initialState,
   reducers: {
     setCart: (state, action: PayloadAction<CartState>) => {
       return action.payload;
