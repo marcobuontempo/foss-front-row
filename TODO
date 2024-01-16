@@ -96,6 +96,7 @@ DONE - Create a /user/tickets (?) endpoint to retrieve a list of all user ticket
 - Update redux selector for auth => selectAuth , and deconstruct {} to get variables (instead of an individual select for each variable)
 - Allow event time to be saved when creating the event (frontend -> unix -> backend -> server datetime)
 - Cart qty count on navbar
+- /consume ticket uid and /generate uid may not match. Need to verify which ownerid is being used.
 
 
 # OTHER TODO

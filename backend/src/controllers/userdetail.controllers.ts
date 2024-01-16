@@ -42,6 +42,8 @@ const getOneUserDetails = async (req: AuthenticatedRequest, res: Response, next:
 
 const updateUserDetails = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
     try {
+        delete req.body['dob']; // Disallow update of DOB
+
         // Find user, update, and validate
         const { userid } = req.params;
         await UserDetail.findByIdAndUpdate(userid, req.body, { runValidators: true });

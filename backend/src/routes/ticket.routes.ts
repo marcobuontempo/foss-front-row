@@ -19,7 +19,7 @@ router.get('/:ticketid', getOneTicket);
 router.post('/order', orderTickets);
 
 // Update details of a specific ticket (requires authentication)
-router.put('/:ticketid', isEventOwner, updateTicket);
+// router.put('/:ticketid', isEventOwner, updateTicket);  // Currently excluded - no current functionality required for updating tickets
 
 // Delete a specific ticket (requires authentication).
 router.delete('/:ticketid', isEventOwner, deleteTicket);

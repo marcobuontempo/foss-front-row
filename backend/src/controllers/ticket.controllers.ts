@@ -8,7 +8,7 @@ import { generateTicketUID } from "@utils/services/ticketService";
 import { NextFunction, Request, Response } from "express";
 import * as mongoose from "mongoose";
 
-const getAllTickets = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const getAllTickets = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     // Get tickets
     const { eventid } = req.params;
@@ -26,7 +26,7 @@ const getAllTickets = async (req: Request, res: Response, next: NextFunction): P
   }
 };
 
-const getOneTicket = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const getOneTicket = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     // Get ticket
     const { eventid, ticketid } = req.params;
@@ -162,7 +162,7 @@ const orderTickets = async (req: AuthenticatedRequest, res: Response, next: Next
   }
 };
 
-const updateTicket = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const updateTicket = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     // Find ticket, update, and validate
     const { eventid, ticketid } = req.params;
@@ -179,7 +179,7 @@ const updateTicket = async (req: Request, res: Response, next: NextFunction): Pr
   }
 };
 
-const deleteTicket = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const deleteTicket = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     // Find ticket and delete
     const { eventid, ticketid } = req.params;
