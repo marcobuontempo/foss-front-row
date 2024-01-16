@@ -82,6 +82,10 @@ export type AllTicketsResponse = BaseResponse & {
   data: TicketResponse['data'][];
 }
 
+export type UserTicketsResponse = BaseResponse & {
+  data: (TicketResponse['data'] & { event: EventResponse['data'] })[];
+}
+
 export type OrderResponse = BaseResponse & {
   data: {
     _id: string;
@@ -363,7 +367,7 @@ export const getEventTickets = async (eventid: string): Promise<AllTicketsRespon
     })
 }
 
-export const getUserTickets = async (userid: string): Promise<AllTicketsResponse> => {
+export const getUserTickets = async (userid: string): Promise<UserTicketsResponse> => {
   return axios
     .request({
       method: 'get',

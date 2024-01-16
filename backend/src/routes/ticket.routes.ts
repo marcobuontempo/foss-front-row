@@ -1,4 +1,4 @@
-import { consumeTicket, deleteTicket, getAllTickets, getOneTicket, getTicketIdentifier, getUserTickets, orderTickets, updateTicket } from '@controllers/ticket.controllers';
+import { consumeTicket, deleteTicket, getAllTickets, getOneTicket, getTicketUID, getUserTickets, orderTickets, updateTicket } from '@controllers/ticket.controllers';
 import { isCurrentAuthUser } from '@utils/auth/isCurrentAuthUser';
 import { isEventOwner } from '@utils/auth/isEventOwner';
 import { isTicketOwner } from '@utils/auth/isTicketOwner';
@@ -25,7 +25,7 @@ router.put('/:ticketid', isEventOwner, updateTicket);
 router.delete('/:ticketid', isEventOwner, deleteTicket);
 
 // Generate Ticket Code (for use with QR)
-router.get('/:ticketid/generate', isTicketOwner, getTicketIdentifier);
+router.get('/:ticketid/generate', isTicketOwner, getTicketUID);
 
 // Check-in Ticket (using generated code, normally stored in QR)
 router.put('/:ticketid/consume', isEventOwner, consumeTicket)

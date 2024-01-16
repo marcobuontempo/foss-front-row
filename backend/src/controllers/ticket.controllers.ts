@@ -47,12 +47,11 @@ const getOneTicket = async (req: Request, res: Response, next: NextFunction): Pr
 
 const getUserTickets = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
-
-    // Get User Orders
+    const { userid } = req.params;
     const tickets = await Order.aggregate([
       {
         $match: {
-          user: new mongoose.Types.ObjectId(req.user?.userid),
+          user: new mongoose.Types.ObjectId(userid),
         },
       },
       {
@@ -94,16 +93,16 @@ const getUserTickets = async (req: AuthenticatedRequest, res: Response, next: Ne
       }
     ]);
 
-// Send success response
-const response = new SuccessResponse({
-  message: "user's tickets retrieved successfully",
-  data: tickets,
-});
-res.status(200).json(response);
+    // Send success response
+    const response = new SuccessResponse({
+      message: "user's tickets retrieved successfully",
+      data: tickets,
+    });
+    res.status(200).json(response);
 
   } catch (error) {
-  next(error);
-}
+    next(error);
+  }
 };
 
 const orderTickets = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
@@ -138,8 +137,18 @@ const orderTickets = async (req: AuthenticatedRequest, res: Response, next: Next
 
     // Update ticket availability
     await Ticket.updateMany(
-      { _id: { $in: tickets } },
-      { $set: { available: false } }
+      {
+        _id:
+        {
+          $in: tickets
+        }
+      },
+      {
+        $set:
+        {
+          available: false
+        }
+      }
     );
 
     // Send success response
@@ -187,7 +196,7 @@ const deleteTicket = async (req: Request, res: Response, next: NextFunction): Pr
   }
 };
 
-const getTicketIdentifier = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
+const getTicketUID = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { ticketid, eventid } = req.params;
 
@@ -267,6 +276,6 @@ export {
   orderTickets,
   updateTicket,
   deleteTicket,
-  getTicketIdentifier,
+  getTicketUID,
   consumeTicket,
 }

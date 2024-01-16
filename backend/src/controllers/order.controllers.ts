@@ -1,9 +1,10 @@
+import { AuthenticatedRequest } from "@middlewares/authentication.middleware";
 import Order from "@models/Order.model";
 import ErrorResponse from "@utils/responses/ErrorResponse";
 import SuccessResponse from "@utils/responses/SuccessResponse";
 import { NextFunction, Request, Response } from "express";
 
-const getAllOrders = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const getAllOrders = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     // Get orders
     const orders = await Order.find({}).select({ __v: false });
@@ -20,7 +21,7 @@ const getAllOrders = async (req: Request, res: Response, next: NextFunction): Pr
   }
 };
 
-const getUserOrders = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const getUserOrders = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { userid } = req.params;
 
@@ -51,7 +52,7 @@ const getUserOrders = async (req: Request, res: Response, next: NextFunction): P
   }
 };
 
-const getOneOrder = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const getOneOrder = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     // Get order
     const { orderid } = req.params;
@@ -70,7 +71,7 @@ const getOneOrder = async (req: Request, res: Response, next: NextFunction): Pro
   }
 };
 
-const deleteOrder = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const deleteOrder = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     // Find order and delete
     const { orderid } = req.params;

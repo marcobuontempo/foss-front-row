@@ -10,7 +10,7 @@ interface IUser extends Document {
   username: string;
   password: string;
   role: UserRole;
-  comparePassword(password: string): boolean;
+  comparePassword(password: string): Promise<boolean>;
 }
 
 const userSchema = new Schema<IUser>({

@@ -6,7 +6,7 @@ import SuccessResponse from "@utils/responses/SuccessResponse";
 import { createTicketsForEvent } from "@utils/services/ticketService";
 import { NextFunction, Request, Response } from "express";
 
-const getAllEvents = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const getAllEvents = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     // Get all events
     const events = await Event.find({}).select({ __v: false });
@@ -23,7 +23,7 @@ const getAllEvents = async (req: Request, res: Response, next: NextFunction): Pr
   }
 };
 
-const getOneEvent = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const getOneEvent = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     // Get single event
     const { eventid } = req.params;
@@ -42,7 +42,7 @@ const getOneEvent = async (req: Request, res: Response, next: NextFunction): Pro
   }
 };
 
-const getUserEvents = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const getUserEvents = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     // Get User
     const { userid } = req.params;
@@ -90,7 +90,7 @@ const createNewEvent = async (req: AuthenticatedRequest, res: Response, next: Ne
   }
 };
 
-const updateEvent = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const updateEvent = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     // Find event, update, and validate
     const { eventid } = req.params;
@@ -107,7 +107,7 @@ const updateEvent = async (req: Request, res: Response, next: NextFunction): Pro
   }
 };
 
-const deleteEvent = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const deleteEvent = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     // Find event and delete
     const { eventid } = req.params;

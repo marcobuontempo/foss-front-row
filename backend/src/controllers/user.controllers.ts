@@ -3,8 +3,9 @@ import UserDetail from "@models/UserDetail.model";
 import ErrorResponse from "@utils/responses/ErrorResponse";
 import { NextFunction, Request, Response } from "express";
 import SuccessResponse from "@utils/responses/SuccessResponse";
+import { AuthenticatedRequest } from "@middlewares/authentication.middleware";
 
-const updatePassword = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const updatePassword = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { userid } = req.params;
     const { currentpassword, newpassword } = req.body;
@@ -40,7 +41,7 @@ const updatePassword = async (req: Request, res: Response, next: NextFunction): 
   }
 };
 
-const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
+const deleteUser = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   try {
     // Find user and delete from both User and UserDetail collections
     const { userid } = req.params;

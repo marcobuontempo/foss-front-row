@@ -1,9 +1,10 @@
+import { AuthenticatedRequest } from "@middlewares/authentication.middleware";
 import UserDetail from "@models/UserDetail.model";
 import ErrorResponse from "@utils/responses/ErrorResponse";
 import SuccessResponse from "@utils/responses/SuccessResponse";
 import { NextFunction, Request, Response } from "express";
 
-const getAllUserDetails = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const getAllUserDetails = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
     try {
         // Get all UserDetails
         const users = await UserDetail.find({}).select({ __v: false });
@@ -20,7 +21,7 @@ const getAllUserDetails = async (req: Request, res: Response, next: NextFunction
     }
 };
 
-const getOneUserDetails = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const getOneUserDetails = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
     try {
         // Get User
         const { userid } = req.params;
@@ -39,7 +40,7 @@ const getOneUserDetails = async (req: Request, res: Response, next: NextFunction
     }
 };
 
-const updateUserDetails = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const updateUserDetails = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
     try {
         // Find user, update, and validate
         const { userid } = req.params;
