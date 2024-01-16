@@ -3,12 +3,10 @@ import './TicketQRGenerator.css'
 import QRCode from 'qrcode'
 import { useAppSelector } from '@utils/useAppSelector';
 import { selectUserId } from '@features/auth/authSlice';
-import { EventResponse, TicketResponse, UserOrdersResponse, generateTicketUID, getUserOrders, getUserTickets } from '@services/api';
+import { UserTicketsResponse, generateTicketUID, getUserTickets } from '@services/api';
 import TicketQRDisplay from '@components/TicketQRDisplay';
 
 type Props = {}
-
-type EventDetails = EventResponse['data'] & { tickets: TicketResponse['data'][] };
 
 export const defaultTicketDetails = {
   uid: "",
@@ -24,48 +22,34 @@ export const defaultTicketDetails = {
 export default function TicketQRGenerator({ }: Props) {
   const userid = useAppSelector(selectUserId);
 
-  const [orders, setOrders] = useState<UserOrdersResponse['data']>([]);
+  const [tickets, setTickets] = useState<UserTicketsResponse['data']>([]);
   const [selectedEvent, setSelectedEvent] = useState("");
   const [selectedTicket, setSelectedTicket] = useState("");
   const [qrUrl, setQrUrl] = useState<string | null>(null);
   const [ticketDetails, setTicketDetails] = useState(defaultTicketDetails);
 
 
-  const groupEvents = () => {
-    const events: EventDetails[] = [];
-    orders.forEach(order => {
-      const existingEvent = events.find(event => event._id === order.event._id);
-      if (existingEvent) {
-        existingEvent.tickets.push(...order.tickets);
-      } else {
-        events.push({
-          ...order.event,
-          tickets: [...order.tickets],  // create copy of tickets, instead of reference to each ticket object
-        })
-      }
+  const groupEventsFromTickets = () => {
+    const events: { [key: string]: UserTicketsResponse['data'] } = {};
+    tickets.forEach(ticket => {
+      const eventid = ticket.event._id;
+      const existingEvent = events[eventid];
+      if (!existingEvent) { events[eventid] = []; } // Initialise empty array if saving an 'new' ungrouped event
+      events[eventid].push({ ...ticket });
     })
     return events;
-  }
-
-  const groupEventTickets = () => {
-    const event = groupEvents().find(event => event._id === selectedEvent);
-    return event ? event.tickets : [];
   }
 
   useEffect(() => {
     // fetch user orders
     if (userid) {
       getUserTickets(userid)
-      .then(response => console.log(response))
-      .catch(error => console.log(error));
-
-      getUserOrders(userid)
         .then(response => {
-          setOrders(response.data)
+          setTickets(response.data);
         })
         .catch(error => {
           console.log(error)
-        })
+        });
     }
   }, [])
 
@@ -120,10 +104,11 @@ export default function TicketQRGenerator({ }: Props) {
     return <TicketQRDisplay ticket={ticketDetails} qrUrl={qrUrl} handleClearTicket={handleClearTicket} />
   } else {
     // otherwise, provide options to generate a ticket
+    const events = groupEventsFromTickets();
     return (
       <div className='TicketQRGenerator'>
         {
-          orders.length === 0
+          tickets.length === 0
             ?
             "No tickets to display."
             :
@@ -132,8 +117,8 @@ export default function TicketQRGenerator({ }: Props) {
               <select name='event' value={selectedEvent} onChange={handleSelectEventChange}>
                 <option value="" disabled>select event...</option>
                 {
-                  groupEvents()
-                    .map(event => <option value={event._id} key={event._id}>{event.title}</option>)
+                  Object.keys(events)
+                    .map(eventid => <option value={eventid} key={eventid}>{events[eventid][0].event.title}</option>)
                 }
               </select>
 
@@ -141,7 +126,8 @@ export default function TicketQRGenerator({ }: Props) {
               <select name='ticket' value={selectedTicket} onChange={handleSelectTicketChange}>
                 <option value="" disabled>select ticket...</option>
                 {
-                  groupEventTickets()
+                  selectedEvent &&
+                  events[selectedEvent]
                     .map(ticket => <option value={ticket._id} key={ticket._id}>{ticket._id} | ({ticket.seat})</option>)
                 }
               </select>

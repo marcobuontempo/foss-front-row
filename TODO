@@ -76,39 +76,32 @@ DONE - GET /orders - Retrieve a list of user orders (requires authentication).
 DONE - GET /orders/{orderID} - Retrieve details of a specific order (requires authentication).
 DONE - DELETE /orders/{orderID} - Cancel a specific order (requires authentication).
 
-## Other
-1. Date saved to mongo is in datetime format. Only accepts mm/dd/yyyy format. And due to timezone difference, the DOB will be adjusted to the wrong day (as it may go back 10 hours to adjust for difference, which is obviously unintended)
-2. Implement mongo transactions to avoid race conditions and database issues. *Requires a replica or cluster mongo setup => use a suitable docker-compose
-3. Generate API Documentation (Swagger?)
-
-
-
 
 # FRONTEND
-
-## ...
-DONE - Rename .eventid to .event in getUserOrders() (or rename eventid, userid, etc. in all models to event & user instead)
-DONE - Check ticket uid when checking in
-DONE - Group events in frontend cart
-DONE - Create 'My Orders' page, to display a list of orders
-DONE - Create a /user/tickets (?) endpoint to retrieve a list of all user tickets
-- Update frontend to fetch accordingly ^ (for generateTicket), instead of having to calculate from orders list
+- Update frontend to fetch tickets with new endpoint (for generateTicket section), instead of having to calculate from orders list
 - Update redux selector for auth => selectAuth , and deconstruct {} to get variables (instead of an individual select for each variable)
-- Allow event time to be saved when creating the event (frontend -> unix -> backend -> server datetime)
-- Cart qty count on navbar
-- /consume ticket uid and /generate uid may not match. Need to verify which ownerid is being used.
-
-
-# OTHER TODO
-- Restrict, using backend, which fields can be updated in PUT - /userdetails
-- Confirmations for buttons, e.g. logout, reserve ticket, etc.
-- Modal for event successes
 - Add types to redux reducer actions
-- Toast notifications for success/fail requests
+- Modal for event successes
+- Toast notifications for fail requests
+- Allow event time to be saved when creating the event (frontend -> unix -> backend -> server datetime)
 - Add footer
-- Update each authenticed route in backend to use AuthenticatedRequest as input
+- Cart qty count on navbar
+- Confirmations for buttons, e.g. logout, reserve ticket, etc.
+- Add admin panel actions
+
+
+# BACKEND
+- /consume ticket uid and /generate uid may not match. Need to verify which ownerid is being used.
+- Setup backend to accept dd/mm/yyyy format for DOB creation. Ensure it keeps the same date regardless of timezone difference of the frontend (maybe send raw string of date ?)
 - Setup root endpoint '/' to display rest endpoint info
 - Lock npm versions
 - update ticketService to save all tickets in an array before performing a single .save (?) method
+
+
+# DATABASE
+WORKING - Change userdetails dob to only be date, not datetime
 - Setup mongo replica set -> create a docker-compose image to do this (lock the mongo version) -> implement transactions on backend where required
-- Add admin panel actions
+
+
+# Other
+- Generate API Documentation (Swagger?)
