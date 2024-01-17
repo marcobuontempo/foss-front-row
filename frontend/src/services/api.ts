@@ -258,7 +258,7 @@ export const updateUserDetails = async (userid: string, updatedDetails: {
 /** EVENT OPERATIONS */
 export const createEvent = async (details: {
   title: string;
-  date: string;
+  datetime: string;
   venue: string;
   ticketQty: number;
 }): Promise<CreateEventResponse> => {

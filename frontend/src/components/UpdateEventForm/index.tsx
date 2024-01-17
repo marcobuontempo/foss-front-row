@@ -8,6 +8,7 @@ type Props = {}
 export default function UpdateEventForm({ }: Props) {
   const [title, setTitle] = useState('');
   const [date, setDate] = useState('');
+  const [time, setTime] = useState('');
   const [venue, setVenue] = useState('');
 
   // Get the 'eventid' parameter from the URL
@@ -21,6 +22,10 @@ export default function UpdateEventForm({ }: Props) {
     setDate(e.target?.value);
   };
 
+  const handleTimeChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTime(e.target?.value);
+  };
+
   const handleVenueChange = (e: ChangeEvent<HTMLInputElement>) => {
     setVenue(e.target?.value);
   };
@@ -31,8 +36,21 @@ export default function UpdateEventForm({ }: Props) {
       await getEvent(eventid)
         .then(response => {
           // console.log(response.data)
+          const datetime = new Date(response.data.date)
+
+          // Format date as "YYYY-MM-DD", in local timezone
+          const year = datetime.getFullYear();
+          const month = String(datetime.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+          const day = String(datetime.getDate()).padStart(2, '0');
+          const localeDate= `${year}-${month}-${day}`;
+
+          // Format time to local timezone
+          const localeTime = datetime.toLocaleTimeString();
+
+          // Set values
           setTitle(response.data.title)
-          setDate(response.data.date.split("T")[0])
+          setDate(localeDate)
+          setTime(localeTime)
           setVenue(response.data.venue)
           return response.data
         })
@@ -89,6 +107,19 @@ export default function UpdateEventForm({ }: Props) {
           required={true}
         />
         <label htmlFor="inputDate" className="form-label">Date</label>
+      </div>
+
+      <div className='form-floating mb-3'>
+        <input
+          type="time"
+          className="form-control"
+          id="inputTime"
+          value={time}
+          onChange={handleTimeChange}
+          placeholder='Time'
+          required={true}
+        />
+        <label htmlFor="inputTime" className="form-label">Time</label>
       </div>
 
       <div className='form-floating mb-3'>

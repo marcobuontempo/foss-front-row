@@ -38,7 +38,7 @@ export default function CreateEventForm({ }: Props) {
     const datetime = new Date(`${date}T${time}`).toISOString();
 
     // Form submission logic
-    await createEvent({ title, date: datetime, venue, ticketQty: parseInt(ticketQty) })
+    await createEvent({ title, datetime, venue, ticketQty: parseInt(ticketQty) })
       .then(response => {
         console.log(response);
       })
