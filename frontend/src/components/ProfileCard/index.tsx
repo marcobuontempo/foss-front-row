@@ -13,12 +13,18 @@ export default function ProfileCard({ }: Props) {
     <div className='ProfileCard'>
       <table className='table table-bordered table-striped container-sm'>
         <tbody>
-          {Object.keys(userDetails).map(k => {
-            if (k === "_id") return null; // Skip rendering for the "_id" key
+          {Object.entries(userDetails).map(([key, value]) => {
+            if (key === "_id") return null; // Skip rendering for the "_id" key
             return (
-              <tr key={k}>
-                <td>{k}</td>
-                <td>{userDetails[k as keyof UserDetailsResponse['data']] || "N/A"}</td>
+              <tr key={key}>
+                <td>{key} {key === 'dob' && '(YYYY-MM-DD)'}</td>
+                <td>
+                  {
+                    key === 'dob' ?
+                      value.split("T")[0] :
+                      (value || "N/A")
+                  }
+                </td>
               </tr>
             )
           })}

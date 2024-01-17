@@ -79,25 +79,21 @@ DONE - DELETE /orders/{orderID} - Cancel a specific order (requires authenticati
 
 # FRONTEND
 - Add footer (and ensure height is always min 100%: min-height: calc(100% - nav - footer))
-- Allow event time to be saved when creating the event (frontend -> unix -> backend -> server datetime)
 - Modal for event successes
 - Toast notifications for fail requests
 - Expired JWT -> modal 'You have been logged out - expired session' -> instead of immediate redirect
 - Confirmations for buttons, e.g. logout, reserve ticket, etc.
 - Add admin panel actions
-- Styling
 - Logos
+- Styling
 - Cart qty count on navbar
 
 
 # BACKEND
-WORKING - /consume ticket uid and /generate uid may not match. Need to verify which ownerid is being used.
 - update ticketService to save all tickets in an array before performing a single .save (?) method
-- Setup backend to accept dd/mm/yyyy format for DOB creation. Ensure it keeps the same date regardless of timezone difference of the frontend (maybe send raw string of date ?)
 
 
 # DATABASE
-WORKING - Change userdetails dob to only be date, not datetime
 - Setup mongo replica set -> create a docker-compose image to do this (lock the mongo version) -> implement transactions on backend where required
 
 

@@ -7,6 +7,7 @@ type Props = {}
 export default function CreateEventForm({ }: Props) {
   const [title, setTitle] = useState('');
   const [date, setDate] = useState('');
+  const [time, setTime] = useState('');
   const [venue, setVenue] = useState('');
   const [ticketQty, setTicketQty] = useState('');
 
@@ -16,6 +17,10 @@ export default function CreateEventForm({ }: Props) {
 
   const handleDateChange = (e: ChangeEvent<HTMLInputElement>) => {
     setDate(e.target?.value);
+  };
+
+  const handleTimeChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTime(e.target?.value);
   };
 
   const handleVenueChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -29,8 +34,11 @@ export default function CreateEventForm({ }: Props) {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
+    // Combine datetime for database, and avoid timezone differences
+    const datetime = new Date(`${date}T${time}`).toISOString();
+
     // Form submission logic
-    await createEvent({ title, date, venue, ticketQty: parseInt(ticketQty) })
+    await createEvent({ title, date: datetime, venue, ticketQty: parseInt(ticketQty) })
       .then(response => {
         console.log(response);
       })
@@ -67,6 +75,19 @@ export default function CreateEventForm({ }: Props) {
           required={true}
         />
         <label htmlFor="inputDate" className="form-label">Date</label>
+      </div>
+
+      <div className='form-floating mb-3'>
+        <input
+          type="time"
+          className="form-control"
+          id="inputTime"
+          value={time}
+          onChange={handleTimeChange}
+          placeholder='Time'
+          required={true}
+        />
+        <label htmlFor="inputTime" className="form-label">Time</label>
       </div>
 
       <div className='form-floating mb-3'>

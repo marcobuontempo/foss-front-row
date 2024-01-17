@@ -28,7 +28,7 @@ export default function EventDisplayCard({ eventData }: Props) {
           </tr>
           <tr>
             <td>Date:</td>
-            <td>{eventData.date}</td>
+            <td>{new Date(eventData.date).toLocaleString(undefined, { timeZoneName: "short" })}</td>
           </tr>
           <tr>
             <td colSpan={2}>
