@@ -9,7 +9,7 @@ export default function EventsPage({ }: Props) {
 
 
   return (
-    <main className='EventsPage text-center'>
+    <main className='EventsPage mainpage text-center'>
 
       {/* Nav Links */}
       <ul className="nav nav-tabs justify-content-center">

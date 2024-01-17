@@ -34,7 +34,7 @@ export default function ProfilePage({ }: Props) {
   }, []);
 
   return (
-    <main className='ProfilePage'>
+    <main className='ProfilePage mainpage'>
 
       {/* Nav Links */}
       <ul className="nav nav-tabs justify-content-center">

@@ -32,7 +32,7 @@ export default function LogoutPage({ }: Props) {
   }, []);
 
   return (
-    <main className='LogoutPage'>
+    <main className='LogoutPage mainpage'>
       Successfully Logged Out.
     </main>
   )

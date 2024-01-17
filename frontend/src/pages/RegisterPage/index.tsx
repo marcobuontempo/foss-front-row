@@ -6,7 +6,7 @@ type Props = {}
 
 export default function RegisterPage({ }: Props) {
   return (
-    <main className='RegisterPage text-center'>
+    <main className='RegisterPage mainpage text-center'>
       <RegisterForm />
     </main>
   )

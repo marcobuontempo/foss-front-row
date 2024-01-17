@@ -151,12 +151,12 @@ export const generateProtectedRoutes = (isAuthenticated: boolean, role: AuthStat
   const routesCopy = routes.map(route => ({ ...route })); // Copy the routes, to ensure we never modify the original state
 
   return routesCopy.map(route => {
-    // Route requires admin **isAuthenticated=undefined routes will still be unaccessible if admin rights do not match
+    // route requires admin. Note: isAuthenticated=undefined routes will still be unaccessible if admin rights do not match
     if (route.adminOnly && role !== 'admin') {
       route.element = <ErrorPage customText='Unauthorised Access' />;
     }
 
-    // route is only valid for (un)/authenticated users. **isAuthenticated=undefined is available to everyone
+    // route is only valid for (un)/authenticated users. Note: isAuthenticated=undefined is available to everyone
     if (route.isAuthenticated !== isAuthenticated && route.isAuthenticated !== undefined) {
       route.element = <ErrorPage customText={`Unauthorised Access - ${isAuthenticated ? "Logout" : "Login"} to Continue`} />;
     }

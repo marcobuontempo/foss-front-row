@@ -43,7 +43,7 @@ export default function CartPage({ }: Props) {
   }
 
   return (
-    <main className='CartPage'>
+    <main className='CartPage mainpage'>
       <CartItemsDisplay />
       <button className='btn btn-info' onClick={submitTicketOrder}>Place Order</button>
     </main>

@@ -9,7 +9,7 @@ export default function TicketsPage({ }: Props) {
   const currentRoute = useLocation().pathname.split("/").slice(-1)[0]
 
   return (
-    <div className='TicketsPage'>
+    <main className='TicketsPage mainpage'>
       {/* Nav Links */}
       <ul className="nav nav-tabs justify-content-center">
         <li className="nav-item">
@@ -30,6 +30,6 @@ export default function TicketsPage({ }: Props) {
 
       {/* Content */}
       <Outlet />
-    </div>
+    </main>
   )
 }

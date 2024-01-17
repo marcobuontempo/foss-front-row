@@ -7,7 +7,7 @@ type Props = {}
 
 export default function HomePage({ }: Props) {
   return (
-    <main className='HomePage'>
+    <main className='HomePage mainpage'>
       <Banner />
       <InfoPanel />
       <InfoPanel />
