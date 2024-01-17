@@ -70,7 +70,7 @@ export default function EventInformationDisplay({ }: Props) {
     <div className='EventInformationDisplay'>
       <h1>{eventData.title}</h1>
       <p>Venue: {eventData.venue}</p>
-      <p>Date: {eventData.date}</p>
+      <p>Date: {new Date(eventData.date).toLocaleString(undefined, { timeZoneName: "short" })}</p>
 
       <TicketsList tickets={tickets} />
 

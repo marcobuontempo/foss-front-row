@@ -266,7 +266,10 @@ export const createEvent = async (details: {
     .request({
       method: 'post',
       url: '/events',
-      data: details,
+      data: {
+        ...details,
+        date: details.datetime,
+      },
     })
     .then(response => {
       return response.data;

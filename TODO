@@ -78,7 +78,6 @@ DONE - DELETE /orders/{orderID} - Cancel a specific order (requires authenticati
 
 
 # FRONTEND
-- Add footer (and ensure height is always min 100%: min-height: calc(100% - nav - footer))
 - Modal for event successes
 - Toast notifications for fail requests
 - Expired JWT -> modal 'You have been logged out - expired session' -> instead of immediate redirect

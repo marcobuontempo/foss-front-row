@@ -4,11 +4,10 @@ import crypto from 'crypto';
 
 // Batch creation of tickets for a newly created event
 const createTicketsForEvent = async (event: IEvent, numberOfTickets: number) => {
-  // Create and save tickets
-  for (let i = 0; i < numberOfTickets; i++) {
-    const ticket = new Ticket({ event: event._id });
-    await ticket.save();
-  }
+  // Create tickets
+  const tickets: ITicket[] = Array.from({ length: numberOfTickets }, () => new Ticket({ event: event._id }));
+  console.log(tickets);
+  await Ticket.insertMany(tickets);
 };
 
 // Generates Ticket Identifier (requires the ticket's id, event's id, and the owner/purchaser of the ticket's id)
