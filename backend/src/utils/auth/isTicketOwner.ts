@@ -5,14 +5,19 @@ import ErrorResponse from "@utils/responses/ErrorResponse";
 import { NextFunction, Response } from "express";
 import { verifyAdmin } from "./isAdmin";
 
+const findTicketOwner = async (eventid: string, ticketid: string) => {
+  const orders = await Order.find({ tickets: { $in: [ticketid] } })  // find orders containing the ticket
+    .sort({ createdAt: -1 }); // sort by date the order is created
+  const ownerid = orders[0].user.toString();  // select the owner of the most recent order containing the ticket (i.e. the current owne
+  return ownerid;
+}
+
 // Ensure the authenticated user is the owner of the Event
 const isTicketOwner = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   try {
     // Identify ticket owner
-    const { ticketid } = req.params;
-    const orders = await Order.find({ tickets: { $in: [ticketid] } })  // find orders containing the ticket
-      .sort({ createdAt: -1 }); // sort by date the order is created
-    const ownerid = orders[0].user.toString();  // select the owner of the most recent order containing the ticket (i.e. the current owner)
+    const { eventid, ticketid } = req.params;
+    const ownerid = await findTicketOwner(eventid, ticketid);
 
     if (ownerid === req.user?.userid) {  // user is ticket owner
       return next();
@@ -27,4 +32,7 @@ const isTicketOwner = async (req: AuthenticatedRequest, res: Response, next: Nex
   }
 }
 
-export { isTicketOwner }
+export {
+  findTicketOwner,
+  isTicketOwner,
+}

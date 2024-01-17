@@ -88,7 +88,7 @@ export default function TicketQRGenerator({ }: Props) {
 
     // generate the QR code and save in state
     await QRCode.toDataURL(JSON.stringify(ticketData), {
-      errorCorrectionLevel: 'quartile',
+      errorCorrectionLevel: 'medium',
       scale: 10,
     })
       .then(url => {
@@ -118,7 +118,7 @@ export default function TicketQRGenerator({ }: Props) {
                 <option value="" disabled>select event...</option>
                 {
                   Object.keys(events)
-                    .map(eventid => <option value={eventid} key={eventid}>{events[eventid][0].event.title}</option>)
+                    .map(eventid => <option value={eventid} key={eventid}>{events[eventid][0].event.title} | ({eventid})</option>)
                 }
               </select>
 
@@ -128,7 +128,7 @@ export default function TicketQRGenerator({ }: Props) {
                 {
                   selectedEvent &&
                   events[selectedEvent]
-                    .map(ticket => <option value={ticket._id} key={ticket._id}>{ticket._id} | ({ticket.seat})</option>)
+                    .map(ticket => <option value={ticket._id} key={ticket._id}>{ticket.seat} | ({ticket._id})</option>)
                 }
               </select>
               <button className='btn btn-info' type='submit'>Generate Ticket</button>

@@ -2,6 +2,7 @@ import { AuthenticatedRequest } from "@middlewares/authentication.middleware";
 import Event from "@models/Event.model";
 import Order from "@models/Order.model";
 import Ticket from "@models/Ticket.model";
+import { findTicketOwner } from "@utils/auth/isTicketOwner";
 import ErrorResponse from "@utils/responses/ErrorResponse";
 import SuccessResponse from "@utils/responses/SuccessResponse";
 import { generateTicketUID } from "@utils/services/ticketService";
@@ -237,15 +238,17 @@ const getTicketUID = async (req: AuthenticatedRequest, res: Response, next: Next
 
 const consumeTicket = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const { ticketid } = req.params;
+    const { eventid, ticketid } = req.params;
     const { uid } = req.body;
-    const ownerid = req.user?.userid;
 
     if (!uid) throw new ErrorResponse(400, "uid required")
 
     // Get ticket info
     const ticket = await Ticket.findById(ticketid);
     const event = await Event.findById(ticket?.event);
+
+    // Find ticket owner
+    const ownerid = await findTicketOwner(eventid, ticketid);
 
     if (!ticket || !event || !ownerid) throw new ErrorResponse(422, "cannot process invalid ticket");
     if (ticket.consumed === true) throw new ErrorResponse(422, "cannot process ticket already consumed");
