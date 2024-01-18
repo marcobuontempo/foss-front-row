@@ -3,12 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import './LoginForm.css'
 import { loginUser } from '@services/api.ts';
 import { onLoginSuccess } from '@services/authService';
+import Modal from 'react-modal';
+import SuccessModal from '@components/SuccessModal';
 
 type Props = {}
+
+Modal.setAppElement("#root");
 
 export default function LoginForm({ }: Props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -26,13 +31,18 @@ export default function LoginForm({ }: Props) {
     // Form submission logic
     await loginUser({ username, password })
       .then(response => {
-        // console.log(response);
+        // Overlay modal
+        setModalIsOpen(true);
 
-        // Store user info in local storage
-        onLoginSuccess(response.data);
+        // Redirect after 3 seconds...
+        setTimeout(() => {
+          // Store user info in local storage
+          onLoginSuccess(response.data);
 
-        // Redirect to homepage...
-        navigate('/');
+          // Redirect to homepage...
+          navigate('/');
+        }, 2000);
+
       })
       .catch(error => {
         // console.log(error);
@@ -74,6 +84,11 @@ export default function LoginForm({ }: Props) {
       </div>
 
       <button type="submit" className="btn btn-primary">Login</button>
+
+      <SuccessModal isOpen={modalIsOpen}>
+        Login Successful!<br />
+        Redirecting to home...
+      </SuccessModal>
     </form>
   )
 }
