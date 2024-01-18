@@ -2,6 +2,7 @@ import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import './UpdateEventForm.css'
 import { EventResponse, editEvent, getEvent } from '@services/api';
 import { useParams } from 'react-router-dom';
+import SuccessModal from '@components/SuccessModal';
 
 type Props = {}
 
@@ -10,24 +11,30 @@ export default function UpdateEventForm({ }: Props) {
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [venue, setVenue] = useState('');
+  const [confirmSubmit, setConfirmSubmit] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   // Get the 'eventid' parameter from the URL
   const { eventid } = useParams();
 
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target?.value);
+    setConfirmSubmit(false);
   };
 
   const handleDateChange = (e: ChangeEvent<HTMLInputElement>) => {
     setDate(e.target?.value);
+    setConfirmSubmit(false);
   };
 
   const handleTimeChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTime(e.target?.value);
+    setConfirmSubmit(false);
   };
 
   const handleVenueChange = (e: ChangeEvent<HTMLInputElement>) => {
     setVenue(e.target?.value);
+    setConfirmSubmit(false);
   };
 
 
@@ -42,7 +49,7 @@ export default function UpdateEventForm({ }: Props) {
           const year = datetime.getFullYear();
           const month = String(datetime.getMonth() + 1).padStart(2, '0'); // Months are zero-based
           const day = String(datetime.getDate()).padStart(2, '0');
-          const localeDate= `${year}-${month}-${day}`;
+          const localeDate = `${year}-${month}-${day}`;
 
           // Format time to local timezone
           const localeTime = datetime.toLocaleTimeString();
@@ -63,16 +70,30 @@ export default function UpdateEventForm({ }: Props) {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
+    if (!confirmSubmit) {
+      setConfirmSubmit(true);
+      return;
+    }
+
     // Form submission logic
     if (eventid) {
       await editEvent(eventid, { title, date, venue })
         .then(response => {
-          console.log(response);
+          // Display modal
+          setSuccess(true);
+          // Reset form
+          setTitle("");
+          setDate("");
+          setTime("");
+          setVenue("");
         })
         .catch(error => {
-          console.log(error);
+          return;
         })
     }
+
+    // Reset confirmation
+    setConfirmSubmit(false);
   };
 
   useEffect(() => {
@@ -135,7 +156,14 @@ export default function UpdateEventForm({ }: Props) {
         <label htmlFor="inputVenue" className="form-label">Venue</label>
       </div>
 
-      <button type="submit" className="btn btn-primary">Update</button>
+      <button type="submit" className="btn btn-primary">{confirmSubmit ? "Confirm?" : "Update Event"}</button>
+
+      <SuccessModal
+        isOpen={success}
+        setIsOpen={setSuccess}
+      >
+        Event Details Updated!
+      </SuccessModal>
     </form>
   )
 }

@@ -3,6 +3,7 @@ import './ChangePasswordForm.css'
 import { useAppSelector } from '@utils/useAppSelector';
 import { updatePassword } from '@services/api';
 import { selectAuth } from '@features/auth/authSlice';
+import SuccessModal from '@components/SuccessModal';
 
 type Props = {}
 
@@ -12,21 +13,33 @@ export default function ChangePasswordForm({ }: Props) {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [confirmSubmit, setConfirmSubmit] = useState(false);
+  const [success, setSuccess] = useState(false);
+
 
   const handleCurrentPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setCurrentPassword(e.target?.value);
+    setConfirmSubmit(false);
   };
 
   const handleNewPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setNewPassword(e.target?.value);
+    setConfirmSubmit(false);
   };
 
   const handleConfirmNewPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setConfirmNewPassword(e.target?.value);
+    setConfirmSubmit(false);
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
+    // Ensure submission is only when confirm is selected
+    if (!confirmSubmit) {
+      setConfirmSubmit(true);
+      return;
+    }
 
     // Check that new passwords match
     if (newPassword !== confirmNewPassword) {
@@ -43,12 +56,20 @@ export default function ChangePasswordForm({ }: Props) {
     if (userid) {
       await updatePassword(userid, passwords)
         .then(response => {
-          console.log(response);
+          // Display modal
+          setSuccess(true);
+          // Reset form
+          setCurrentPassword("");
+          setNewPassword("");
+          setConfirmNewPassword("");
         })
         .catch(error => {
-          console.log(error);
+          return;
         })
     }
+
+    // Reset confirmation
+    setConfirmSubmit(false);
   };
 
   return (
@@ -97,7 +118,14 @@ export default function ChangePasswordForm({ }: Props) {
         </div>
       </div>
 
-      <button type="submit" className="btn btn-primary">Change Password</button>
+      <button type="submit" className="btn btn-primary">{confirmSubmit ? "Confirm?" : "Change Password"}</button>
+
+      <SuccessModal
+        isOpen={success}
+        setIsOpen={setSuccess}
+      >
+        Password Updated!
+      </SuccessModal>
     </form>
   )
 }

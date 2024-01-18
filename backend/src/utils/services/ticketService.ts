@@ -6,7 +6,7 @@ import crypto from 'crypto';
 const createTicketsForEvent = async (event: IEvent, numberOfTickets: number) => {
   // Create tickets
   const tickets: ITicket[] = Array.from({ length: numberOfTickets }, () => new Ticket({ event: event._id }));
-  console.log(tickets);
+  // Save tickets
   await Ticket.insertMany(tickets);
 };
 

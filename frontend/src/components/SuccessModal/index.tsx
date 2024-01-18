@@ -7,6 +7,7 @@ import './SuccessModal.css'
 type Props = {
   children?: ReactNode;
   isOpen: boolean;
+  setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const customStyle: Modal.Styles = {
@@ -25,16 +26,32 @@ const customStyle: Modal.Styles = {
 }
 
 
-export default function SuccessModal({ children, isOpen }: Props) {
+export default function SuccessModal({
+  children,
+  isOpen,
+  setIsOpen,
+}: Props) {
+
+  const closeModal = () => {
+    if (setIsOpen) {
+      setIsOpen(false);
+    }
+  }
+
   return (
     <Modal
       isOpen={isOpen}
       style={customStyle}
       contentLabel="Success Modal"
+      onRequestClose={closeModal}
     >
       <FontAwesomeIcon className='SuccessModal__checkmark' icon={faSquareCheck} />
       <br />
       {children}
+      {
+        setIsOpen &&
+        <button type='button' onClick={closeModal}>Close</button>
+      }
     </Modal>
   )
 }

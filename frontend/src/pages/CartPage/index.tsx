@@ -1,18 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './CartPage.css'
 import CartItemsDisplay from '@components/CartItemsDisplay'
 import { useAppSelector } from '@utils/useAppSelector'
 import { selectCart } from '@features/cart/cartSlice'
 import { TicketResponse, orderTickets } from '@services/api'
 import { updateAllItemsInCart } from '@utils/cartStorage'
+import SuccessModal from '@components/SuccessModal'
 
 type Props = {}
 
 export default function CartPage({ }: Props) {
   const { tickets } = useAppSelector(selectCart);
 
+  const [confirmSubmit, setConfirmSubmit] = useState(false);
+  const [success, setSuccess] = useState(false);
+
   const submitTicketOrder = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+
+    if (!confirmSubmit) {
+      setConfirmSubmit(true);
+      return;
+    }
 
     let unprocessedTickets = tickets.map(ticket => ticket)
     let failedTickets: TicketResponse['data'][] = [];
@@ -25,12 +34,11 @@ export default function CartPage({ }: Props) {
       // place order
       if (currentEventId) {
         await orderTickets(currentEventId, ticketsToOrder)
-        .then(data => {
-          console.log(data)
-        })
-        .catch(error => {
+          .then(data => {
+            setSuccess(true);
+          })
+          .catch(error => {
             failedTickets = [...failedTickets, ...unprocessedTickets.filter(ticket => ticket.event === currentEventId)];  // store reference to any failed tickets
-            console.log(error)
           })
       }
 
@@ -40,12 +48,28 @@ export default function CartPage({ }: Props) {
 
     // update redux store to only contain remaining unprocessed tickets (i.e. failed order tickets)
     updateAllItemsInCart('tickets', failedTickets);
+
+    // Reset confirmation
+    setConfirmSubmit(false);
   }
 
   return (
     <main className='CartPage mainpage'>
       <CartItemsDisplay />
-      <button className='btn btn-info' onClick={submitTicketOrder}>Place Order</button>
+      {
+        tickets.length > 0 &&
+        <button className='btn btn-info' onClick={submitTicketOrder}>{confirmSubmit ? "Confirm?" : "Place Order"}</button>
+      }
+      <SuccessModal
+        isOpen={success}
+        setIsOpen={setSuccess}
+      >
+        Checkout successful!<br />
+        {
+          (tickets.length > 0) &&
+          <p>Note: some tickets failed to checkout. Please check cart.</p>
+        }
+      </SuccessModal>
     </main>
   )
 }
