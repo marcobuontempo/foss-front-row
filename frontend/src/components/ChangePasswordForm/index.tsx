@@ -96,6 +96,8 @@ export default function ChangePasswordForm({ }: Props) {
           onChange={handleNewPasswordChange}
           placeholder='New Password'
           required={true}
+          minLength={8}
+          pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$"
         />
         <label htmlFor="inputNewPassword" className="form-label">New Password</label>
       </div>
@@ -109,10 +111,12 @@ export default function ChangePasswordForm({ }: Props) {
           onChange={handleConfirmNewPasswordChange}
           placeholder='Confirm New Password'
           required={true}
+          minLength={8}
+          pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$"
         />
         <label htmlFor="inputConfirmNewPassword" className="form-label">Confirm New Password</label>
         <div id="passwordHelpBlock" className="form-text">
-          TODO: Your password must be 8-20 characters long...
+          Password must be a minimum of 8 characters in length, contain at least one uppercase letter, one lowercase letter, one number, and one special character
         </div>
       </div>
 

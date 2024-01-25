@@ -71,9 +71,6 @@ export default function LoginForm({ }: Props) {
           required={true}
         />
         <label htmlFor="inputPassword" className="form-label">Password</label>
-        <div id="passwordHelpBlock" className="form-text">
-          TODO: Your password must be 8-20 characters long...
-        </div>
       </div>
 
       <button type="submit" className="btn btn-primary">Login</button>

@@ -68,7 +68,10 @@ export default function UpdateProfileForm({ }: Props) {
         toast.success("Profile Updated!")
       })
       .catch(error => {
-        toast.error("Profile Update Failed! Please use valid values.")
+        const message = (error.response.status === 409) ?
+          "Registration Failed! Username or Email is already taken." :
+          "Registration Failed! Please use valid values.";
+        toast.error(message);
       })
 
     // Reset confirmation
@@ -111,6 +114,7 @@ export default function UpdateProfileForm({ }: Props) {
           value={email}
           onChange={handleEmailChange}
           placeholder='Email'
+          pattern='^\S+@\S+\.\S+$'
         />
         <label htmlFor="inputEmail" className="form-label">Email</label>
       </div>
@@ -123,8 +127,14 @@ export default function UpdateProfileForm({ }: Props) {
           value={phone}
           onChange={handlePhoneChange}
           placeholder='Phone (optional)'
+          minLength={10}
+          maxLength={14}
+          pattern='^[0-9]{10,14}$'
         />
         <label htmlFor="inputPhone" className="form-label">Phone (optional)</label>
+        <div id="phoneHelpBlock" className="form-text">
+          Phone must be 10-14 digits, numbers only
+        </div>
       </div>
 
       <div className='form-floating mb-3'>

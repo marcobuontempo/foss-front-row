@@ -48,7 +48,7 @@ export default function TicketQRGenerator({ }: Props) {
           setTickets(response.data);
         })
         .catch(error => {
-          console.log(error)
+          return;
         });
     }
   }, [])

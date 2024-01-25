@@ -34,20 +34,26 @@ export default function CartPage({ }: Props) {
       if (currentEventId) {
         await orderTickets(currentEventId, ticketsToOrder)
           .then(response => {
-            toast.success("Checkout Successful!")
+            return;
           })
           .catch(error => {
             failedTickets = [...failedTickets, ...unprocessedTickets.filter(ticket => ticket.event === currentEventId)];  // store reference to any failed tickets
-            toast.error("Some tickets failed to checkout. Please check cart.")
           })
       }
 
       // remove tickets from unprocessed array
-      unprocessedTickets = unprocessedTickets.filter(ticket => ticket.event !== currentEventId)
+      unprocessedTickets = unprocessedTickets.filter(ticket => ticket.event !== currentEventId);
     }
 
     // update redux store to only contain remaining unprocessed tickets (i.e. failed order tickets)
     updateAllItemsInCart('tickets', failedTickets);
+
+    // Display success or fail toasts
+    if (failedTickets.length === 0) {
+      toast.success("Checkout Successful!");
+    } else {
+      toast.error("Some tickets failed to checkout. Please check cart.");
+    }
 
     // Reset confirmation
     setConfirmSubmit(false);

@@ -81,7 +81,10 @@ export default function UpdateEventForm({ }: Props) {
           toast.success("Event Updated!");
         })
         .catch(error => {
-          toast.error("Event Update Failed! Please use valid values.")
+          const message = (error.response.status === 409) ?
+            "Event Creation Failed! Event Title is already taken." :
+            "Event Creation Failed! Please use valid values.";
+          toast.error(message);
         })
     }
 
@@ -95,7 +98,7 @@ export default function UpdateEventForm({ }: Props) {
 
   return (
     <form className='UpdateEventForm container-sm py-3 text-center' onSubmit={handleSubmit}>
-      <h1>Create Event</h1>
+      <h1>Update Event</h1>
 
       <div className='form-floating mb-3'>
         <input

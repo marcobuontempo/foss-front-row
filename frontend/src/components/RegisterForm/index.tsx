@@ -68,7 +68,7 @@ export default function RegisterForm({ }: Props) {
         const message = (error.response.status === 409) ?
           "Registration Failed! Username or Email is already taken." :
           "Registration Failed! Please use valid values.";
-          toast.error(message);
+        toast.error(message);
       })
   };
 
@@ -113,6 +113,7 @@ export default function RegisterForm({ }: Props) {
             onChange={handleEmailChange}
             placeholder='Email'
             required={true}
+            pattern='^\S+@\S+\.\S+$'
           />
           <label htmlFor="inputEmail" className="form-label">Email</label>
         </div>
@@ -126,8 +127,14 @@ export default function RegisterForm({ }: Props) {
             onChange={handlePhoneChange}
             placeholder='Phone (optional)'
             required={false}
+            minLength={10}
+            maxLength={14}
+            pattern='^[0-9]{10,14}$'
           />
           <label htmlFor="inputPhone" className="form-label">Phone (optional)</label>
+          <div id="phoneHelpBlock" className="form-text">
+            Phone must be 10-14 digits, numbers only
+          </div>
         </div>
 
         <div className='form-floating mb-3'>
@@ -169,6 +176,8 @@ export default function RegisterForm({ }: Props) {
             onChange={handleUsernameChange}
             placeholder='Username'
             required={true}
+            minLength={3}
+            maxLength={20}
           />
           <label htmlFor="inputUsername" className="form-label">Username</label>
         </div>
@@ -183,10 +192,12 @@ export default function RegisterForm({ }: Props) {
             onChange={handlePasswordChange}
             placeholder='Password'
             required={true}
+            minLength={8}
+            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$"
           />
           <label htmlFor="inputPassword" className="form-label">Password</label>
           <div id="passwordHelpBlock" className="form-text">
-            TODO: Your password must be 8-20 characters long...
+            Password must be a minimum of 8 characters in length, contain at least one uppercase letter, one lowercase letter, one number, and one special character
           </div>
         </div>
       </fieldset>

@@ -4,6 +4,7 @@ import { AllTicketsResponse, EventResponse, deleteEvent, getEvent, getEventTicke
 import { useAppSelector } from '@utils/useAppSelector';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 type Props = {}
 
@@ -11,6 +12,7 @@ export default function EventInformationDisplay({ }: Props) {
   const [eventData, setEventData] = useState<EventResponse['data'] | null>(null)
   const [tickets, setTickets] = useState<AllTicketsResponse['data']>([]);
   const [isOwner, setIsOwner] = useState<boolean>(false);
+  const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
 
   const navigate = useNavigate()
 
@@ -43,14 +45,18 @@ export default function EventInformationDisplay({ }: Props) {
 
   const handleDeleteEvent = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    if (!confirmDelete) {
+      setConfirmDelete(true);
+      return;
+    }
     if (eventid) {
       await deleteEvent(eventid)
         .then(response => {
-          // console.log(response)
-          return response
+          toast.success("Event Deleted!");
+          navigate("/events");
         })
         .catch(error => {
-          console.log(error)
+          toast.error("Event Deletion Failed!");
         })
     }
   }
@@ -79,7 +85,7 @@ export default function EventInformationDisplay({ }: Props) {
         <div>
           <h4>Owner Controls</h4>
           <button className='btn btn-info' type='button' onClick={handleEditEvent}>Edit Event</button>
-          <button className='btn btn-danger' type='button' onClick={handleDeleteEvent}>Delete Event</button>
+          <button className='btn btn-danger' type='button' onClick={handleDeleteEvent}>{confirmDelete ? "Confirm Deletion?" : "Delete Event"}</button>
         </div>
       }
     </div>

@@ -2,10 +2,13 @@ import React, { ChangeEvent, FormEvent, useState } from 'react'
 import './CreateEventForm.css'
 import { createEvent } from '@services/api';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {}
 
 export default function CreateEventForm({ }: Props) {
+  const navigate = useNavigate();
+
   const [title, setTitle] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
@@ -42,10 +45,14 @@ export default function CreateEventForm({ }: Props) {
     await createEvent({ title, datetime, venue, ticketQty: parseInt(ticketQty) })
       .then(response => {
         // Display success
-        toast.success("Event Created!")
+        toast.success("Event Created!");
+        navigate("/events");
       })
       .catch(error => {
-        toast.error("Event Creation Failed! Please use valid values.")
+        const message = (error.response.status === 409) ?
+          "Event Creation Failed! Event Title is already taken." :
+          "Event Creation Failed! Please use valid values.";
+        toast.error(message);
       })
   };
 

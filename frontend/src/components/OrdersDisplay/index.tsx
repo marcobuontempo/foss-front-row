@@ -18,7 +18,7 @@ export default function OrdersDisplay({ }: Props) {
           setOrders(response.data);
         })
         .catch(error => {
-          console.log(error)
+          return;
         })
     }
   }, [])
