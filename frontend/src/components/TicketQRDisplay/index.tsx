@@ -104,9 +104,7 @@ export default function TicketQRDisplay({
       {/* Button Options */}
       {
         isScanned ?
-          checkInSuccess ?
-            <p className='text-success'>Ticket Checked-In!</p> :
-            <button className='btn btn-info' type='button' onClick={handleCheckInTicket}>Check-In</button>
+          <button className='btn btn-info' type='button' onClick={handleCheckInTicket} disabled={checkInSuccess}>{checkInSuccess ? "Consumed" : "Check-In"}</button>
           :
           <>
             <button className='btn btn-info' type='button' onClick={handleSaveTicketAsPNG}>Save for Offline</button>

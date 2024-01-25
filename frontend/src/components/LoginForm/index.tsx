@@ -3,17 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import './LoginForm.css'
 import { loginUser } from '@services/api.ts';
 import { onLoginSuccess } from '@services/authService';
-import Modal from 'react-modal';
-import SuccessModal from '@components/SuccessModal';
+import { toast } from 'react-toastify';
+
 
 type Props = {}
-
-Modal.setAppElement("#root");
 
 export default function LoginForm({ }: Props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -31,21 +28,17 @@ export default function LoginForm({ }: Props) {
     // Form submission logic
     await loginUser({ username, password })
       .then(response => {
-        // Overlay modal
-        setModalIsOpen(true);
+        // Toast notification
+        toast.success("Logged In!")
 
-        // Redirect after 3 seconds...
-        setTimeout(() => {
-          // Store user info in local storage
-          onLoginSuccess(response.data);
+        // Store user info in local storage
+        onLoginSuccess(response.data);
 
-          // Redirect to homepage...
-          navigate('/');
-        }, 2000);
-
+        // Redirect to homepage...
+        navigate('/');
       })
       .catch(error => {
-        // console.log(error);
+        toast.error("Invalid username/password.")
       })
   };
 
@@ -84,11 +77,6 @@ export default function LoginForm({ }: Props) {
       </div>
 
       <button type="submit" className="btn btn-primary">Login</button>
-
-      <SuccessModal isOpen={modalIsOpen}>
-        Login Successful!<br />
-        Redirecting to home...
-      </SuccessModal>
     </form>
   )
 }

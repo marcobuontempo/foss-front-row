@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react'
 import './RegisterForm.css'
 import { registerUser } from '@services/api';
+import { toast } from 'react-toastify';
 
 type Props = {}
 
@@ -61,10 +62,13 @@ export default function RegisterForm({ }: Props) {
       dob,
     })
       .then(response => {
-        // console.log(response);
+        toast.success("Registered Successfully!")
       })
       .catch(error => {
-        // console.log(error);
+        const message = (error.response.status === 409) ?
+          "Registration Failed! Username or Email is already taken." :
+          "Registration Failed! Please use valid values.";
+          toast.error(message);
       })
   };
 

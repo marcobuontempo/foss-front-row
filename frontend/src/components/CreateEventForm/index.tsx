@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react'
 import './CreateEventForm.css'
 import { createEvent } from '@services/api';
-import SuccessModal from '@components/SuccessModal';
+import { toast } from 'react-toastify';
 
 type Props = {}
 
@@ -11,7 +11,6 @@ export default function CreateEventForm({ }: Props) {
   const [time, setTime] = useState('');
   const [venue, setVenue] = useState('');
   const [ticketQty, setTicketQty] = useState('');
-  const [success, setSuccess] = useState(false);
 
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target?.value);
@@ -43,10 +42,10 @@ export default function CreateEventForm({ }: Props) {
     await createEvent({ title, datetime, venue, ticketQty: parseInt(ticketQty) })
       .then(response => {
         // Display success
-        setSuccess(true);
+        toast.success("Event Created!")
       })
       .catch(error => {
-        return;
+        toast.error("Event Creation Failed! Please use valid values.")
       })
   };
 
@@ -123,13 +122,6 @@ export default function CreateEventForm({ }: Props) {
       </div>
 
       <button type="submit" className="btn btn-primary">Create</button>
-
-      <SuccessModal
-        isOpen={success}
-        setIsOpen={setSuccess}
-      >
-        Event Created!
-      </SuccessModal>
     </form>
   )
 }

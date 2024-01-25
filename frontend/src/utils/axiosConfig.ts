@@ -12,8 +12,8 @@ axios.interceptors.response.use(
     if (error.response &&
       error.response.status === 401 &&
       error.response?.data?.errors === 'invalid token') {
-      // Handle invalid token response - redirect to /logout
-      document.location.href = "/logout"
+      // Handle invalid token response - redirect to /logout with 'expired' param
+      document.location.href = "/logout?expired=true"
     }
     return Promise.reject(error);
   }

@@ -5,7 +5,7 @@ import { useAppSelector } from '@utils/useAppSelector'
 import { selectCart } from '@features/cart/cartSlice'
 import { TicketResponse, orderTickets } from '@services/api'
 import { updateAllItemsInCart } from '@utils/cartStorage'
-import SuccessModal from '@components/SuccessModal'
+import { toast } from 'react-toastify'
 
 type Props = {}
 
@@ -13,7 +13,6 @@ export default function CartPage({ }: Props) {
   const { tickets } = useAppSelector(selectCart);
 
   const [confirmSubmit, setConfirmSubmit] = useState(false);
-  const [success, setSuccess] = useState(false);
 
   const submitTicketOrder = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -34,11 +33,12 @@ export default function CartPage({ }: Props) {
       // place order
       if (currentEventId) {
         await orderTickets(currentEventId, ticketsToOrder)
-          .then(data => {
-            setSuccess(true);
+          .then(response => {
+            toast.success("Checkout Successful!")
           })
           .catch(error => {
             failedTickets = [...failedTickets, ...unprocessedTickets.filter(ticket => ticket.event === currentEventId)];  // store reference to any failed tickets
+            toast.error("Some tickets failed to checkout. Please check cart.")
           })
       }
 
@@ -60,16 +60,6 @@ export default function CartPage({ }: Props) {
         tickets.length > 0 &&
         <button className='btn btn-info' onClick={submitTicketOrder}>{confirmSubmit ? "Confirm?" : "Place Order"}</button>
       }
-      <SuccessModal
-        isOpen={success}
-        setIsOpen={setSuccess}
-      >
-        Checkout successful!<br />
-        {
-          (tickets.length > 0) &&
-          <p>Note: some tickets failed to checkout. Please check cart.</p>
-        }
-      </SuccessModal>
     </main>
   )
 }

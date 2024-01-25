@@ -2,7 +2,7 @@ import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import './UpdateEventForm.css'
 import { EventResponse, editEvent, getEvent } from '@services/api';
 import { useParams } from 'react-router-dom';
-import SuccessModal from '@components/SuccessModal';
+import { toast } from 'react-toastify';
 
 type Props = {}
 
@@ -12,7 +12,6 @@ export default function UpdateEventForm({ }: Props) {
   const [time, setTime] = useState('');
   const [venue, setVenue] = useState('');
   const [confirmSubmit, setConfirmSubmit] = useState(false);
-  const [success, setSuccess] = useState(false);
 
   // Get the 'eventid' parameter from the URL
   const { eventid } = useParams();
@@ -79,16 +78,10 @@ export default function UpdateEventForm({ }: Props) {
     if (eventid) {
       await editEvent(eventid, { title, date, venue })
         .then(response => {
-          // Display modal
-          setSuccess(true);
-          // Reset form
-          setTitle("");
-          setDate("");
-          setTime("");
-          setVenue("");
+          toast.success("Event Updated!");
         })
         .catch(error => {
-          return;
+          toast.error("Event Update Failed! Please use valid values.")
         })
     }
 
@@ -157,13 +150,6 @@ export default function UpdateEventForm({ }: Props) {
       </div>
 
       <button type="submit" className="btn btn-primary">{confirmSubmit ? "Confirm?" : "Update Event"}</button>
-
-      <SuccessModal
-        isOpen={success}
-        setIsOpen={setSuccess}
-      >
-        Event Details Updated!
-      </SuccessModal>
     </form>
   )
 }

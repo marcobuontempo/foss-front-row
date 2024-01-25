@@ -3,7 +3,7 @@ import './UpdateProfileForm.css'
 import { useAppSelector } from '@utils/useAppSelector';
 import { selectUserDetails } from '@features/user/userDetailsSlice';
 import { updateUserDetails } from '@services/api';
-import SuccessModal from '@components/SuccessModal';
+import { toast } from 'react-toastify';
 
 type Props = {}
 
@@ -16,7 +16,6 @@ export default function UpdateProfileForm({ }: Props) {
   const [phone, setPhone] = useState(userDetails.phone);
   const [address, setAddress] = useState(userDetails.address);
   const [confirmSubmit, setConfirmSubmit] = useState(false);
-  const [success, setSuccess] = useState(false);
 
   const handleFirstnameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFirstname(e.target?.value);
@@ -66,17 +65,10 @@ export default function UpdateProfileForm({ }: Props) {
     // form submission logic
     await updateUserDetails(userDetails._id, updatedDetails)
       .then(response => {
-        // Display modal
-        setSuccess(true);
-        // Reset form
-        setFirstname("");
-        setLastname("");
-        setEmail("");
-        setPhone("");
-        setAddress("");
+        toast.success("Profile Updated!")
       })
       .catch(error => {
-        return;
+        toast.error("Profile Update Failed! Please use valid values.")
       })
 
     // Reset confirmation
@@ -148,13 +140,6 @@ export default function UpdateProfileForm({ }: Props) {
       </div>
 
       <button type="submit" className="btn btn-primary">{confirmSubmit ? "Confirm?" : "Update Details"}</button>
-
-      <SuccessModal
-        isOpen={success}
-        setIsOpen={setSuccess}
-      >
-        Profile Details Updated!
-      </SuccessModal>
     </form>
   )
 }

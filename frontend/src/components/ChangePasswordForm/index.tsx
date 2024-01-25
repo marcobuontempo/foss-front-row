@@ -3,7 +3,7 @@ import './ChangePasswordForm.css'
 import { useAppSelector } from '@utils/useAppSelector';
 import { updatePassword } from '@services/api';
 import { selectAuth } from '@features/auth/authSlice';
-import SuccessModal from '@components/SuccessModal';
+import { toast } from 'react-toastify';
 
 type Props = {}
 
@@ -14,8 +14,6 @@ export default function ChangePasswordForm({ }: Props) {
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [confirmSubmit, setConfirmSubmit] = useState(false);
-  const [success, setSuccess] = useState(false);
-
 
   const handleCurrentPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setCurrentPassword(e.target?.value);
@@ -56,15 +54,15 @@ export default function ChangePasswordForm({ }: Props) {
     if (userid) {
       await updatePassword(userid, passwords)
         .then(response => {
-          // Display modal
-          setSuccess(true);
+          // Display success
+          toast.success("Password Updated!");
           // Reset form
           setCurrentPassword("");
           setNewPassword("");
           setConfirmNewPassword("");
         })
         .catch(error => {
-          return;
+          toast.error("Password Upated Failed!");
         })
     }
 
@@ -119,13 +117,6 @@ export default function ChangePasswordForm({ }: Props) {
       </div>
 
       <button type="submit" className="btn btn-primary">{confirmSubmit ? "Confirm?" : "Change Password"}</button>
-
-      <SuccessModal
-        isOpen={success}
-        setIsOpen={setSuccess}
-      >
-        Password Updated!
-      </SuccessModal>
     </form>
   )
 }

@@ -2,23 +2,28 @@ import React, { useEffect, useState } from 'react'
 import './LogoutPage.css'
 import { logout } from '@services/api'
 import { onLogout } from '@services/authService'
-import { useNavigate } from 'react-router-dom'
-import SuccessModal from '@components/SuccessModal'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 type Props = {}
 
 export default function LogoutPage({ }: Props) {
-  const [success, setSuccess] = useState<boolean | null>(null);
+  const [failed, setFailed] = useState(false);
 
   const navigate = useNavigate();
 
+  const [params] = useSearchParams();
+
   const handleLogout = async () => {
-    setSuccess(null); // reset state to null (i.e. requesting logout)
-    await logout()
-      .then(response => {
-        setSuccess(true);
-        // delay redirect by 2.5s
-        setTimeout(() => {
+    // Display different toast depending on whether token is expired, or user requested logout
+    if (Boolean(params.get("expired")) === true) {
+      toast.error("Session Expired. Logged Out!");
+      onLogout();
+      navigate("/");
+    } else {
+      await logout()
+        .then(response => {
+          toast.success("Logged Out!")
           /* 
             only complete logout if endpoint is reached -
             (may prevent logout during backend downtime scenarios, 
@@ -27,11 +32,11 @@ export default function LogoutPage({ }: Props) {
           */
           onLogout();
           navigate("/");
-        }, 2500);
-      })
-      .catch(error => {
-        setSuccess(false);
-      })
+        })
+        .catch(error => {
+          setFailed(true);
+        })
+    }
   }
 
   useEffect(() => {
@@ -41,21 +46,13 @@ export default function LogoutPage({ }: Props) {
   return (
     <main className='LogoutPage mainpage'>
       {
-        success === null ?
-          <>
-            Logging out...
-          </>
+        !failed ?
+          <p>Logging out...</p>
           :
-          success === true ?
-            <SuccessModal isOpen={success}>
-              Log Out Successful!<br />
-              Redirecting to home...
-            </SuccessModal>
-            :
-            <>
-              Failed to logout...<br />
-              <button type='button' onClick={handleLogout}>Try Again</button>
-            </>
+          <>
+            <p>Failed to logout...</p>
+            <button className='btn btn-info' type='button' onClick={handleLogout}>Try Again</button>
+          </>
       }
     </main>
   )
