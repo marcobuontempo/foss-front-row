@@ -78,7 +78,6 @@ DONE - DELETE /orders/{orderID} - Cancel a specific order (requires authenticati
 
 
 # FRONTEND
-- Modal for event successes (Edit Event, Create Event, Scan Ticket)
 - Toast notifications for fail requests
 - Expired JWT -> modal 'You have been logged out - expired session' -> instead of immediate redirect
 - Confirmations for buttons, e.g. logout, reserve ticket, etc.
@@ -87,14 +86,6 @@ DONE - DELETE /orders/{orderID} - Cancel a specific order (requires authenticati
 - Styling
 - Cart qty count on navbar
 - /logout page -> verify that redux values are cleared
-
-
-# BACKEND
-DONE
-
-# DATABASE
-- Setup mongo replica set -> create a docker-compose image to do this (lock the mongo version) -> implement transactions on backend where required
-
 
 # Other
 - Name project

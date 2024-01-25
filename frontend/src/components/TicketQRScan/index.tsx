@@ -11,7 +11,8 @@ type Props = {}
 export default function TicketQRScan({ }: Props) {
   const [ticket, setTicket] = useState(defaultTicketDetails);
   const [uid, setUid] = useState("");
-  const [success, setSuccess] = useState(false);
+  const [scanSuccess, setScanSuccess] = useState(false);
+  const [checkInSuccess, setCheckInSuccess] = useState(false);
 
   const onNewScanResult = (decodedText: string, decodedResult: Html5QrcodeResult) => {
     const { uid, ...ticket } = JSON.parse(decodedText);
@@ -27,7 +28,7 @@ export default function TicketQRScan({ }: Props) {
     ) {
       setTicket(ticket);
       setUid(uid);
-      setSuccess(true);
+      setScanSuccess(true);
     }
   };
 
@@ -36,18 +37,18 @@ export default function TicketQRScan({ }: Props) {
     // Update ticket in database
     consumeTicket(ticket.event, ticket.id, uid)
       .then(response => {
-        console.log(response);
+        setCheckInSuccess(true);
       })
       .catch(error => {
-        console.log(error);
+        return;
       })
   }
 
   return (
     <div className='TicketQRScan'>
       {
-        success ?
-          <TicketQRDisplay ticket={ticket} isScanned={true} handleCheckInTicket={handleCheckInTicket} />
+        scanSuccess ?
+          <TicketQRDisplay ticket={ticket} isScanned={true} handleCheckInTicket={handleCheckInTicket} checkInSuccess={checkInSuccess} />
           :
           <Html5QRcodePlugin qrCodeSuccessCallback={onNewScanResult} />
       }

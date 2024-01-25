@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import * as htmlToImage from 'html-to-image';
 import './TicketQRDisplay.css'
 
@@ -13,6 +13,7 @@ type Props = {
   };
   isScanned?: boolean;
   qrUrl?: string;
+  checkInSuccess?: boolean;
   handleClearTicket?: React.MouseEventHandler;
   handleCheckInTicket?: React.MouseEventHandler;
 }
@@ -21,6 +22,7 @@ export default function TicketQRDisplay({
   ticket,
   isScanned = false,
   qrUrl,
+  checkInSuccess,
   handleClearTicket,
   handleCheckInTicket
 }: Props) {
@@ -52,7 +54,7 @@ export default function TicketQRDisplay({
           {/* Ticket display options */}
           {
             isScanned ?
-            // show ID's when ticket has been scanned
+              // show ID's when ticket has been scanned
               <>
                 <tr>
                   <td>
@@ -102,7 +104,9 @@ export default function TicketQRDisplay({
       {/* Button Options */}
       {
         isScanned ?
-          <button className='btn btn-info' type='button' onClick={handleCheckInTicket}>Check-In</button>
+          checkInSuccess ?
+            <p className='text-success'>Ticket Checked-In!</p> :
+            <button className='btn btn-info' type='button' onClick={handleCheckInTicket}>Check-In</button>
           :
           <>
             <button className='btn btn-info' type='button' onClick={handleSaveTicketAsPNG}>Save for Offline</button>

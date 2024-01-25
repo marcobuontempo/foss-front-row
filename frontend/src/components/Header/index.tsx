@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './Header.css'
 import { useAppSelector } from '@utils/useAppSelector'
 import { selectAuth } from '@features/auth/authSlice'
@@ -10,14 +10,27 @@ type Props = {}
 export default function Header({ }: Props) {
   const { isAuthenticated, role } = useAppSelector(selectAuth);
 
+  const [confirmLogout, setConfirmLogout] = useState(false);
+
   // get nav list from routes
   const navlist = generateProtectedRoutes(isAuthenticated, role)
+
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    setConfirmLogout(false);
+  }
+
+  const handleConfirmLogout = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!confirmLogout) {
+      e.preventDefault();
+      setConfirmLogout(true);
+    }
+  }
 
   return (
     <nav className="Header navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
         <Link className="navbar-brand" to={'/'}>
-          <img src="/vite.svg" alt="" width="30" height="24" className="d-inline-block align-text-top" />
+          <img src="/vite.svg" alt="logo" width="30" height="24" className="d-inline-block align-text-top" />
           TicketEcomm
         </Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,7 +45,13 @@ export default function Header({ }: Props) {
                 if (isAuthenticated !== navItem.isAuthenticated) return null;  // skip rendering navlinks that don't match isAuthenticated state (e.g. 'Login' when already logged in)
                 return (
                   <li className="nav-item" key={navItem.path}>
-                    <Link className="btn btn-outline-success px-5" type="button" to={`/${navItem.path}`} onClick={undefined}>{navItem.path}</Link>
+                    <Link
+                      className="btn btn-outline-success px-5"
+                      type="button"
+                      to={`/${navItem.path}`}
+                      onClick={navItem.path === 'logout' ? handleConfirmLogout : handleLinkClick}>
+                      {(navItem.path === 'logout' && confirmLogout) ? "confirm?" : navItem.path}
+                    </Link>
                   </li>
                 )
               })
