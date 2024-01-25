@@ -1,5 +1,7 @@
 import { setAuthenticated, setUnauthenticated } from '@features/auth/authSlice';
 import store from '../store';
+import { clearCart } from '@features/cart/cartSlice';
+import { clearUserDetails } from '@features/user/userDetailsSlice';
 
 // Constants for localStorage keys
 const AUTH_KEY = 'auth';
@@ -23,6 +25,8 @@ export const onLogout = (): void => {
   // Clear the user information from localStorage
   localStorage.removeItem(AUTH_KEY);
 
-  // Reset Redux auth state to default
+  // Reset Redux states to default
   store.dispatch(setUnauthenticated());
+  store.dispatch(clearCart());
+  store.dispatch(clearUserDetails());
 };
