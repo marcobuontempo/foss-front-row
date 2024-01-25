@@ -5,6 +5,7 @@ import ErrorResponse from "@utils/responses/ErrorResponse";
 import SuccessResponse from "@utils/responses/SuccessResponse";
 import { createTicketsForEvent } from "@utils/services/ticketService";
 import { NextFunction, Request, Response } from "express";
+import mongoose from "mongoose";
 
 const getAllEvents = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -63,6 +64,9 @@ const getUserEvents = async (req: AuthenticatedRequest, res: Response, next: Nex
 };
 
 const createNewEvent = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
   try {
     const { title, date, venue, ticketQty } = req.body;
 
@@ -74,10 +78,14 @@ const createNewEvent = async (req: AuthenticatedRequest, res: Response, next: Ne
     const newEvent = new Event({ title, date, venue, owner: req.user?.userid });
 
     // Save the event to the database (will self validate in this step)
-    await newEvent.save();
+    await newEvent.save({ session });
 
     // Create tickets and add to the Event document
-    await createTicketsForEvent(newEvent, ticketQty);
+    await createTicketsForEvent(newEvent, ticketQty, session);
+
+    // Commit the transaction
+    await session.commitTransaction();
+    session.endSession();
 
     // Send successful response
     const response = new SuccessResponse({
@@ -86,6 +94,9 @@ const createNewEvent = async (req: AuthenticatedRequest, res: Response, next: Ne
     res.status(200).json(response);
 
   } catch (error) {
+    // If an error occurs, abort the transaction and handle the error response in middleware
+    await session.abortTransaction();
+    session.endSession();
     next(error);
   }
 };

@@ -1,57 +1,24 @@
+version: "3.8"
+
 services:
   mongo1:
-    image: mongo
-    container_name: mongo1
+    image: mongo:7.0
+    command: ["--replSet", "rs0", "--bind_ip_all", "--port", "27017"]
     ports:
-      - "27017:27017"
-    volumes:
-      - mongo1-data:/data/db
-    command: "--replSet mongo-replica-set"
+      - 27017:27017
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     healthcheck:
-      test: ["CMD", "mongo", "--eval", "rs.status()"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-
-  mongo2:
-    image: mongo
-    container_name: mongo2
-    ports:
-      - "27018:27017"
+      test: echo "try { rs.status() } catch (err) { rs.initiate({_id:'rs0',members:[{_id:0,host:'host.docker.internal:27017'}]}) }" | mongosh --port 27017 --quiet
+      interval: 5s
+      timeout: 30s
+      start_period: 0s
+      start_interval: 1s
+      retries: 30
     volumes:
-      - mongo2-data:/data/db
-    command: "--replSet mongo-replica-set"
-    healthcheck:
-      test: ["CMD", "mongo", "--eval", "rs.status()"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-
-  mongo3:
-    image: mongo
-    container_name: mongo3
-    ports:
-      - "27019:27017"
-    volumes:
-      - mongo3-data:/data/db
-    command: "--replSet mongo-replica-set"
-    healthcheck:
-      test: ["CMD", "mongo", "--eval", "rs.status()"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-
-  init-replica-set:
-    image: mongo
-    depends_on:
-      - mongo1
-      - mongo2
-      - mongo3
-    volumes:
-      - ./init-replica-set.js:/docker-entrypoint-initdb.d/init-replica-set.js
-    command: ["mongo", "mongo1:27017/init-replica-set.js"]
+      - "mongo1_data:/data/db"
+      - "mongo1_config:/data/configdb"
 
 volumes:
-  mongo1-data:
-  mongo2-data:
-  mongo3-data:
+  mongo1_data:
+  mongo1_config:

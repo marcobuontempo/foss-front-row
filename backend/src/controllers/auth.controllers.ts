@@ -4,8 +4,12 @@ import ErrorResponse from "@utils/responses/ErrorResponse";
 import { generateToken, verifyToken } from "@utils/auth/jwtUtils";
 import { NextFunction, Request, Response } from "express";
 import SuccessResponse from "@utils/responses/SuccessResponse";
+import mongoose from "mongoose";
 
 const register = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
   try {
     const { username, password, firstname, lastname, email, phone, address, dob } = req.body;
 
@@ -17,20 +21,18 @@ const register = async (req: Request, res: Response, next: NextFunction): Promis
     await newUser.validate();
     await newUserDetail.validate({ pathsToSkip: ["_id"] });
 
-    // Ensure username and emails are unique
-    const existingUser = await User.findOne({ username });
-    if (existingUser) throw new ErrorResponse(409, "username already exists");
-    const existingUserDetail = await UserDetail.findOne({ email });
-    if (existingUserDetail) throw new ErrorResponse(409, "email already exists");
-
     // Save the user to the database
-    await newUser.save();
+    await newUser.save({ session });
 
     // Set UserDetail's userID to the generated userID value
     newUserDetail._id = newUser._id;
 
     // Save the user details to the database
-    await newUserDetail.save();
+    await newUserDetail.save({ session });
+
+    // Commit the transaction
+    await session.commitTransaction();
+    session.endSession();
 
     // Send successful response
     const response = new SuccessResponse({
@@ -39,7 +41,9 @@ const register = async (req: Request, res: Response, next: NextFunction): Promis
     res.status(201).json(response);
 
   } catch (error) {
-    // Handle the error response in middleware
+    // If an error occurs, abort the transaction and handle the error response in middleware
+    await session.abortTransaction();
+    session.endSession();
     next(error);
   }
 };
@@ -93,7 +97,7 @@ const logout = async (req: Request, res: Response, next: NextFunction): Promise<
   try {
     // Generate an expired and empty token
     const token = generateToken(null, { expiresIn: '0' })
-    
+
     // Set the JWT token as an HTTP cookie
     res.cookie('token', token, {
       httpOnly: true,  // Make the cookie accessible only through the HTTP request

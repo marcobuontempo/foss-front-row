@@ -107,6 +107,9 @@ const getUserTickets = async (req: AuthenticatedRequest, res: Response, next: Ne
 };
 
 const orderTickets = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
   try {
     // Get required values
     const { eventid } = req.params;
@@ -134,7 +137,7 @@ const orderTickets = async (req: AuthenticatedRequest, res: Response, next: Next
     });
 
     // Save the order to the database
-    await order.save();
+    await order.save({ session });
 
     // Update ticket availability
     await Ticket.updateMany(
@@ -150,7 +153,14 @@ const orderTickets = async (req: AuthenticatedRequest, res: Response, next: Next
           available: false
         }
       }
-    );
+      ,
+      {
+        session
+      });
+
+    // Commit the transaction
+    await session.commitTransaction();
+    session.endSession();
 
     // Send success response
     const response = new SuccessResponse({
@@ -159,6 +169,9 @@ const orderTickets = async (req: AuthenticatedRequest, res: Response, next: Next
     res.status(200).json(response);
 
   } catch (error) {
+    // If an error occurs, abort the transaction and handle the error response in middleware
+    await session.abortTransaction();
+    session.endSession();
     next(error);
   }
 };
