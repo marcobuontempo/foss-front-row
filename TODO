@@ -78,17 +78,13 @@ DONE - DELETE /orders/{orderID} - Cancel a specific order (requires authenticati
 
 
 # FRONTEND
-- Toast notifications for fail requests
-- Expired JWT -> modal 'You have been logged out - expired session' -> instead of immediate redirect
-- Confirmations for buttons, e.g. logout, reserve ticket, etc.
-- Add admin panel actions
-- Logos
+DONE - Logos
 - Styling
 - Cart qty count on navbar
-- /logout page -> verify that redux values are cleared
+- Add admin panel actions
 
 # Other
-- Name project
+DONE - Name project
 - Generate API Documentation (Swagger?)
 - Lock npm versions
 - README

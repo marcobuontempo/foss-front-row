@@ -28,7 +28,7 @@ const userSchema = new Schema<IUser>({
     validate: [
       {
         validator: (password: string) =>
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])/.test(password),
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/.test(password),
         message:
           'password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
       },

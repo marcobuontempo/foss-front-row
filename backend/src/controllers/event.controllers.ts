@@ -1,5 +1,6 @@
 import { AuthenticatedRequest } from "@middlewares/authentication.middleware";
 import Event from "@models/Event.model";
+import Order from "@models/Order.model";
 import Ticket from "@models/Ticket.model";
 import ErrorResponse from "@utils/responses/ErrorResponse";
 import SuccessResponse from "@utils/responses/SuccessResponse";
@@ -119,13 +120,19 @@ const updateEvent = async (req: AuthenticatedRequest, res: Response, next: NextF
 };
 
 const deleteEvent = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
   try {
     // Find event and delete
     const { eventid } = req.params;
     await Event.findByIdAndDelete(eventid);
 
-    // Update all associated tickets to unavailable
-    await Ticket.deleteMany({ eventid });
+    // Delete all associated tickets
+    await Ticket.deleteMany({ event: eventid });
+
+    // Delete all associated orders
+    await Order.deleteMany({ event: eventid });
 
     // Send success response
     const response = new SuccessResponse({
@@ -134,6 +141,9 @@ const deleteEvent = async (req: AuthenticatedRequest, res: Response, next: NextF
     res.status(200).json(response);
 
   } catch (error) {
+    // If an error occurs, abort the transaction and handle the error response in middleware
+    await session.abortTransaction();
+    session.endSession();
     next(error);
   }
 };

@@ -29,9 +29,8 @@ export default function Header({ }: Props) {
   return (
     <nav className="Header navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
-        <Link className="navbar-brand" to={'/'}>
-          <img src="/vite.svg" alt="logo" width="30" height="24" className="d-inline-block align-text-top" />
-          TicketEcomm
+        <Link className='Header__logo navbar-brand' to={'/'}>
+          <img src="/logo-no-background.svg" alt="logo" className="d-inline-block align-text-top" />
         </Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>

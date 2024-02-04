@@ -13,12 +13,12 @@ const router = express.Router({ mergeParams: true });
 
 // Root Endpoint
 router.get('/', (req, res) => res.send({
-  name: "Ticket Ecomm",
+  name: "FOSS Front Row",
   version: packagejson.version,
   author: packagejson.author,
   license: packagejson.license,
   description: packagejson.description,
-  github: "TBD",
+  github: "https://github.com/marcobuontempo/foss-front-row",
 }));
 
 // Public Endpoints

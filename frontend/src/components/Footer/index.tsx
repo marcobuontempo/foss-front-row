@@ -12,7 +12,7 @@ export default function Footer({ }: Props) {
     <footer className="Footer d-flex w-100 justify-content-between px-3">
       <p style={{ flex: 1, textAlign: 'left' }}>Marco Buontempo (2023-{new Date().getFullYear()})</p>
       <p style={{ flex: 1, textAlign: 'center' }}><FontAwesomeIcon icon={faFileLines} /> Apache License 2.0</p>
-      <p style={{ flex: 1, textAlign: 'right' }}><a href="https://github.com/marcobuontempo/ticket-ecomm" target="_blank"><FontAwesomeIcon icon={faGithub} /></a></p>
+      <p style={{ flex: 1, textAlign: 'right' }}><a href="https://github.com/marcobuontempo/foss-front-row" target="_blank"><FontAwesomeIcon icon={faGithub} /></a></p>
     </footer>
   )
 }

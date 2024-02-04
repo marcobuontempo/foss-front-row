@@ -1,4 +1,4 @@
-# ticket-ecomm
+# FOSS Front Row
 
 ## backend
 ### .env
