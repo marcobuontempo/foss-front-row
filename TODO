@@ -78,13 +78,11 @@ DONE - DELETE /orders/{orderID} - Cancel a specific order (requires authenticati
 
 
 # FRONTEND
-DONE - Logos
-- Styling
+- Styling (select fonts, scroll bar)
 - Cart qty count on navbar
 - Add admin panel actions
 
 # Other
-DONE - Name project
 - Generate API Documentation (Swagger?)
 - Lock npm versions
 - README

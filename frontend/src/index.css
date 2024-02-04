@@ -2,6 +2,14 @@
 body,
 #root {
   height: 100%;
+
+  /* custom variables */
+  --colour1: #4BC6B9;
+  --colour2: #73C1C6;
+  --colour3: #96C3CE;
+  --colour4: #A79AB2;
+  --colour5: #B57BA6;
+  --colour6: #2F4858;
 }
 
 #root {

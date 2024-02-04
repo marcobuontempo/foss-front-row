@@ -1,3 +1,30 @@
 .Footer {
-  border: 1px solid red;
+  background: var(--colour6);
+  height: 35px;
+  min-height: 35px;
+}
+
+.Footer__element {
+  flex: 1;
+  margin: 0;
+  color: var(--colour1);
+  font-style: italic;
+  font-size: 0.9em;
+}
+
+.Footer__link {
+  color: var(--colour1);
+  text-decoration: none;
+}
+
+.Footer__first {
+  text-align: left;
+}
+
+.Footer__center {
+  text-align: center;
+}
+
+.Footer__last {
+  text-align: right;
 }

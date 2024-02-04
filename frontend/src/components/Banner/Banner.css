@@ -1,3 +1,99 @@
 .Banner {
-    
+  background: linear-gradient(
+    to right,
+    var(--colour1),
+    var(--colour2),
+    var(--colour3),
+    var(--colour4),
+    var(--colour5)
+  );
+}
+
+.Banner__primary {
+  position: relative;
+  height: 600px;
+  display: flex;
+  align-items: center;
+}
+
+.Banner__secondary {
+  height: 150px;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 10px 0px;
+}
+
+.Banner__brand_name {
+  height: 100%;
+  font-size: 7em;
+  text-align: left;
+  z-index: 1;
+}
+
+.Banner__brand_slogan {
+  height: 100%;
+  font-size: 2em;
+  text-align: left;
+  font-weight: lighter;
+  font-style: italic;
+  z-index: 1;
+}
+
+.Banner__brand_info {
+  font-size: 2.5em;
+  text-align: left;
+  text-shadow: 0 0 50px var(--colour1);
+  z-index: 1;
+}
+
+.Banner__text_highlight {
+  font-style: italic;
+  font-weight: 500;
+}
+
+.Banner__bg_img {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  height: 90%;
+  border-radius: 50px;
+  width: auto;
+  z-index: 0;
+  padding: 0;
+  margin: 0;
+  opacity: 0.15;
+}
+
+.Banner__card {
+  color: white;
+  cursor: default;
+}
+
+.Banner__card > .card-body {
+  height: 100%;
+  padding: 10px;
+  border: 2px solid white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.Banner__card > .card-body > .card-title {
+  font-size: 1.2em;
+  text-align: center;
+}
+
+.Banner__card > .card-body > .card-text {
+  display: none;
+  font-weight: lighter;
+}
+
+.Banner__card:hover > .card-body > .card-text {
+  display: block;
+}
+
+.Banner__card:hover > .card-body {
+  background-color: var(--colour4);
 }

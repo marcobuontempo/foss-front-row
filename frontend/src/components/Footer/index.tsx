@@ -9,10 +9,10 @@ type Props = {}
 
 export default function Footer({ }: Props) {
   return (
-    <footer className="Footer d-flex w-100 justify-content-between px-3">
-      <p style={{ flex: 1, textAlign: 'left' }}>Marco Buontempo (2023-{new Date().getFullYear()})</p>
-      <p style={{ flex: 1, textAlign: 'center' }}><FontAwesomeIcon icon={faFileLines} /> Apache License 2.0</p>
-      <p style={{ flex: 1, textAlign: 'right' }}><a href="https://github.com/marcobuontempo/foss-front-row" target="_blank"><FontAwesomeIcon icon={faGithub} /></a></p>
+    <footer className="Footer d-flex w-100 justify-content-between align-items-center px-3">
+      <p className='Footer__element Footer__first'>Marco Buontempo (2023-{new Date().getFullYear()})</p>
+      <p className='Footer__element Footer__center'><FontAwesomeIcon icon={faFileLines} /> Apache License 2.0</p>
+      <p className='Footer__element Footer__last'><a className='Footer__link' href="https://github.com/marcobuontempo/foss-front-row" target="_blank">Github <FontAwesomeIcon icon={faGithub} /></a></p>
     </footer>
   )
 }

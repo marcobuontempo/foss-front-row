@@ -27,7 +27,7 @@ export default function Header({ }: Props) {
   }
 
   return (
-    <nav className="Header navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav className="Header navbar navbar-expand-lg">
       <div className="container-fluid">
         <Link className='Header__logo navbar-brand' to={'/'}>
           <img src="/logo-no-background.svg" alt="logo" className="d-inline-block align-text-top" />
@@ -45,7 +45,7 @@ export default function Header({ }: Props) {
                 return (
                   <li className="nav-item" key={navItem.path}>
                     <Link
-                      className="btn btn-outline-success px-5"
+                      className="Header__nav_button btn px-5"
                       type="button"
                       to={`/${navItem.path}`}
                       onClick={navItem.path === 'logout' ? handleConfirmLogout : handleLinkClick}>

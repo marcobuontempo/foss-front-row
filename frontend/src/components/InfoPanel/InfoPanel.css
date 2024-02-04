@@ -1,3 +1,28 @@
 .InfoPanel {
-    
+  background: linear-gradient(
+      to right,
+      transparent 65%,
+      rgba(255, 255, 255, 0.25)
+    ),
+    var(--colour4);
+  height: 500px;
+}
+
+.InfoPanel__alt {
+  background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.25) 35%,
+      transparent
+    ),
+    var(--colour3);
+}
+
+.InfoPanel__row {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.InfoPanel__title {
+  font-size: 3.5em;
 }
