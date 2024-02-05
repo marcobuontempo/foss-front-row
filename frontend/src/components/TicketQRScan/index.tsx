@@ -33,6 +33,12 @@ export default function TicketQRScan({ }: Props) {
     }
   };
 
+  const resetScan = () => {
+    setTicket(defaultTicketDetails);
+    setUid("");
+    setScanSuccess(false);
+  }
+
   const handleCheckInTicket = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     // Update ticket in database
@@ -55,7 +61,7 @@ export default function TicketQRScan({ }: Props) {
     <div className='TicketQRScan'>
       {
         scanSuccess ?
-          <TicketQRDisplay ticket={ticket} isScanned={true} handleCheckInTicket={handleCheckInTicket} checkInSuccess={checkInSuccess} />
+          <TicketQRDisplay ticket={ticket} isScanned={true} handleCheckInTicket={handleCheckInTicket} checkInSuccess={checkInSuccess} resetScan={resetScan} />
           :
           <Html5QRcodePlugin qrCodeSuccessCallback={onNewScanResult} />
       }

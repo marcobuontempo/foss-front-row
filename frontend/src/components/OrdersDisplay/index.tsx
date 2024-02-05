@@ -27,7 +27,7 @@ export default function OrdersDisplay({ }: Props) {
     orders.length === 0 ?
       "No orders to display."
       :
-      <table className='OrdersDisplay table'>
+      <table className='OrdersDisplay table table-bordered'>
         <thead>
           <tr>
             <th>Order</th>

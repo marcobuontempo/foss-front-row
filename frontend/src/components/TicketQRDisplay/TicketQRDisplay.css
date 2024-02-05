@@ -1,4 +1,12 @@
 .TicketQRDisplay {
+  padding: 10px;
+}
+
+.TicketQRDisplay__buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px 0px;
 }
 
 .TicketQRDisplay__qr {

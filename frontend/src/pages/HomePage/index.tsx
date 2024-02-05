@@ -5,6 +5,8 @@ import './HomePage.css'
 import { Link } from 'react-router-dom'
 import { useAppSelector } from '@utils/useAppSelector'
 import { selectAuth } from '@features/auth/authSlice'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleNodes, faDatabase, faKey, faLock, faUserTie } from '@fortawesome/free-solid-svg-icons'
 
 type Props = {}
 
@@ -14,20 +16,37 @@ export default function HomePage({ }: Props) {
   return (
     <main className='HomePage mainpage'>
       <Banner />
-      <InfoPanel title='Secured Tickets'>
-        Each ticket will create a unique identifier during creation, using protected information not available to the frontend user. The data is then hashed to prevent the data from being decoded or reverse-engineered, creating a fraud-preventive and secure ticket.
+      <InfoPanel
+        title='Secured Tickets'
+        icon={<FontAwesomeIcon icon={faLock} />}
+      >
+        Each ticket, and the system itself, is inherently fraud-preventive. This is achieved with the generation of a unique identifier for every individual ticket, using protected information not accessible to the frontend user, which is then one-way hashed to prevent decoding.
       </InfoPanel>
-      <InfoPanel title='ACID Compliant' alt={true}>
-        Using a MongoDB Replica Set (or Cluster Set, if preferable, when self-hosted), the ticketing system is able to follow ACID compliance. This mitigates issues relating to race-conditions, inconsist states, and data-loss prevention.
-      </InfoPanel>
-      <InfoPanel title='JWT Authentication'>
+      <InfoPanel
+        title='ACID Compliant'
+        icon={<FontAwesomeIcon icon={faDatabase} />}
+        alt={true}
+      >
+        Leveraging a MongoDB Replica Set (or, if preferred, a Cluster Set for self-hosted instances), our ticketing system supports multi-document transactions, adhering to ACID compliance.
+        </InfoPanel>
+      <InfoPanel
+        title='JWT Authentication'
+        icon={<FontAwesomeIcon icon={faKey} />}
+      >
         JSON Web Tokens means that the backend can remain completely stateless, while also ensuring authentication and authorisation abilities for users.
       </InfoPanel>
-      <InfoPanel title='RESTful Application' alt={true}>
-        The backend follows RESTful principles, including being completely stateless. Since the frontend and backend have a complete separation of concerns, the backend can even be deployed by itself (along with a database), as a stand-alone REST API.
-      </InfoPanel>
-      <InfoPanel title='Admin Abilities'>
-        Admin Accounts are implemented into the system with higher privileges than generic users. While the frontend will only expose these protected routes to Admin users, the backend securely prevents bad-actors from attempting to access these endpoints anyway by requiring authentication.
+      <InfoPanel
+        title='RESTful Application'
+        icon={<FontAwesomeIcon icon={faCircleNodes} />}
+        alt={true}
+      >
+        Our backend strictly adheres to RESTful principles, emphasizing complete statelessness. This design allows for modularity and scalability, enabling the backend to function independently, and can even be deployed as a stand-alone REST API alongside a database.
+        </InfoPanel>
+      <InfoPanel
+        title='Admin Abilities'
+        icon={<FontAwesomeIcon icon={faUserTie} />}
+      >
+        Admin Accounts, with higher privileges than generic users, are seamlessly integrated into the system. While the frontend exclusively exposes protected routes to Admin users, the backend, through authentication and authorisation mechanisms, ensures the secure prevention of unauthorised attempts to access these endpoints.
       </InfoPanel>
 
       <div className='HomePage__get_started'>
@@ -42,6 +61,6 @@ export default function HomePage({ }: Props) {
             </>
         }
       </div>
-    </main>
+    </main >
   )
 }

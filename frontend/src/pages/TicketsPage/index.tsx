@@ -11,7 +11,7 @@ export default function TicketsPage({ }: Props) {
   return (
     <main className='TicketsPage mainpage'>
       {/* Nav Links */}
-      <ul className="nav nav-tabs justify-content-center">
+      <ul className="nav nav-tabs justify-content-center foss_nav">
         <li className="nav-item">
           <Link
             className={`nav-link ${currentRoute === "display" && "active"}`}

@@ -1,5 +1,8 @@
 .Header {
+  position: sticky;
   background: var(--colour6);
+  width: 100%;
+  z-index: 99999;
 }
 
 .Header__logo {
@@ -15,7 +18,7 @@
   position: relative;
   text-transform: capitalize;
   z-index: 1;
-  color: var(--colour1)
+  color: var(--colour1);
 }
 
 .Header__nav_button::before {
@@ -35,4 +38,23 @@
 
 .Header__nav_button:hover::before {
   height: 200%;
+}
+
+@media only screen and (max-width: 992px) {
+  .navbar-nav {
+    height: 100vh;
+  }
+
+  .navbar-nav {
+    justify-content: center;
+    align-items: center;
+  }
+
+  .Header__nav_button {
+    font-size: 2em;
+  }
+
+  .Header__nav_button::before {
+    display: none;
+  }
 }

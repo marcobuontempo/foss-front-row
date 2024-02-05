@@ -78,11 +78,11 @@ DONE - DELETE /orders/{orderID} - Cancel a specific order (requires authenticati
 
 
 # FRONTEND
-- Styling (select fonts, scroll bar)
 - Cart qty count on navbar
 - Add admin panel actions
 
 # Other
+- Helmet Backend
 - Generate API Documentation (Swagger?)
 - Lock npm versions
 - README

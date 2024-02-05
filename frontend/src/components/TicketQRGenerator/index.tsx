@@ -113,24 +113,29 @@ export default function TicketQRGenerator({ }: Props) {
             "No tickets to display."
             :
             <form onSubmit={handleTicketSubmit}>
-              <label htmlFor='event'>Event</label>
-              <select name='event' value={selectedEvent} onChange={handleSelectEventChange}>
-                <option value="" disabled>select event...</option>
-                {
-                  Object.keys(events)
-                    .map(eventid => <option value={eventid} key={eventid}>{events[eventid][0].event.title} | ({eventid})</option>)
-                }
-              </select>
+              <div>
+                <label htmlFor='event'>Event</label>
+                <select name='event' value={selectedEvent} onChange={handleSelectEventChange}>
+                  <option value="" disabled>select event...</option>
+                  {
+                    Object.keys(events)
+                      .map(eventid => <option value={eventid} key={eventid}>{events[eventid][0].event.title} | ({eventid})</option>)
+                  }
+                </select>
+              </div>
 
-              <label htmlFor='ticket'>Ticket</label>
-              <select name='ticket' value={selectedTicket} onChange={handleSelectTicketChange}>
-                <option value="" disabled>select ticket...</option>
-                {
-                  selectedEvent &&
-                  events[selectedEvent]
-                    .map(ticket => <option value={ticket._id} key={ticket._id}>{ticket.seat} | ({ticket._id})</option>)
-                }
-              </select>
+              <div>
+                <label htmlFor='ticket'>Ticket</label>
+                <select name='ticket' value={selectedTicket} onChange={handleSelectTicketChange}>
+                  <option value="" disabled>select ticket...</option>
+                  {
+                    selectedEvent &&
+                    events[selectedEvent]
+                      .map(ticket => <option value={ticket._id} key={ticket._id}>{ticket.seat} | ({ticket._id})</option>)
+                  }
+                </select>
+              </div>
+
               <button className='btn btn-info' type='submit'>Generate Ticket</button>
             </form>
         }

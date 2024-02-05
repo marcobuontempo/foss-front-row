@@ -3,13 +3,16 @@ body,
 #root {
   height: 100%;
 
+  font-family: 'Roboto', sans-serif;;
+
   /* custom variables */
-  --colour1: #4BC6B9;
-  --colour2: #73C1C6;
-  --colour3: #96C3CE;
-  --colour4: #A79AB2;
-  --colour5: #B57BA6;
-  --colour6: #2F4858;
+  --colour1: #4bc6b9;
+  --colour2: #73c1c6;
+  --colour3: #96c3ce;
+  --colour4: #a79ab2;
+  --colour5: #b57ba6;
+  --colour6: #2f4858;
+  --colour3a30: #96c3ce30;
 }
 
 #root {
@@ -20,4 +23,59 @@ body,
 
 .mainpage {
   flex: 1;
+  background: var(--colour3a30);
+}
+
+.btn-primary {
+  background-color: var(--colour6) !important;
+  border-color: var(--colour1) !important;
+}
+
+.btn-primary:hover {
+  background-color: var(--colour2) !important;
+}
+
+.btn-success {
+  color: white !important;
+  background-color: var(--colour1) !important;
+  border-color: var(--colour6) !important;
+}
+
+.btn-success:hover {
+  background-color: var(--colour6) !important;
+}
+
+.btn-info {
+  color: white !important;
+  background-color: var(--colour4) !important;
+  border-color: var(--colour5) !important;
+}
+
+.btn-info:hover {
+  background-color: var(--colour5) !important;
+}
+
+.nav {
+  padding-top: 10px;
+}
+
+.nav-tabs .nav-link {
+  --bs-nav-link-color: var(--colour6);
+}
+
+.nav-tabs .nav-link.active {
+  --bs-nav-tabs-link-active-bg: rgba(255, 255, 255, 0.65);
+  --bs-nav-tabs-link-active-color: var(--colour5);
+}
+
+.nav-tabs .nav-link:hover {
+  color: var(--colour1);
+}
+
+a {
+  --bs-link-color-rgb: var(--colour6);
+}
+
+a:hover {
+  color: var(--colour1);
 }

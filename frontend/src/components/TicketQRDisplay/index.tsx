@@ -16,6 +16,7 @@ type Props = {
   checkInSuccess?: boolean;
   handleClearTicket?: React.MouseEventHandler;
   handleCheckInTicket?: React.MouseEventHandler;
+  resetScan?: () => void;
 }
 
 export default function TicketQRDisplay({
@@ -24,7 +25,8 @@ export default function TicketQRDisplay({
   qrUrl,
   checkInSuccess,
   handleClearTicket,
-  handleCheckInTicket
+  handleCheckInTicket,
+  resetScan,
 }: Props) {
 
   const ref = useRef<HTMLTableElement>(null)
@@ -102,15 +104,20 @@ export default function TicketQRDisplay({
       </table>
 
       {/* Button Options */}
-      {
-        isScanned ?
-          <button className='btn btn-info' type='button' onClick={handleCheckInTicket} disabled={checkInSuccess}>{checkInSuccess ? "Consumed" : "Check-In"}</button>
-          :
-          <>
-            <button className='btn btn-info' type='button' onClick={handleSaveTicketAsPNG}>Save for Offline</button>
-            <button className='btn btn-info' type='button' onClick={handleClearTicket}>Generate another ticket?</button>
-          </>
-      }
+      <div className='TicketQRDisplay__buttons'>
+        {
+          isScanned ?
+            <>
+              <button className='btn btn-info' type='button' onClick={handleCheckInTicket} disabled={checkInSuccess}>{checkInSuccess ? "Consumed" : "Check-In"}</button>
+              <button className='btn btn-info' type='button' onClick={resetScan}>Scan a New Ticket</button>
+            </>
+            :
+            <>
+              <button className='btn btn-info' type='button' onClick={handleSaveTicketAsPNG}>Save for Offline</button>
+              <button className='btn btn-info' type='button' onClick={handleClearTicket}>Generate another ticket?</button>
+            </>
+        }
+      </div>
     </div>
   )
 }

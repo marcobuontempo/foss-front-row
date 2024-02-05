@@ -1,3 +1,18 @@
 .TicketQRScan {
-  
+}
+
+#html5-qrcode-button-camera-permission,
+#html5-qrcode-button-camera-start,
+#html5-qrcode-button-camera-stop {
+  color: white;
+  border: 2px solid var(--colour5);
+  background: var(--colour4);
+  border-radius: 5px;
+  padding: 5px;
+}
+
+#html5-qrcode-button-camera-permission:hover,
+#html5-qrcode-button-camera-start:hover,
+#html5-qrcode-button-camera-stop:hover {
+  background: var(--colour5);
 }

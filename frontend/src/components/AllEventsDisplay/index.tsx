@@ -40,7 +40,7 @@ export default function AllEventsDisplay({ }: Props) {
   return (
     <div className='AllEventsDisplay'>
       <ul className='list-group w-100'>
-        <form onSubmit={e => e.preventDefault()}>
+        <form className='AllEventsDisplay__search' onSubmit={e => e.preventDefault()}>
           <label htmlFor='search-name-filter'>Search Events:</label>
           <input id='search-name-filter' type='text' value={searchNameFilter} onChange={handleSearchFilterOnChange} />
         </form>

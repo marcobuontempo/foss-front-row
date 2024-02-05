@@ -32,7 +32,7 @@ export default function EventDisplayCard({ eventData }: Props) {
           </tr>
           <tr>
             <td colSpan={2}>
-              <button className='btn btn-success' onClick={handleViewEventOnClick}>View Event</button>
+              <button className='btn btn-secondary' onClick={handleViewEventOnClick}>View Event</button>
             </td>
           </tr>
         </tbody>

@@ -5,6 +5,7 @@ import { useAppSelector } from '@utils/useAppSelector';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import './EventInformationDisplay.css'
 
 type Props = {}
 
@@ -82,10 +83,12 @@ export default function EventInformationDisplay({ }: Props) {
 
       {
         isOwner &&
-        <div>
+        <div className='EventInformationDisplay__owner'>
           <h4>Owner Controls</h4>
-          <button className='btn btn-info' type='button' onClick={handleEditEvent}>Edit Event</button>
-          <button className='btn btn-danger' type='button' onClick={handleDeleteEvent}>{confirmDelete ? "Confirm Deletion?" : "Delete Event"}</button>
+          <div className='EventInformationDisplay__controls'>
+            <button className='btn btn-info' type='button' onClick={handleEditEvent}>Edit Event</button>
+            <button className='btn btn-danger' type='button' onClick={handleDeleteEvent}>{confirmDelete ? "Confirm Deletion?" : "Delete Event"}</button>
+          </div>
         </div>
       }
     </div>
