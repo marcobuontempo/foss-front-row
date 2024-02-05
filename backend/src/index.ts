@@ -2,6 +2,7 @@ import express, { Application } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import helmet from 'helmet';
 import mongodb from './utils/database/mongodb';
 import routes from "./routes";
 import errorResponseHandler from '@middlewares/errorResponseHandler.middleware';
@@ -21,6 +22,9 @@ async function startServer() {
   // Init app
   const app: Application = express();
   const port = process.env.PORT || 8000;
+
+  // Init Helmet Security
+  app.use(helmet()); 
 
   // Connect to the database
   await mongodb.connect();
