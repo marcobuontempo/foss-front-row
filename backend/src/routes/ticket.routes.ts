@@ -9,17 +9,17 @@ const router = express.Router({ mergeParams: true });
 // Retrieve available tickets for a specific event
 router.get('/', getAllTickets);
 
-// Retrieve all tickets associated with a user (i.e. ordered/purchased)
-router.get('/user/:userid', isCurrentAuthUser, getUserTickets);
-
 // Retrieve details of a specific ticket
 router.get('/:ticketid', getOneTicket);
+
+// Retrieve all tickets associated with a user (i.e. ordered/purchased)
+router.get('/user/:userid', isCurrentAuthUser, getUserTickets);
 
 // Order tickets for a specific event (requires authentication)
 router.post('/order', orderTickets);
 
 // Update details of a specific ticket (requires authentication)
-// router.put('/:ticketid', isEventOwner, updateTicket);  // Currently excluded - no current functionality required for updating tickets
+router.put('/:ticketid', isEventOwner, updateTicket);
 
 // Delete a specific ticket (requires authentication).
 router.delete('/:ticketid', isEventOwner, deleteTicket);

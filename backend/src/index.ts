@@ -6,6 +6,9 @@ import helmet from 'helmet';
 import mongodb from './utils/database/mongodb';
 import routes from "./routes";
 import errorResponseHandler from '@middlewares/errorResponseHandler.middleware';
+import swaggerUi from 'swagger-ui-express';
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerOptions from './utils/swagger/swaggerOptions';
 
 // For .env File 
 dotenv.config();
@@ -24,7 +27,11 @@ async function startServer() {
   const port = process.env.PORT || 8000;
 
   // Init Helmet Security
-  app.use(helmet()); 
+  app.use(helmet());
+
+  // Serve Swagger Docs
+  const swaggerSpec = swaggerJSDoc(swaggerOptions);
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
   // Connect to the database
   await mongodb.connect();

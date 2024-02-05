@@ -11,6 +11,49 @@ import packagejson from '../../package.json';
 
 const router = express.Router({ mergeParams: true });
 
+/**
+ * @swagger
+ * /:
+ *   get:
+ *     summary: Get information about the FOSS Front Row application
+ *     description: |
+ *       This endpoint provides information about the FOSS Front Row application, including its name, version, author, license, description, and GitHub repository link.
+ *     tags:
+ *       - General
+ *     responses:
+ *       '200':
+ *         description: Information about the FOSS Front Row application
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                   description: The name of the FOSS Front Row application.
+ *                 version:
+ *                   type: string
+ *                   description: The version of the FOSS Front Row application.
+ *                 author:
+ *                   type: string
+ *                   description: The author of the FOSS Front Row application.
+ *                 license:
+ *                   type: string
+ *                   description: The license under which the FOSS Front Row application is distributed.
+ *                 description:
+ *                   type: string
+ *                   description: A brief description of the FOSS Front Row application.
+ *                 github:
+ *                   type: string
+ *                   format: uri
+ *                   description: The link to the FOSS Front Row GitHub repository.
+ *       '500':
+ *         description: Internal Server Error. Something went wrong during the information retrieval.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ */
 // Root Endpoint
 router.get('/', (req, res) => res.send({
   name: "FOSS Front Row",

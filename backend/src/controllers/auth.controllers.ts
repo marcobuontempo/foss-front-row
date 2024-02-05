@@ -6,6 +6,59 @@ import { NextFunction, Request, Response } from "express";
 import SuccessResponse from "@utils/responses/SuccessResponse";
 import mongoose from "mongoose";
 
+/**
+ * @swagger
+ * /auth/register:
+ *   post:
+ *     summary: Register a new user
+ *     description: |
+ *       This endpoint registers a new user by creating both User and UserDetail documents in the database.
+ *       It uses a MongoDB session to ensure data consistency and transactional integrity.
+ *     tags:
+ *       - Authentication
+ *     parameters:
+ *       - in: body
+ *         name: user
+ *         description: User registration details
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             username:
+ *               type: string
+ *             password:
+ *               type: string
+ *             firstname:
+ *               type: string
+ *             lastname:
+ *               type: string
+ *             email:
+ *               type: string
+ *             phone:
+ *               type: string
+ *             address:
+ *               type: string
+ *             dob:
+ *               type: string
+ *               format: date
+ *     responses:
+ *       '201':
+ *         description: User registered successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: A success message indicating successful user registration.
+ *       '400':
+ *         description: Bad Request. Invalid input or missing required fields.
+ *       '409':
+ *         description: Bad Request. Duplicate email or username.
+ *       '500':
+ *         description: Internal Server Error. Something went wrong during user registration.
+ */
 const register = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const session = await mongoose.startSession();
   session.startTransaction();
@@ -48,6 +101,58 @@ const register = async (req: Request, res: Response, next: NextFunction): Promis
   }
 };
 
+
+/**
+ * @swagger
+ * /auth/login:
+ *   post:
+ *     summary: User login
+ *     description: |
+ *       This endpoint handles user login by validating the provided credentials,
+ *       generating a JWT token upon successful authentication, and setting it as an HTTP cookie.
+ *     tags:
+ *       - Authentication
+ *     parameters:
+ *       - in: body
+ *         name: credentials
+ *         description: User login credentials
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             username:
+ *               type: string
+ *             password:
+ *               type: string
+ *     responses:
+ *       '200':
+ *         description: User logged in successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: A success message indicating successful user login.
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                       description: User ID.
+ *                     role:
+ *                       type: string
+ *                       description: User role.
+ *       '400':
+ *         description: Bad Request. Invalid input or missing required fields.
+ *       '401':
+ *         description: Unauthorized. Invalid username or password.
+ *       '404':
+ *         description: Not Found. Username not found.
+ *       '500':
+ *         description: Internal Server Error. Something went wrong during user login.
+ */
 const login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { username, password } = req.body;
@@ -93,6 +198,30 @@ const login = async (req: Request, res: Response, next: NextFunction): Promise<v
   }
 };
 
+/**
+ * @swagger
+ * /auth/logout:
+ *   post:
+ *     summary: User logout
+ *     description: |
+ *       This endpoint handles user logout by generating an expired and empty JWT token,
+ *       and setting it as an HTTP cookie to invalidate the user's session.
+ *     tags:
+ *       - Authentication
+ *     responses:
+ *       '200':
+ *         description: User logged out successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: A success message indicating successful user logout.
+ *       '500':
+ *         description: Internal Server Error. Something went wrong during user logout.
+ */
 const logout = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     // Generate an expired and empty token

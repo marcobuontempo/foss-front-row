@@ -21,8 +21,6 @@ const errorResponseHandler = (err: Error, req: Request, res: Response, next: Nex
       .status(500)
       .json({ success: false, errors: 'something went wrong' });
   }
-  console.log(err.name);
-  console.log(err);
 };
 
 export default errorResponseHandler;

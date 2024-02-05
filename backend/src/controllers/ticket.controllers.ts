@@ -9,6 +9,46 @@ import { generateTicketUID } from "@utils/services/ticketService";
 import { NextFunction, Request, Response } from "express";
 import * as mongoose from "mongoose";
 
+/**
+ * @swagger
+ * /events/{eventid}/tickets:
+ *   get:
+ *     summary: Get all tickets for a specific event
+ *     description: |
+ *       This endpoint retrieves all tickets for a specific event from the database.
+ *     tags:
+ *       - Tickets
+ *     parameters:
+ *       - in: path
+ *         name: eventid
+ *         description: ID of the event to retrieve tickets for
+ *         required: true
+ *         schema:
+ *           type: string
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       '200':
+ *         description: Tickets retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: A success message indicating successful retrieval of tickets.
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Ticket'  # Reference to the schema of your Ticket model
+ *       '401':
+ *         description: Unauthorized. Authentication token is missing or invalid.
+ *       '404':
+ *         description: Not Found. Event with the specified ID not found or has no tickets.
+ *       '500':
+ *         description: Internal Server Error. Something went wrong during tickets retrieval.
+ */
 const getAllTickets = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     // Get tickets
@@ -27,6 +67,52 @@ const getAllTickets = async (req: AuthenticatedRequest, res: Response, next: Nex
   }
 };
 
+/**
+ * @swagger
+ * /events/{eventid}/tickets/{ticketid}:
+ *   get:
+ *     summary: Get details of a single ticket for a specific event
+ *     description: |
+ *       This endpoint retrieves details of a single ticket for a specific event from the database.
+ *     tags:
+ *       - Tickets
+ *     parameters:
+ *       - in: path
+ *         name: eventid
+ *         description: ID of the event the ticket belongs to
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: path
+ *         name: ticketid
+ *         description: ID of the ticket to retrieve
+ *         required: true
+ *         schema:
+ *           type: string
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       '200':
+ *         description: Ticket retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: A success message indicating successful retrieval of the ticket.
+ *                 data:
+ *                   $ref: '#/components/schemas/Ticket'  # Reference to the schema of your Ticket model
+ *       '400':
+ *         description: Bad Request. Ticket with the specified ID not found.
+ *       '401':
+ *         description: Unauthorized. Authentication token is missing or invalid.
+ *       '404':
+ *         description: Not Found. Event or Ticket with the specified IDs not found.
+ *       '500':
+ *         description: Internal Server Error. Something went wrong during ticket retrieval.
+ */
 const getOneTicket = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     // Get ticket
@@ -46,6 +132,46 @@ const getOneTicket = async (req: AuthenticatedRequest, res: Response, next: Next
   }
 };
 
+/**
+ * @swagger
+ * /tickets/user/{userid}:
+ *   get:
+ *     summary: Get tickets for a specific user
+ *     description: |
+ *       This endpoint retrieves tickets for a specific user from the database, including associated events.
+ *     tags:
+ *       - Tickets
+ *     parameters:
+ *       - in: path
+ *         name: userid
+ *         description: ID of the user to retrieve tickets for
+ *         required: true
+ *         schema:
+ *           type: string
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       '200':
+ *         description: Tickets retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: A success message indicating successful retrieval of user's tickets.
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Ticket'  # Reference to the schema of your Ticket model
+ *       '401':
+ *         description: Unauthorized. Authentication token is missing or invalid.
+ *       '404':
+ *         description: Not Found. User with the specified ID not found or has no tickets.
+ *       '500':
+ *         description: Internal Server Error. Something went wrong during tickets retrieval.
+ */
 const getUserTickets = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { userid } = req.params;
@@ -106,6 +232,48 @@ const getUserTickets = async (req: AuthenticatedRequest, res: Response, next: Ne
   }
 };
 
+/**
+ * @swagger
+ * /events/{eventid}/tickets/order:
+ *   post:
+ *     summary: Order tickets for a specific event
+ *     description: |
+ *       This endpoint allows a user to order tickets for a specific event.
+ *     tags:
+ *       - Orders
+ *     requestBody:
+ *       description: JSON object containing an array of ticket IDs to be ordered
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               tickets:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                 description: Array of ticket IDs to be ordered
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       '200':
+ *         description: Tickets ordered successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: A success message indicating successful ticket order.
+ *       '400':
+ *         description: Bad Request. Some or all requested tickets are not available.
+ *       '401':
+ *         description: Unauthorized. Authentication token is missing or invalid.
+ *       '500':
+ *         description: Internal Server Error. Something went wrong during ticket ordering.
+ */
 const orderTickets = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   const session = await mongoose.startSession();
   session.startTransaction();
@@ -176,6 +344,57 @@ const orderTickets = async (req: AuthenticatedRequest, res: Response, next: Next
   }
 };
 
+/**
+ * @swagger
+ * /events/{eventid}/tickets/{ticketid}:
+ *   put:
+ *     summary: Update details of a single ticket for a specific event
+ *     description: |
+ *       This endpoint updates details of a single ticket for a specific event in the database.
+ *     tags:
+ *       - Tickets
+ *     parameters:
+ *       - in: path
+ *         name: eventid
+ *         description: ID of the event the ticket belongs to
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: path
+ *         name: ticketid
+ *         description: ID of the ticket to update
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       description: JSON object containing the fields to update
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               // Define your properties to be updated here
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       '200':
+ *         description: Ticket updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: A success message indicating successful update of the ticket.
+ *       '404':
+ *         description: Not Found. Event or Ticket with the specified IDs not found.
+ *       '401':
+ *         description: Unauthorized. Authentication token is missing or invalid.
+ *       '500':
+ *         description: Internal Server Error. Something went wrong during ticket update.
+ */
 const updateTicket = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     // Find ticket, update, and validate
@@ -193,6 +412,48 @@ const updateTicket = async (req: AuthenticatedRequest, res: Response, next: Next
   }
 };
 
+/**
+ * @swagger
+ * /events/{eventid}/tickets/{ticketid}:
+ *   delete:
+ *     summary: Delete a single ticket for a specific event
+ *     description: |
+ *       This endpoint deletes a single ticket for a specific event from the database.
+ *     tags:
+ *       - Tickets
+ *     parameters:
+ *       - in: path
+ *         name: eventid
+ *         description: ID of the event the ticket belongs to
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: path
+ *         name: ticketid
+ *         description: ID of the ticket to delete
+ *         required: true
+ *         schema:
+ *           type: string
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       '200':
+ *         description: Ticket deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: A success message indicating successful deletion of the ticket.
+ *       '404':
+ *         description: Not Found. Event or Ticket with the specified IDs not found.
+ *       '401':
+ *         description: Unauthorized. Authentication token is missing or invalid.
+ *       '500':
+ *         description: Internal Server Error. Something went wrong during ticket deletion.
+ */
 const deleteTicket = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     // Find ticket and delete
@@ -210,6 +471,77 @@ const deleteTicket = async (req: AuthenticatedRequest, res: Response, next: Next
   }
 };
 
+/**
+ * @swagger
+ * /events/{eventid}/tickets/{ticketid}/uid:
+ *   get:
+ *     summary: Get a unique identifier for a specific ticket
+ *     description: |
+ *       This endpoint retrieves a unique identifier for a specific ticket associated with an event.
+ *     tags:
+ *       - Tickets
+ *     parameters:
+ *       - in: path
+ *         name: eventid
+ *         description: ID of the event the ticket belongs to
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: path
+ *         name: ticketid
+ *         description: ID of the ticket to retrieve the unique identifier for
+ *         required: true
+ *         schema:
+ *           type: string
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       '200':
+ *         description: Ticket UID retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: A success message indicating successful retrieval of the ticket UID.
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     uid:
+ *                       type: string
+ *                       description: The unique identifier for the ticket.
+ *                     info:
+ *                       type: object
+ *                       properties:
+ *                         id:
+ *                           type: string
+ *                           description: ID of the ticket.
+ *                         event:
+ *                           type: string
+ *                           description: ID of the event.
+ *                         title:
+ *                           type: string
+ *                           description: Title of the event.
+ *                         venue:
+ *                           type: string
+ *                           description: Venue of the event.
+ *                         unixdatetime:
+ *                           type: number
+ *                           description: Unix timestamp of the event date.
+ *                         seat:
+ *                           type: string
+ *                           description: Seat information of the ticket.
+ *       '404':
+ *         description: Not Found. Event or Ticket with the specified IDs not found.
+ *       '401':
+ *         description: Unauthorized. Authentication token is missing or invalid.
+ *       '422':
+ *         description: Unprocessable Entity. Unable to generate UID for the invalid ticket.
+ *       '500':
+ *         description: Internal Server Error. Something went wrong during UID retrieval.
+ */
 const getTicketUID = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { ticketid, eventid } = req.params;
@@ -249,6 +581,63 @@ const getTicketUID = async (req: AuthenticatedRequest, res: Response, next: Next
   }
 };
 
+/**
+ * @swagger
+ * /events/{eventid}/tickets/{ticketid}/consume:
+ *   post:
+ *     summary: Consume a specific ticket for a specific event
+ *     description: |
+ *       This endpoint allows the consumption of a specific ticket for a specific event.
+ *     tags:
+ *       - Tickets
+ *     parameters:
+ *       - in: path
+ *         name: eventid
+ *         description: ID of the event the ticket belongs to
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: path
+ *         name: ticketid
+ *         description: ID of the ticket to consume
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       description: JSON object containing the UID of the ticket to consume
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               uid:
+ *                 type: string
+ *                 description: UID of the ticket to consume
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       '200':
+ *         description: Ticket consumed successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: A success message indicating successful consumption of the ticket.
+ *       '400':
+ *         description: Bad Request. UID is required.
+ *       '422':
+ *         description: Unprocessable Entity. Unable to process the ticket or UID is invalid.
+ *       '404':
+ *         description: Not Found. Event or Ticket with the specified IDs not found.
+ *       '401':
+ *         description: Unauthorized. Authentication token is missing or invalid.
+ *       '500':
+ *         description: Internal Server Error. Something went wrong during ticket consumption.
+ */
 const consumeTicket = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { eventid, ticketid } = req.params;
