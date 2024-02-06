@@ -14,7 +14,7 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    setCart: (state, action: PayloadAction<CartState>) => {
+    setCart: (_state, action: PayloadAction<CartState>) => {
       return action.payload;
     },
     setTickets: (state, action: PayloadAction<TicketResponse['data'][]>) => {

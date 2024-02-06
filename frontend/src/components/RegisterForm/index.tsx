@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react'
+import { ChangeEvent, FormEvent, useState } from 'react'
 import './RegisterForm.css'
 import { registerUser } from '@services/api';
 import { toast } from 'react-toastify';
@@ -61,7 +61,7 @@ export default function RegisterForm({ }: Props) {
       address,
       dob,
     })
-      .then(response => {
+      .then(_response => {
         toast.success("Registered Successfully!")
       })
       .catch(error => {

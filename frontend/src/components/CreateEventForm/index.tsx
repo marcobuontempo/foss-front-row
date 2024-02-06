@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react'
+import { ChangeEvent, FormEvent, useState } from 'react'
 import './CreateEventForm.css'
 import { createEvent } from '@services/api';
 import { toast } from 'react-toastify';
@@ -43,7 +43,7 @@ export default function CreateEventForm({ }: Props) {
 
     // Form submission logic
     await createEvent({ title, datetime, venue, ticketQty: parseInt(ticketQty) })
-      .then(response => {
+      .then(_response => {
         // Display success
         toast.success("Event Created!");
         navigate("/events");

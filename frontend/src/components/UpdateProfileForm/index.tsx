@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react'
+import { ChangeEvent, FormEvent, useState } from 'react'
 import './UpdateProfileForm.css'
 import { useAppSelector } from '@utils/useAppSelector';
 import { selectUserDetails } from '@features/user/userDetailsSlice';
@@ -64,7 +64,7 @@ export default function UpdateProfileForm({ }: Props) {
 
     // form submission logic
     await updateUserDetails(userDetails._id, updatedDetails)
-      .then(response => {
+      .then(_response => {
         toast.success("Profile Updated!")
       })
       .catch(error => {

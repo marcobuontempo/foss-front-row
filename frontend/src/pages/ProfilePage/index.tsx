@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import './ProfilePage.css'
 import { getUserDetails } from '@services/api';
 import { useAppSelector } from '@utils/useAppSelector';

@@ -1,4 +1,3 @@
-import React from 'react'
 import { RouterProvider, createBrowserRouter, RouteObject } from 'react-router-dom'
 import App from '../App'
 import ErrorPage from '@pages/ErrorPage'

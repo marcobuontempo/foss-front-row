@@ -1,4 +1,3 @@
-import React from 'react'
 import Banner from '@components/Banner'
 import InfoPanel from '@components/InfoPanel'
 import './HomePage.css'

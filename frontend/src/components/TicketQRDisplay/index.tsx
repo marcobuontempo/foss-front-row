@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import * as htmlToImage from 'html-to-image';
 import './TicketQRDisplay.css'
 
@@ -38,14 +38,14 @@ export default function TicketQRDisplay({
     if (ref.current === null) return;
 
     htmlToImage.toPng(ref.current, { cacheBust: true, width: 500 })
-      .then((dataUrl) => {
+      .then(dataUrl => {
         const link = document.createElement('a')
         link.download = `ticket_${ticket.id}.png`
         link.href = dataUrl
         link.click()
       })
-      .catch((err) => {
-        console.log(err)
+      .catch(error => {
+        console.log(error)
       })
   }
 

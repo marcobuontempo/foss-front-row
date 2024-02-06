@@ -52,11 +52,11 @@ export default function EventInformationDisplay({ }: Props) {
     }
     if (eventid) {
       await deleteEvent(eventid)
-        .then(response => {
+        .then(_response => {
           toast.success("Event Deleted!");
           navigate("/events");
         })
-        .catch(error => {
+        .catch(_error => {
           toast.error("Event Deletion Failed!");
         })
     }

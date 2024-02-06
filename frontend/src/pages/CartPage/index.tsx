@@ -33,10 +33,10 @@ export default function CartPage({ }: Props) {
       // place order
       if (currentEventId) {
         await orderTickets(currentEventId, ticketsToOrder)
-          .then(response => {
+          .then(_response => {
             return;
           })
-          .catch(error => {
+          .catch(_error => {
             failedTickets = [...failedTickets, ...unprocessedTickets.filter(ticket => ticket.event === currentEventId)];  // store reference to any failed tickets
           })
       }

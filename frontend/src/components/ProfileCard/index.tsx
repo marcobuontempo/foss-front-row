@@ -1,8 +1,6 @@
-import React from 'react'
 import './ProfileCard.css'
 import { selectUserDetails } from '@features/user/userDetailsSlice';
 import { useAppSelector } from '@utils/useAppSelector';
-import { UserDetailsResponse } from '@services/api';
 
 type Props = {}
 

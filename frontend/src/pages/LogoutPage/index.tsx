@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import './LogoutPage.css'
 import { logout } from '@services/api'
 import { onLogout } from '@services/authService'
@@ -22,7 +22,7 @@ export default function LogoutPage({ }: Props) {
       navigate("/");
     } else {
       await logout()
-        .then(response => {
+        .then(_response => {
           toast.success("Logged Out!")
           /* 
             only complete logout if endpoint is reached -
@@ -33,7 +33,7 @@ export default function LogoutPage({ }: Props) {
           onLogout();
           navigate("/");
         })
-        .catch(error => {
+        .catch(_error => {
           setFailed(true);
         })
     }

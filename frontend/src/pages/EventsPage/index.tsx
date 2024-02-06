@@ -1,4 +1,3 @@
-import React from 'react'
 import './EventsPage.css'
 import { Link, Outlet, useLocation } from 'react-router-dom'
 

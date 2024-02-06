@@ -1,7 +1,6 @@
 import TicketDisplayCard from '@components/TicketDisplayCard'
 import { AllTicketsResponse, TicketResponse } from '@services/api'
 import './TicketsList.css'
-import React from 'react'
 
 type Props = {
   tickets: AllTicketsResponse['data'];

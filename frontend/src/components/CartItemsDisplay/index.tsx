@@ -1,7 +1,6 @@
 import TicketsList from '@components/TicketsList'
 import { selectCart } from '@features/cart/cartSlice'
 import { useAppSelector } from '@utils/useAppSelector'
-import React from 'react'
 
 type Props = {}
 

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react'
+import { ChangeEvent, FormEvent, useState } from 'react'
 import './ChangePasswordForm.css'
 import { useAppSelector } from '@utils/useAppSelector';
 import { updatePassword } from '@services/api';
@@ -53,7 +53,7 @@ export default function ChangePasswordForm({ }: Props) {
     // form submission logic
     if (userid) {
       await updatePassword(userid, passwords)
-        .then(response => {
+        .then(_response => {
           // Display success
           toast.success("Password Updated!");
           // Reset form
@@ -61,7 +61,7 @@ export default function ChangePasswordForm({ }: Props) {
           setNewPassword("");
           setConfirmNewPassword("");
         })
-        .catch(error => {
+        .catch(_error => {
           toast.error("Password Upated Failed!");
         })
     }

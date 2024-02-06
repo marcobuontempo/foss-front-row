@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import './OrdersDisplay.css'
 import { UserOrdersResponse, getUserOrders } from '@services/api'
 import { useAppSelector } from '@utils/useAppSelector'
@@ -17,7 +17,7 @@ export default function OrdersDisplay({ }: Props) {
         .then(response => {
           setOrders(response.data);
         })
-        .catch(error => {
+        .catch(_error => {
           return;
         })
     }

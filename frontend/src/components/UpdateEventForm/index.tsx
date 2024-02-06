@@ -1,6 +1,6 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import './UpdateEventForm.css'
-import { EventResponse, editEvent, getEvent } from '@services/api';
+import { editEvent, getEvent } from '@services/api';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -77,7 +77,7 @@ export default function UpdateEventForm({ }: Props) {
     // Form submission logic
     if (eventid) {
       await editEvent(eventid, { title, date, venue })
-        .then(response => {
+        .then(_response => {
           toast.success("Event Updated!");
         })
         .catch(error => {

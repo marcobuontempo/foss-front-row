@@ -1,4 +1,3 @@
-import React from 'react'
 import './AdminPage.css'
 
 type Props = {}

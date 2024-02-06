@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react'
+import { ChangeEvent, FormEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import './LoginForm.css'
 import { loginUser } from '@services/api.ts';
@@ -37,7 +37,7 @@ export default function LoginForm({ }: Props) {
         // Redirect to homepage...
         navigate('/');
       })
-      .catch(error => {
+      .catch(_error => {
         toast.error("Invalid username/password.")
       })
   };

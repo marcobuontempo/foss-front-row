@@ -15,7 +15,7 @@ export default function TicketQRScan({ }: Props) {
   const [scanSuccess, setScanSuccess] = useState(false);
   const [checkInSuccess, setCheckInSuccess] = useState(false);
 
-  const onNewScanResult = (decodedText: string, decodedResult: Html5QrcodeResult) => {
+  const onNewScanResult = (decodedText: string, _decodedResult: Html5QrcodeResult) => {
     const { uid, ...ticket } = JSON.parse(decodedText);
     // ensure data has been parsed correctly before storing
     if (
@@ -43,7 +43,7 @@ export default function TicketQRScan({ }: Props) {
     e.preventDefault();
     // Update ticket in database
     await consumeTicket(ticket.event, ticket.id, uid)
-      .then(response => {
+      .then(_response => {
         setCheckInSuccess(true);
         toast.success("Ticket Successfully Consumed!")
       })

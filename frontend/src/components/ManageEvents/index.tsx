@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import './ManageEvents.css'
 import { EventResponse, getUserEvents } from '@services/api'
 import { useAppSelector } from '@utils/useAppSelector';

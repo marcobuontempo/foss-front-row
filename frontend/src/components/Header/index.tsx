@@ -15,7 +15,7 @@ export default function Header({ }: Props) {
   // get nav list from routes
   const navlist = generateProtectedRoutes(isAuthenticated, role)
 
-  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleLinkClick = (_: React.MouseEvent<HTMLAnchorElement>) => {
     setConfirmLogout(false);
   }
 

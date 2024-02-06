@@ -1,4 +1,3 @@
-import React from 'react'
 import './Banner.css'
 import qrcodeimg from '../../assets/qr-code.svg'
 

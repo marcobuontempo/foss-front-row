@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react'
+import { ChangeEvent, FormEvent, useState } from 'react'
 import './DeleteAccountForm.css'
 import { useAppSelector } from '@utils/useAppSelector';
 import { deleteUser } from '@services/api';
@@ -27,11 +27,11 @@ export default function DeleteAccountForm({ }: Props) {
     // form submission logic
     if (userid) {
       await deleteUser(userid)
-        .then(response => {
-          console.log(response);
+        .then(_response => {
+          // console.log(response);
         })
-        .catch(error => {
-          console.log(error);
+        .catch(_error => {
+          // console.log(error);
         })
     }
   };
