@@ -6,7 +6,7 @@ const options = {
       version: '1.0.0',
     },
   },
-  apis: ['./src/controllers/*.ts'],
+  apis: ['./src/controllers/*.ts', './src/routes/*.ts'],
 };
 
 export default options;

@@ -28,3 +28,15 @@
 .Footer__last {
   text-align: right;
 }
+
+@media only screen and (max-width: 992px) {
+  .Footer__element {
+    font-size: 0.6em;
+  }
+
+  .Footer__first,
+  .Footer__center,
+  .Footer__last {
+    text-align: center;
+  }
+}

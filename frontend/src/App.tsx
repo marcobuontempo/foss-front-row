@@ -12,6 +12,8 @@ function App() {
       <Outlet />
       <ToastContainer
         position='bottom-right'
+        pauseOnFocusLoss={false}
+        theme='dark'
       />
       <Footer />
     </>
