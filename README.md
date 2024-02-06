@@ -1,7 +1,7 @@
 # FOSS Front Row
 A lightweight event ticketing platform, self-hostable, built using the MERN stack.
 
-*Note: this project is primarily a proof-of-concept, but is still fully functional within its limitations*
+*this project is primarily a proof-of-concept, but is still fully functional within its limitations*
 
 
 ## Contents
@@ -13,7 +13,8 @@ A lightweight event ticketing platform, self-hostable, built using the MERN stac
 - [License](#license)
 
 ## Usage
-- A live demo deployment can be found here: [TBD]
+- A live demo deployment can be found here: [FOSS Front Row](https://foss-front-row.marcobuontempo.com/) 
+  - **NOTE: due to using a free hosting solution to showcase the project, the backend server may take a while to respond to the first request**
 - To self-host or locally deploy, please refer to the [setup](#setup) instructions below.
 - Once deployed, you can view all backend endpoints by accessing the Swagger UI Docs at the `/api-docs` endpoint.
 
