@@ -1,11 +1,7 @@
-# FOSS Front Row
+# FOSS Front Row (monorepo)
 A lightweight event ticketing platform, self-hostable, built using the MERN stack.
 
 [VIDEO DEMONSTRATION](https://www.youtube.com/watch?v=rvq_WHKXlh8)
-
-[LIVE WEBSITE](https://foss-front-row.marcobuontempo.com/)
-
-**NOTE: due to using a free hosting solution to showcase the project, the backend server may take a while to respond to the first request**
 
 ## Contents
 - [Usage](#usage)
@@ -16,7 +12,6 @@ A lightweight event ticketing platform, self-hostable, built using the MERN stac
 - [License](#license)
 
 ## Usage
-- A live demo deployment can be found here: [FOSS Front Row](https://foss-front-row.marcobuontempo.com/) 
 - To self-host or locally deploy, please refer to the [setup](#setup) instructions below.
 - Once deployed, you can view all backend endpoints by accessing the Swagger UI Docs at the `/api-docs` endpoint.
 
@@ -49,6 +44,8 @@ A lightweight event ticketing platform, self-hostable, built using the MERN stac
 1. `npm run build`
 1. `npm run start`
 
+Once local deployment has been setup, you can always run `./run-dev.sh` in the terminal to automatically start the frontend, backend, and database simultaneously.
+
 
 ## Design
 - ### *QR Codes*
@@ -76,13 +73,7 @@ A lightweight event ticketing platform, self-hostable, built using the MERN stac
 
 
 ## Contributing
-- Contributions are not expected, but feel free if you want to raise issues or submit a pull request.
-- The main priorities for any future updates, if necessary, would be:
-  - Bug Fixes
-  - Unit Tests
-  - Feature additions and/or improvements
-- If you have already locally deployed, you can use `./run-dev.sh` in the terminal to automatically start the local database, backend, and frontend simultaneously.
-
+- Contributions are not expected - this is a proof-of-concept project.
 
 ## Issues and Limitations
 - As a proof-of-concept application, time and costs were considered, which resulted in some limitations.
